@@ -43,7 +43,8 @@ export const featuredServicesQuery = groq`*[_type == "service"] | order(order as
   slug,
   icon,
   shortDescription,
-  heroImage
+  heroImage,
+  conditionsTreated
 }`;
 
 export const serviceBySlugQuery = groq`*[_type == "service" && slug.current == $slug][0]{

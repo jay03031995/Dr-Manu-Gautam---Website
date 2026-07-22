@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const tabs = [
   { label: "Home", href: "/", icon: Home },
-  { label: "Treatments", href: "/treatments", icon: Bone },
+  { label: "Specialties", href: "/treatments", icon: Bone },
   { label: "About", href: "/about", icon: User },
   { label: "Contact", href: "/contact", icon: Phone },
 ];

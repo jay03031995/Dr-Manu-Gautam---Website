@@ -16,7 +16,7 @@ export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElemen
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, options, error, helperText, placeholder, id, className, required, ...props }, ref) => {
+  ({ label, options, error, helperText, placeholder, id, className, required, value, defaultValue, ...props }, ref) => {
     const generatedId = useId();
     const inputId = id ?? generatedId;
     const helperId = `${inputId}-helper`;
@@ -38,7 +38,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ref={ref}
             id={inputId}
             required={required}
-            defaultValue=""
+            value={value}
+            defaultValue={value === undefined ? (defaultValue ?? "") : undefined}
             aria-invalid={!!error}
             aria-describedby={error ? errorId : helperText ? helperId : undefined}
             className={cn(

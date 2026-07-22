@@ -40,11 +40,10 @@ export const siteConfig = {
 } as const;
 
 export const mainNavLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Treatments", href: "/treatments" },
-  { label: "Locations", href: "/locations" },
-  { label: "Blog", href: "/blog" },
+  { label: "About Dr. Manu", href: "/about" },
+  { label: "Specialties", href: "/treatments" },
+  { label: "Clinics", href: "/locations" },
+  { label: "Journal", href: "/blog" },
 ] as const;
 
 export const footerLinks = {
