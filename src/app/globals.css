@@ -4,20 +4,142 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1f2933;
+
+  /* Design tokens (mirrors tailwind.config.ts — kept for use in raw CSS / SVGs) */
+  --color-medical-blue: #18a7a0;
+  --color-dark-navy: #123b5d;
+  --color-teal: #18a7a0;
+  --color-light-teal: #e6f5f4;
+  --color-cta-orange: #f28c28;
+  --color-olive: #8b9a5c;
+  --color-light-blue: #eaf4f8;
+  --color-charcoal: #1f2933;
+  --color-dark-gray: #667085;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  body {
+    /* Spec minimum: 17px on desktop/tablet, 16px on mobile */
+    font-size: 17px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Base typography — desktop/mobile sizes follow the design spec       */
+/* ------------------------------------------------------------------ */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-bold text-dark-navy;
+  }
+
+  h1 {
+    @apply text-[34px] md:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight;
+  }
+
+  h2 {
+    @apply text-[28px] md:text-[36px] lg:text-[44px] leading-[1.15] tracking-tight;
+  }
+
+  h3 {
+    @apply text-[22px] md:text-[28px] lg:text-[32px] leading-snug;
+  }
+
+  h4 {
+    @apply text-[20px] md:text-[22px] lg:text-[24px] leading-snug font-semibold;
+  }
+
+  h5 {
+    @apply text-lg font-semibold;
+  }
+
+  h6 {
+    @apply text-base font-semibold;
+  }
+
+  p {
+    @apply font-body text-charcoal leading-relaxed;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  /* Consistent, visible focus ring for keyboard users on every interactive element */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-medical-blue ring-offset-2 ring-offset-white rounded-sm;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Reusable component classes                                          */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .btn-base {
+    @apply inline-flex items-center justify-center gap-2 font-heading font-semibold rounded-md transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn-base bg-cta-orange text-white shadow-elevation-1 hover:bg-cta-orange-700 active:bg-cta-orange-700;
+  }
+
+  .btn-secondary {
+    @apply btn-base bg-white text-dark-navy border border-light-grey hover:border-medical-blue;
+  }
+
+  .btn-tertiary {
+    @apply btn-base bg-transparent text-medical-blue hover:bg-light-blue;
+  }
+
+  .card-base {
+    @apply bg-white rounded-lg p-3 border border-light-grey;
+  }
+
+  .card-shadow {
+    @apply shadow-elevation-2 hover:shadow-elevation-3 transition-shadow duration-200;
+  }
+
+  .heading-1 {
+    @apply font-heading text-[34px] md:text-[48px] lg:text-[56px] font-bold text-dark-navy leading-[1.1] tracking-tight;
+  }
+
+  .heading-2 {
+    @apply font-heading text-[28px] md:text-[36px] lg:text-[44px] font-bold text-dark-navy leading-[1.15] tracking-tight;
+  }
+
+  .body-text {
+    @apply font-body text-base text-charcoal leading-relaxed;
+  }
+
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-medical-blue focus:text-white focus:px-3 focus:py-2 focus:rounded-sm;
+  }
 }
 
 @layer utilities {
