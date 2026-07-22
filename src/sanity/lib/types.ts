@@ -187,7 +187,7 @@ export interface Doctor {
   bio?: PortableTextBlock[];
   education?: string[];
   memberships?: string[];
-  locations?: { name: string; city: string; slug: Slug }[];
+  locations?: Location[];
   seo?: Seo;
 }
 

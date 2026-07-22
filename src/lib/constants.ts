@@ -58,8 +58,8 @@ export const footerLinks = {
   ],
   practice: [
     { label: "About Dr. Manu Gautam", href: "/about" },
+    { label: "Doctor Profile", href: "/doctor" },
     { label: "Locations", href: "/locations" },
-    { label: "Patient Stories", href: "/testimonials" },
     { label: "Blog", href: "/blog" },
   ],
   support: [

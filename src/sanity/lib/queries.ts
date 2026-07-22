@@ -170,7 +170,7 @@ export const doctorBySlugQuery = groq`*[_type == "doctor" && slug.current == $sl
   bio,
   education,
   memberships,
-  "locations": locations[]->{name, city, slug},
+  "locations": locations[]->{_id, name, slug, city, addressLine, postalCode, phone, email, hours, coordinates, image},
   seo
 }`;
 

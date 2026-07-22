@@ -58,17 +58,28 @@ export function buildLocalBusinessSchema() {
   };
 }
 
-export function buildPhysicianSchema(name: string, image?: string) {
+interface PhysicianSchemaOptions {
+  credentials?: string;
+  url?: string;
+  education?: string[];
+  memberships?: string[];
+}
+
+export function buildPhysicianSchema(name: string, image?: string, options?: PhysicianSchemaOptions) {
   return {
     "@context": "https://schema.org",
     "@type": "Physician",
     name,
     image,
+    url: options?.url,
+    honorificSuffix: options?.credentials,
     medicalSpecialty: "Orthopedic",
     worksFor: {
       "@type": "MedicalOrganization",
       name: siteConfig.name,
     },
+    alumniOf: options?.education?.map((school) => ({ "@type": "EducationalOrganization", name: school })),
+    memberOf: options?.memberships?.map((org) => ({ "@type": "Organization", name: org })),
   };
 }
 

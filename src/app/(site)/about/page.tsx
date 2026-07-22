@@ -39,16 +39,21 @@ export default async function AboutPage() {
             {doctor?.specialties && doctor.specialties.length > 0 && (
               <div className="mb-6 flex flex-wrap gap-2">
                 {doctor.specialties.map((specialty) => (
-                  <Badge key={specialty} variant="service">
+                  <Badge key={specialty} variant="service" className="bg-white shadow-sm">
                     {specialty}
                   </Badge>
                 ))}
               </div>
             )}
 
-            <Button href="/appointment" size="large">
-              Book a Consultation
-            </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button href="/appointment" size="large">
+                Book a Consultation
+              </Button>
+              <Button href="/doctor" variant="secondary" size="large">
+                View Full Doctor Profile
+              </Button>
+            </div>
           </div>
 
           <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
