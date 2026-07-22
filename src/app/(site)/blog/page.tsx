@@ -4,15 +4,16 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { BlogListingClient } from "@/components/sections/BlogListingClient";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { client } from "@/sanity/lib/client";
 import { getBlogPosts } from "@/sanity/lib/fetch";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `Orthopedic Health Journal | ${siteConfig.shortName}`,
+  title: "Orthopedic Health Journal",
   description:
     "Patient education articles on joint health, arthritis, sports injuries and orthopedic treatments from Dr. Manu Gautam's practice.",
   path: "/blog",
@@ -26,8 +27,15 @@ export default async function BlogPage() {
     ),
   ]);
 
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog" },
+  ]);
+
   return (
     <>
+      <JsonLd data={breadcrumbSchema} />
+
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol className="flex items-center gap-2 text-sm text-dark-gray">

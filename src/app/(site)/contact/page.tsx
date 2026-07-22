@@ -17,7 +17,7 @@ import { telHref } from "@/lib/utils";
 export const revalidate = 60;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Contact Us | Dr. Manu Gautam, Orthopaedic Surgeon",
+  title: "Contact Us — Noida & Ghaziabad Clinics",
   description:
     "Contact Dr. Manu Gautam's clinic in Noida and Ghaziabad. Find addresses, consultation timings, phone numbers and book an appointment online.",
   path: "/contact",

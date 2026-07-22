@@ -5,15 +5,16 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealGrid } from "@/components/motion/RevealGrid";
 import { LocationCard } from "@/components/sections/LocationCard";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getLocations } from "@/sanity/lib/fetch";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
 import { locationPath } from "@/lib/utils";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `Consultation Locations | ${siteConfig.shortName}`,
+  title: "Consultation Locations",
   description: `Find ${siteConfig.shortName}'s orthopaedic consultation locations across Noida & Ghaziabad, with addresses, timings and directions.`,
   path: "/locations",
 });
@@ -21,8 +22,15 @@ export const metadata: Metadata = buildPageMetadata({
 export default async function LocationsPage() {
   const locations = await getLocations();
 
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Locations", url: "/locations" },
+  ]);
+
   return (
     <>
+      <JsonLd data={breadcrumbSchema} />
+
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol className="flex items-center gap-2 text-sm text-dark-gray">

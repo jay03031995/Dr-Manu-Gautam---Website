@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { ServiceCard } from "@/components/ui/Card";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealGrid } from "@/components/motion/RevealGrid";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { getFeaturedServices } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
 import { treatmentPath } from "@/lib/utils";
 
 export const revalidate = 60;
@@ -21,9 +24,36 @@ export const metadata: Metadata = buildPageMetadata({
 export default async function TreatmentsPage() {
   const services = await getFeaturedServices();
 
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Treatments", url: "/treatments" },
+  ];
+  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
+
   return (
     <>
-      <Section background="light" className="pt-10 md:pt-16">
+      <JsonLd data={breadcrumbSchema} />
+
+      <Container className="pt-6">
+        <nav aria-label="Breadcrumb">
+          <ol className="flex items-center gap-2 text-sm text-dark-gray">
+            {breadcrumbItems.map((item, i) => (
+              <li key={item.url} className="flex items-center gap-2">
+                {i > 0 && <span aria-hidden="true">/</span>}
+                {i === breadcrumbItems.length - 1 ? (
+                  <span className="text-charcoal">{item.name}</span>
+                ) : (
+                  <Link href={item.url} className="hover:text-medical-blue">
+                    {item.name}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </Container>
+
+      <Section background="light" className="pt-6 md:pt-10">
         <Reveal mode="onMount" className="mx-auto max-w-2xl text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
             Our Treatments

@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!location) return {};
 
   return buildPageMetadata({
-    title: `Orthopaedic Surgeon in ${location.city} | ${siteConfig.shortName}`,
+    title: `Orthopaedic Surgeon in ${location.city}`,
     description: `Consult ${siteConfig.shortName} in ${location.city} for personalised diagnosis and treatment of joint, bone, sports injury and musculoskeletal conditions.`,
     path: locationPath(params.location),
   });

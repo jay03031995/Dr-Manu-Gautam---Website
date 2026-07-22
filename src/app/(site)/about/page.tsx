@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { Quote, Star } from "lucide-react";
+import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
@@ -12,14 +14,14 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { getDoctorBySlug, getHomePage, getFeaturedTestimonials } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
-import { buildPageMetadata, buildPhysicianSchema } from "@/lib/seo";
+import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
 import { DOCTOR_PROFILE_PATH } from "@/lib/utils";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "About Us | Dr. Manu Gautam, Orthopaedic Surgeon",
+  title: "Our Approach to Orthopaedic Care",
   description:
     "How Dr. Manu Gautam and the team in Noida & Ghaziabad approach orthopaedic care — combining advanced technology with patient-first attention at every stage of treatment and recovery.",
   path: "/about",
@@ -57,12 +59,37 @@ export default async function AboutPage() {
 
   const values = homePage?.whyChooseFeatures?.length ? homePage.whyChooseFeatures : FALLBACK_VALUES;
 
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "About Us", url: "/about" },
+  ];
+  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
+
   return (
     <>
-      {doctor && <JsonLd data={buildPhysicianSchema(doctor.name)} />}
+      <JsonLd data={breadcrumbSchema} />
+
+      <Container className="pt-6">
+        <nav aria-label="Breadcrumb">
+          <ol className="flex items-center gap-2 text-sm text-dark-gray">
+            {breadcrumbItems.map((item, i) => (
+              <li key={item.url} className="flex items-center gap-2">
+                {i > 0 && <span aria-hidden="true">/</span>}
+                {i === breadcrumbItems.length - 1 ? (
+                  <span className="text-charcoal">{item.name}</span>
+                ) : (
+                  <Link href={item.url} className="hover:text-medical-blue">
+                    {item.name}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </Container>
 
       {/* Hero */}
-      <Section background="light" className="pt-10 md:pt-16">
+      <Section background="light" className="pt-6 md:pt-10">
         <Reveal mode="onMount" className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
           <div>
             <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
