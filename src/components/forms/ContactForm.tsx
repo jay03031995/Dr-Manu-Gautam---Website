@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { LEADS_API_PATH } from "@/lib/utils";
+import { markLeadSubmitted } from "@/lib/leadStorage";
 
 interface ContactFormProps {
   className?: string;
@@ -52,6 +53,7 @@ export function ContactForm({ className, source = "contact" }: ContactFormProps)
         setStatus("error");
         return;
       }
+      markLeadSubmitted();
       setStatus("success");
       form.reset();
     } catch {

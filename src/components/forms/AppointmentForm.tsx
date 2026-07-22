@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { LEADS_API_PATH } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
+import { markLeadSubmitted } from "@/lib/leadStorage";
 import type { Service, Location } from "@/sanity/lib/types";
 
 interface AppointmentFormProps {
@@ -121,6 +122,7 @@ export function AppointmentForm({ services, locations, source = "appointment", o
         return;
       }
       trackEvent("appointment_form_submit", { source });
+      markLeadSubmitted();
       setStatus("success");
       onSuccess?.();
     } catch {

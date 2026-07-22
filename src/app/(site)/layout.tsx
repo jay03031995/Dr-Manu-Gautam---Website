@@ -3,6 +3,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
+import { PopupLeadForm } from "@/components/forms/PopupLeadForm";
 import { getSiteSettings, getFeaturedServices, getLocations } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
 
@@ -29,6 +30,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <SiteFooter />
       <FloatingActions />
       <MobileTabBar />
+      <PopupLeadForm treatments={treatments} />
     </>
   );
 }
