@@ -90,7 +90,7 @@ export default async function AboutPage() {
 
       {/* Hero */}
       <Section background="light" className="pt-6 md:pt-10">
-        <Reveal mode="onMount" className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+        <Reveal mode="onMount" className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
           <div>
             <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
               About Us
@@ -122,13 +122,13 @@ export default async function AboutPage() {
             </div>
           </div>
 
-          <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-lg lg:mx-0 lg:ml-auto">
             {hasImageAsset(doctor?.photo) ? (
               <Image
-                src={urlForImage(doctor.photo).width(800).height(1000).fit("crop").url()}
+                src={urlForImage(doctor.photo).width(640).height(800).fit("crop").url()}
                 alt={doctor.name}
                 fill
-                sizes="(min-width: 1024px) 45vw, 90vw"
+                sizes="(min-width: 1024px) 320px, 60vw"
                 className="object-cover"
               />
             ) : (
@@ -136,7 +136,7 @@ export default async function AboutPage() {
                 src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&q=75&auto=format&fit=crop"
                 alt="Surgical team preparing for an orthopedic procedure"
                 fill
-                sizes="(min-width: 1024px) 45vw, 90vw"
+                sizes="(min-width: 1024px) 320px, 60vw"
                 className="object-cover"
               />
             )}

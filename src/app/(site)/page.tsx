@@ -133,7 +133,7 @@ export default async function Home() {
 
       {/* Why Choose Dr. Manu Gautam */}
       <Section background="white">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
           <Reveal>
             <span className="mb-4 block h-0.5 w-8 bg-dark-navy" aria-hidden="true" />
             <h2 className="mb-4">{whyChooseHeading}</h2>
@@ -142,12 +142,15 @@ export default async function Home() {
               Know More About {siteConfig.shortName}
             </Button>
           </Reveal>
-          <Reveal delay={0.1} className="relative aspect-[4/5] overflow-hidden rounded-lg">
+          <Reveal
+            delay={0.1}
+            className="relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-lg lg:mx-0 lg:ml-auto"
+          >
             <Image
               src={whyChooseImage.url}
               alt={whyChooseImage.alt}
               fill
-              sizes="(min-width: 1024px) 45vw, 90vw"
+              sizes="(min-width: 1024px) 320px, 60vw"
               className="object-cover"
             />
           </Reveal>
