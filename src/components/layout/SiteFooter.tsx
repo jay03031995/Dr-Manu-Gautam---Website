@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Mail, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -5,7 +6,11 @@ import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/ui/Social
 import { siteConfig, footerLinks } from "@/lib/constants";
 import { telHref } from "@/lib/utils";
 
-export function SiteFooter() {
+interface SiteFooterProps {
+  logoUrl?: string;
+}
+
+export function SiteFooter({ logoUrl }: SiteFooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -13,7 +18,15 @@ export function SiteFooter() {
       <Container className="py-12 md:py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className="mb-3 font-heading text-lg font-bold text-white">{siteConfig.shortName}</p>
+            {logoUrl ? (
+              <span className="mb-3 inline-block rounded-md bg-white px-3 py-2">
+                <span className="relative block h-8 w-28">
+                  <Image src={logoUrl} alt={siteConfig.shortName} fill sizes="112px" className="object-contain object-left" />
+                </span>
+              </span>
+            ) : (
+              <p className="mb-3 font-heading text-lg font-bold text-white">{siteConfig.shortName}</p>
+            )}
             <p className="mb-4 text-sm text-white/70 leading-relaxed">{siteConfig.description}</p>
             <div className="flex items-center gap-3">
               <a href={siteConfig.social.facebook} aria-label="Facebook" className="text-white/70 hover:text-white">

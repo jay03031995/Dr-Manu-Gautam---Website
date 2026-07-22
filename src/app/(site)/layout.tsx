@@ -29,7 +29,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <main id="main-content" className="pb-20 md:pb-0">
         {children}
       </main>
-      <SiteFooter />
+      <SiteFooter logoUrl={logoUrl} />
       <FloatingActions />
       <MobileTabBar />
       <PopupLeadForm treatments={treatments} />

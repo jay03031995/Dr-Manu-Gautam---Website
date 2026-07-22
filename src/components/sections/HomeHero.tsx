@@ -55,7 +55,7 @@ export async function HomeHero() {
       <div className="absolute inset-0 bg-gradient-to-r from-dark-navy/90 via-dark-navy/70 to-dark-navy/30" />
 
       <Container className="relative py-20 md:py-28">
-        <Reveal mode="onMount" className="max-w-2xl">
+        <Reveal mode="onMount" className="mx-auto max-w-2xl text-center sm:mx-0 sm:text-left">
           <Badge variant="service" className="mb-4 bg-white/10 text-white">
             {badge}
           </Badge>
@@ -63,8 +63,8 @@ export async function HomeHero() {
             <span className="block font-bold not-italic">{headingLine1}</span>
             <span className="mt-1 block font-medium italic">{headingLine2}</span>
           </h1>
-          <p className="mb-6 max-w-xl text-lg text-white/85 leading-relaxed">{subtext}</p>
-          <div className="mb-4 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+          <p className="mx-auto mb-6 max-w-xl text-lg text-white/85 leading-relaxed sm:mx-0">{subtext}</p>
+          <div className="mb-4 flex flex-col items-center gap-3 sm:flex-row sm:items-center">
             <BookAppointmentButton size="large" className="w-full sm:w-auto">
               Book an Appointment
             </BookAppointmentButton>
@@ -90,7 +90,7 @@ export async function HomeHero() {
             <Phone className="h-4 w-4" aria-hidden="true" />
             Call {siteConfig.phone}
           </a>
-          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+          <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 sm:justify-start">
             {trustPoints.map((point) => (
               <li key={point} className="text-xs font-medium text-white/80">
                 {point}
