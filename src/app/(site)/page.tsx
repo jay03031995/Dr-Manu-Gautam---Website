@@ -70,8 +70,12 @@ export default async function Home() {
     getHomePage(),
     getDoctorBySlug("dr-manu-gautam"),
   ]);
-  const schemas = faqs.length
-    ? [buildLocalBusinessSchema(), buildFaqSchema(faqs)]
+  // getFaqs() returns every FAQ in the CMS, including the ~113 treatment-specific
+  // ones meant for their own treatment pages — the homepage should only show a
+  // short, general teaser, not every FAQ on the site.
+  const homeFaqs = faqs.filter((f) => f.category !== "treatments").slice(0, 6);
+  const schemas = homeFaqs.length
+    ? [buildLocalBusinessSchema(), buildFaqSchema(homeFaqs)]
     : buildLocalBusinessSchema();
 
   const whyChooseHeading = homePage?.whyChooseHeading || `Why Choose ${siteConfig.shortName}`;
@@ -221,7 +225,7 @@ export default async function Home() {
       <FeaturedBlogSection />
 
       {/* FAQ */}
-      {faqs.length > 0 && (
+      {homeFaqs.length > 0 && (
         <Section background="white">
           <Reveal className="mb-10 text-center">
             <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
@@ -230,7 +234,7 @@ export default async function Home() {
             <h2>Frequently Asked Questions</h2>
           </Reveal>
           <Reveal delay={0.1} className="mx-auto max-w-3xl">
-            <Accordion items={faqs} />
+            <Accordion items={homeFaqs} />
           </Reveal>
         </Section>
       )}
