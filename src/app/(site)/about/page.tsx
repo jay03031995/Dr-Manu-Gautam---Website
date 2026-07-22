@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Quote, Star } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealGrid } from "@/components/motion/RevealGrid";
 import { Badge } from "@/components/ui/Badge";
@@ -84,9 +85,9 @@ export default async function AboutPage() {
             )}
 
             <div className="flex flex-wrap gap-3">
-              <Button href="/appointment" size="large">
+              <BookAppointmentButton size="large">
                 Book a Consultation
-              </Button>
+              </BookAppointmentButton>
               <Button href="/doctor" variant="secondary" size="large">
                 View Full Doctor Profile
               </Button>
@@ -219,9 +220,9 @@ export default async function AboutPage() {
             Schedule a consultation at our {siteConfig.serviceAreas.slice(0, 2).join(" or ")} clinic and experience
             the difference patient-first orthopaedic care makes.
           </p>
-          <Button href="/appointment" size="large">
+          <BookAppointmentButton size="large">
             Book an Appointment
-          </Button>
+          </BookAppointmentButton>
         </div>
       </section>
     </>

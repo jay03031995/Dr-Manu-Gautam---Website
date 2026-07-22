@@ -6,6 +6,7 @@ import { Award, GraduationCap, Stethoscope, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { Badge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealGrid } from "@/components/motion/RevealGrid";
@@ -90,27 +91,6 @@ export default async function DoctorProfilePage() {
       {/* Hero */}
       <Section background="light" className="pt-6 md:pt-10">
         <Reveal mode="onMount" className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.2fr]">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-lg lg:order-2">
-            {doctor && hasImageAsset(doctor.photo) ? (
-              <Image
-                src={urlForImage(doctor.photo).width(800).height(1000).fit("crop").url()}
-                alt={doctor.name}
-                fill
-                sizes="(min-width: 1024px) 40vw, 90vw"
-                className="object-cover"
-                priority
-              />
-            ) : (
-              <Image
-                src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&q=75&auto=format&fit=crop"
-                alt="Orthopedic surgeon"
-                fill
-                sizes="(min-width: 1024px) 40vw, 90vw"
-                className="object-cover"
-              />
-            )}
-          </div>
-
           <div className="lg:order-1">
             <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
               Doctor Profile
@@ -154,13 +134,34 @@ export default async function DoctorProfilePage() {
             )}
 
             <div className="flex flex-wrap gap-3">
-              <Button href="/appointment" size="large">
+              <BookAppointmentButton size="large">
                 Book a Consultation
-              </Button>
+              </BookAppointmentButton>
               <Button href="/about" variant="secondary" size="large">
                 Meet Dr. Manu
               </Button>
             </div>
+          </div>
+
+          <div className="relative aspect-[4/5] overflow-hidden rounded-lg lg:order-2">
+            {doctor && hasImageAsset(doctor.photo) ? (
+              <Image
+                src={urlForImage(doctor.photo).width(800).height(1000).fit("crop").url()}
+                alt={doctor.name}
+                fill
+                sizes="(min-width: 1024px) 40vw, 90vw"
+                className="object-cover"
+                priority
+              />
+            ) : (
+              <Image
+                src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&q=75&auto=format&fit=crop"
+                alt="Orthopedic surgeon"
+                fill
+                sizes="(min-width: 1024px) 40vw, 90vw"
+                className="object-cover"
+              />
+            )}
           </div>
         </Reveal>
       </Section>
@@ -254,9 +255,9 @@ export default async function DoctorProfilePage() {
             <p className="max-w-xl text-white/80">
               Book a consultation with {doctor?.name ?? "Dr. Manu Gautam"} at our Noida or Ghaziabad clinic.
             </p>
-            <Button href="/appointment" size="large">
+            <BookAppointmentButton size="large">
               Book an Appointment
-            </Button>
+            </BookAppointmentButton>
           </Reveal>
         </Container>
       </section>

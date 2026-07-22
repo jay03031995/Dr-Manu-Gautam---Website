@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, ChevronDown, MapPin, Clock } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/ui/SocialIcons";
 import { mainNavLinks, siteConfig } from "@/lib/constants";
@@ -185,9 +185,9 @@ export function MobileMenu({ id, open, onClose, treatments, locations }: MobileM
       </ul>
 
       <div className="sticky bottom-0 flex flex-col gap-3 border-t border-gray-100 bg-white px-4 py-4">
-        <Button href="/appointment" onClick={onClose} className="w-full">
+        <BookAppointmentButton onClick={onClose} className="w-full">
           Book an Appointment
-        </Button>
+        </BookAppointmentButton>
         <div className="flex items-center justify-between">
           <a href={telHref(siteConfig.phone)} className="flex items-center gap-2 text-sm font-medium text-dark-navy">
             <Phone className="h-4 w-4" aria-hidden="true" />

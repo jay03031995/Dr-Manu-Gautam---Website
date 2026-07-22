@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { SpecialtiesMegaMenu } from "@/components/layout/SpecialtiesMegaMenu";
 import { ClinicsMegaMenu } from "@/components/layout/ClinicsMegaMenu";
@@ -106,9 +106,9 @@ export function SiteHeader({ logoUrl, treatments, locations }: SiteHeaderProps) 
             <Phone className="h-4 w-4" aria-hidden="true" />
             <span className="whitespace-nowrap">{siteConfig.phone}</span>
           </a>
-          <Button href="/appointment" size="regular" className="whitespace-nowrap px-5">
+          <BookAppointmentButton size="regular" className="whitespace-nowrap px-5">
             Book an Appointment
-          </Button>
+          </BookAppointmentButton>
         </div>
 
         {/* Mobile controls */}

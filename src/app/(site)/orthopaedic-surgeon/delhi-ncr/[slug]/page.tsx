@@ -14,6 +14,7 @@ import {
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { Badge } from "@/components/ui/Badge";
 import { ServiceCard, TestimonialCard } from "@/components/ui/Card";
 import { LocationCard } from "@/components/sections/LocationCard";
@@ -353,9 +354,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               {service.introduction || service.shortDescription}
             </p>
             <div className="mb-6 flex flex-col gap-3 sm:flex-row">
-              <Button href="/appointment" size="large">
+              <BookAppointmentButton size="large">
                 Book a Consultation
-              </Button>
+              </BookAppointmentButton>
               <Button href={telHref(siteConfig.phone)} variant="secondary" size="large" iconLeft={<Phone className="h-4 w-4" aria-hidden="true" />}>
                 Call {siteConfig.phone}
               </Button>
@@ -404,7 +405,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                   Schedule an orthopedic evaluation to understand the cause of your symptoms and discuss suitable
                   treatment options.
                 </p>
-                <Button href="/appointment">Book an Appointment</Button>
+                <BookAppointmentButton>Book an Appointment</BookAppointmentButton>
               </div>
             ) : null}
 
@@ -429,9 +430,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                   discussed together with you.
                 </NumberedStep>
               </div>
-              <Button href="/appointment" className="mt-6">
+              <BookAppointmentButton className="mt-6">
                 Schedule Your Orthopedic Consultation
-              </Button>
+              </BookAppointmentButton>
             </div>
 
             <ContentSection title="Diagnosis and Investigations" content={service.diagnosis} />
@@ -517,7 +518,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                 ))}
               </ul>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Button href="/appointment">Book an Appointment</Button>
+                <BookAppointmentButton>Book an Appointment</BookAppointmentButton>
                 {service.doctor && (
                   <Button href="/doctor" variant="secondary">
                     View Doctor Profile
@@ -536,9 +537,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                   Speak with our team to discuss whether this treatment may be suitable for you.
                 </p>
                 <div className="flex flex-col gap-3">
-                  <Button href="/appointment" className="w-full">
+                  <BookAppointmentButton className="w-full">
                     Book Appointment
-                  </Button>
+                  </BookAppointmentButton>
                   <a
                     href={telHref(siteConfig.phone)}
                     className="flex items-center justify-center gap-2 text-sm font-medium text-dark-navy hover:text-medical-blue"
@@ -773,9 +774,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             limitations. Understand your condition and discuss suitable non-surgical and surgical treatment options.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button href="/appointment" size="large">
+            <BookAppointmentButton size="large">
               Book a Consultation
-            </Button>
+            </BookAppointmentButton>
             <Button href={telHref(siteConfig.phone)} variant="secondary" size="large">
               Call {siteConfig.phone}
             </Button>

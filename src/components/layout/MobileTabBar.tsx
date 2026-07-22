@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Bone, User, Phone, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAppointmentModal } from "@/components/forms/AppointmentModalContext";
 
 const tabs = [
   { label: "Home", href: "/", icon: Home },
@@ -17,6 +18,7 @@ const bookTab = { label: "Book", href: "/appointment", icon: Calendar };
 /** App-style bottom tab bar — the primary way mobile visitors get around and book. */
 export function MobileTabBar() {
   const pathname = usePathname();
+  const { openModal } = useAppointmentModal();
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
@@ -42,17 +44,16 @@ export function MobileTabBar() {
           </Link>
         );
       })}
-      <Link href={bookTab.href} className="flex flex-1 flex-col items-center gap-1 py-1 text-[11px] font-medium">
-        <span
-          className={cn(
-            "flex h-9 w-9 items-center justify-center rounded-full transition-colors",
-            isActive(bookTab.href) ? "bg-cta-orange text-white" : "bg-cta-orange/90 text-white"
-          )}
-        >
+      <button
+        type="button"
+        onClick={openModal}
+        className="flex flex-1 flex-col items-center gap-1 py-1 text-[11px] font-medium"
+      >
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-cta-orange/90 text-white transition-colors">
           <bookTab.icon className="h-4 w-4" aria-hidden="true" />
         </span>
         <span className="text-cta-orange">{bookTab.label}</span>
-      </Link>
+      </button>
     </nav>
   );
 }

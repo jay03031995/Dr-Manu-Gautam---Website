@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { Badge } from "@/components/ui/Badge";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
@@ -64,9 +65,9 @@ export async function HomeHero() {
           </h1>
           <p className="mb-6 max-w-xl text-lg text-white/85 leading-relaxed">{subtext}</p>
           <div className="mb-4 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-            <Button href="/appointment" size="large" className="w-full sm:w-auto">
+            <BookAppointmentButton size="large" className="w-full sm:w-auto">
               Book an Appointment
-            </Button>
+            </BookAppointmentButton>
             <Button
               href="/treatments"
               variant="secondary"

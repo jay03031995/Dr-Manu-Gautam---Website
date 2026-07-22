@@ -6,6 +6,7 @@ import { MapPin } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { ServiceCard } from "@/components/ui/Card";
 import { Accordion } from "@/components/ui/Accordion";
 import { Reveal } from "@/components/motion/Reveal";
@@ -110,9 +111,9 @@ export default async function LocationPage({ params }: PageProps) {
             evaluation to understand your symptoms and the treatment options available to you.
           </p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
-            <Button href="/appointment" size="large">
+            <BookAppointmentButton size="large">
               Book a Consultation
-            </Button>
+            </BookAppointmentButton>
             <Button href="/about" variant="secondary" size="large">
               About {siteConfig.shortName}
             </Button>

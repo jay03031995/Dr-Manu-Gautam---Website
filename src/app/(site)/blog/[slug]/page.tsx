@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { ServiceCard } from "@/components/ui/Card";
 import { Accordion } from "@/components/ui/Accordion";
 import { Reveal } from "@/components/motion/Reveal";
@@ -188,7 +189,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 Book a consultation with {siteConfig.shortName} to discuss your symptoms and treatment options.
               </p>
               <div className="flex flex-col justify-center gap-3 sm:flex-row">
-                <Button href="/appointment">Book an Appointment</Button>
+                <BookAppointmentButton>Book an Appointment</BookAppointmentButton>
                 <Button href={telHref(siteConfig.phone)} variant="secondary" className="border-white/40 bg-transparent text-white hover:bg-white/10">
                   Call {siteConfig.phone}
                 </Button>

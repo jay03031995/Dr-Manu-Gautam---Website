@@ -4,6 +4,8 @@ import { FloatingActions } from "@/components/layout/FloatingActions";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { PopupLeadForm } from "@/components/forms/PopupLeadForm";
+import { AppointmentModalProvider } from "@/components/forms/AppointmentModalContext";
+import { AppointmentModal } from "@/components/forms/AppointmentModal";
 import { getSiteSettings, getFeaturedServices, getLocations } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
 
@@ -18,7 +20,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     : undefined;
 
   return (
-    <>
+    <AppointmentModalProvider>
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
@@ -31,6 +33,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <FloatingActions />
       <MobileTabBar />
       <PopupLeadForm treatments={treatments} />
-    </>
+      <AppointmentModal services={treatments} locations={locations} />
+    </AppointmentModalProvider>
   );
 }

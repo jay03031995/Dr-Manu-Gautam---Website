@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { ServiceCard } from "@/components/ui/Card";
 import { Accordion } from "@/components/ui/Accordion";
 import { Reveal } from "@/components/motion/Reveal";
@@ -239,9 +240,9 @@ export default async function Home() {
           <Reveal className="flex flex-col items-center gap-6 text-center">
             <h2 className="text-white">{finalCtaHeading}</h2>
             <p className="max-w-xl text-white/80">{finalCtaSubtext}</p>
-            <Button href="/appointment" size="large">
+            <BookAppointmentButton size="large">
               Book an Appointment
-            </Button>
+            </BookAppointmentButton>
           </Reveal>
         </div>
       </section>
