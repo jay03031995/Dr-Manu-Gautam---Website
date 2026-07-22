@@ -36,7 +36,7 @@ import {
   buildWebPageSchema,
 } from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
-import { telHref, treatmentPath } from "@/lib/utils";
+import { telHref, treatmentPath, locationPath } from "@/lib/utils";
 import type { PortableTextBlock } from "@portabletext/react";
 import type { TreatmentType, ConditionEntry, RecoveryStage } from "@/sanity/lib/types";
 
@@ -519,7 +519,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Button href="/appointment">Book an Appointment</Button>
                 {service.doctor && (
-                  <Button href={`/about`} variant="secondary">
+                  <Button href="/doctor" variant="secondary">
                     View Doctor Profile
                   </Button>
                 )}
@@ -557,7 +557,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                       <li key={loc.slug.current} className="flex items-start gap-2 text-sm text-charcoal">
                         <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-medical-blue" aria-hidden="true" />
                         <div>
-                          <p className="font-medium">{loc.name}</p>
+                          <Link href={locationPath(loc.slug.current)} className="font-medium hover:text-medical-blue">
+                            {loc.name}
+                          </Link>
                           {loc.addressLine && <p className="text-dark-gray">{loc.addressLine}</p>}
                         </div>
                       </li>
@@ -684,8 +686,13 @@ export default async function ServiceDetailPage({ params }: PageProps) {
       {/* FAQs */}
       {service.faqs && service.faqs.length > 0 && (
         <Section background="light">
-          <Reveal className="mx-auto max-w-3xl">
-            <h2 className="mb-6 text-center">Frequently Asked Questions About {service.title}</h2>
+          <Reveal className="mb-10 text-center">
+            <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+              Common Questions
+            </p>
+            <h2>Frequently Asked Questions About {service.title}</h2>
+          </Reveal>
+          <Reveal delay={0.1} className="mx-auto max-w-3xl">
             <Accordion items={service.faqs} />
           </Reveal>
         </Section>
