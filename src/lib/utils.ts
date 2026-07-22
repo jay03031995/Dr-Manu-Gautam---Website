@@ -21,6 +21,10 @@ export function locationPath(slug: string) {
   return `/orthopaedic-surgeon/${slug}/`;
 }
 
+/** Canonical URL for the doctor profile page — kept under the same
+ *  /orthopaedic-surgeon/delhi-ncr/ path as treatments for SEO consistency. */
+export const DOCTOR_PROFILE_PATH = "/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/";
+
 /** The site runs with trailingSlash:true, which also redirects API routes —
  *  fetch calls must hit this exact (slash-terminated) path to avoid an extra
  *  redirect hop. Reuse this constant rather than typing the URL by hand. */

@@ -37,7 +37,7 @@ import {
   buildWebPageSchema,
 } from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
-import { telHref, treatmentPath, locationPath } from "@/lib/utils";
+import { telHref, treatmentPath, locationPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 import type { PortableTextBlock } from "@portabletext/react";
 import type { TreatmentType, ConditionEntry, RecoveryStage } from "@/sanity/lib/types";
 
@@ -520,7 +520,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <BookAppointmentButton>Book an Appointment</BookAppointmentButton>
                 {service.doctor && (
-                  <Button href="/doctor" variant="secondary">
+                  <Button href={DOCTOR_PROFILE_PATH} variant="secondary">
                     View Doctor Profile
                   </Button>
                 )}

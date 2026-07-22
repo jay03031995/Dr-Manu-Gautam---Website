@@ -14,6 +14,7 @@ import { getDoctorBySlug, getHomePage, getFeaturedTestimonials } from "@/sanity/
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
 import { buildPageMetadata, buildPhysicianSchema } from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
+import { DOCTOR_PROFILE_PATH } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -88,7 +89,7 @@ export default async function AboutPage() {
               <BookAppointmentButton size="large">
                 Book a Consultation
               </BookAppointmentButton>
-              <Button href="/doctor" variant="secondary" size="large">
+              <Button href={DOCTOR_PROFILE_PATH} variant="secondary" size="large">
                 View Full Doctor Profile
               </Button>
             </div>
@@ -175,7 +176,7 @@ export default async function AboutPage() {
               <h2 className="mb-6 text-center">Professional Background</h2>
               <PortableTextRenderer value={doctor.bio} />
               <div className="mt-6 text-center">
-                <Button href="/doctor" variant="tertiary">
+                <Button href={DOCTOR_PROFILE_PATH} variant="tertiary">
                   Read Full Doctor Profile &rarr;
                 </Button>
               </div>

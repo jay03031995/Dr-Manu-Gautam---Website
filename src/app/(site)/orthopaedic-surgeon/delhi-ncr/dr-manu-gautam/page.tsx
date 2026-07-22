@@ -19,7 +19,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getDoctorBySlug, getFeaturedServices, getVideos } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
 import { buildPageMetadata, buildPhysicianSchema, buildBreadcrumbSchema } from "@/lib/seo";
-import { treatmentPath } from "@/lib/utils";
+import { treatmentPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 import { siteConfig } from "@/lib/constants";
 
 export const revalidate = 60;
@@ -28,7 +28,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: "Dr. Manu Gautam — Orthopaedic Surgeon in Noida & Ghaziabad",
   description:
     "Dr. Manu Gautam is an orthopaedic surgeon with 15+ years of experience in joint replacement, robotic knee surgery, spine care, and sports injury management across Noida and Ghaziabad.",
-  path: "/doctor",
+  path: DOCTOR_PROFILE_PATH,
 });
 
 export default async function DoctorProfilePage() {
@@ -42,7 +42,7 @@ export default async function DoctorProfilePage() {
 
   const breadcrumbItems = [
     { name: "Home", url: "/" },
-    { name: "Doctor Profile", url: "/doctor" },
+    { name: "Doctor Profile", url: DOCTOR_PROFILE_PATH },
   ];
   const schemas = [
     buildBreadcrumbSchema(breadcrumbItems),
@@ -50,7 +50,7 @@ export default async function DoctorProfilePage() {
       ? [
           buildPhysicianSchema(doctor.name, photoUrl, {
             credentials: doctor.credentials,
-            url: `${siteConfig.url}/doctor`,
+            url: `${siteConfig.url}${DOCTOR_PROFILE_PATH}`,
             education: doctor.education,
             memberships: doctor.memberships,
           }),
@@ -90,7 +90,7 @@ export default async function DoctorProfilePage() {
 
       {/* Hero */}
       <Section background="light" className="pt-6 md:pt-10">
-        <Reveal mode="onMount" className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.2fr]">
+        <Reveal mode="onMount" className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
           <div className="lg:order-1">
             <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
               Doctor Profile
@@ -143,13 +143,13 @@ export default async function DoctorProfilePage() {
             </div>
           </div>
 
-          <div className="relative aspect-[4/5] overflow-hidden rounded-lg lg:order-2">
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-lg lg:order-2 lg:mx-0 lg:ml-auto">
             {doctor && hasImageAsset(doctor.photo) ? (
               <Image
-                src={urlForImage(doctor.photo).width(800).height(1000).fit("crop").url()}
+                src={urlForImage(doctor.photo).width(640).height(800).fit("crop").url()}
                 alt={doctor.name}
                 fill
-                sizes="(min-width: 1024px) 40vw, 90vw"
+                sizes="(min-width: 1024px) 320px, 60vw"
                 className="object-cover"
                 priority
               />
@@ -158,7 +158,7 @@ export default async function DoctorProfilePage() {
                 src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&q=75&auto=format&fit=crop"
                 alt="Orthopedic surgeon"
                 fill
-                sizes="(min-width: 1024px) 40vw, 90vw"
+                sizes="(min-width: 1024px) 320px, 60vw"
                 className="object-cover"
               />
             )}

@@ -15,6 +15,12 @@ const nextConfig = {
         destination: "/orthopaedic-surgeon/delhi-ncr/:slug/",
         permanent: true,
       },
+      {
+        // Doctor profile moved under /orthopaedic-surgeon/delhi-ncr/ for SEO consistency with treatments.
+        source: "/doctor/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/",
+        permanent: true,
+      },
     ];
   },
   images: {

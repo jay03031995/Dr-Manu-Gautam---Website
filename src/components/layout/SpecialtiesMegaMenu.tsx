@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { ServiceIcon } from "@/lib/serviceIcons";
-import { treatmentPath, cn } from "@/lib/utils";
+import { treatmentPath, cn, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 import type { Service } from "@/sanity/lib/types";
 
 type NavService = Pick<Service, "_id" | "title" | "slug" | "icon" | "shortDescription" | "conditionsTreated">;
@@ -32,7 +32,9 @@ export function SpecialtiesMegaMenu({ treatments }: SpecialtiesMegaMenuProps) {
   const closeTimeout = useRef<ReturnType<typeof setTimeout>>();
   const rootRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const active = pathname.startsWith("/orthopaedic-surgeon/delhi-ncr") || pathname.startsWith("/treatments");
+  const active =
+    (pathname.startsWith("/orthopaedic-surgeon/delhi-ncr") && !pathname.startsWith(DOCTOR_PROFILE_PATH)) ||
+    pathname.startsWith("/treatments");
 
   const openNow = () => {
     if (closeTimeout.current) clearTimeout(closeTimeout.current);

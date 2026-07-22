@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { client } from "@/sanity/lib/client";
 import { siteConfig } from "@/lib/constants";
-import { treatmentPath, locationPath } from "@/lib/utils";
+import { treatmentPath, locationPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [serviceSlugs, locationSlugs, blogSlugs] = await Promise.all([
@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${siteConfig.url}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${siteConfig.url}/about/`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${siteConfig.url}/doctor/`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${siteConfig.url}${DOCTOR_PROFILE_PATH}`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteConfig.url}/treatments/`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteConfig.url}/locations/`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteConfig.url}/contact/`, changeFrequency: "monthly", priority: 0.6 },
