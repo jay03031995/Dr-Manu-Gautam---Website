@@ -18,6 +18,7 @@ import { GoogleReviewsSkeleton } from "@/components/sections/GoogleReviewsSkelet
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { getLocations, getLocationBySlug, getFeaturedServices, getFaqs } from "@/sanity/lib/fetch";
+import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
 import { buildPageMetadata, buildBreadcrumbSchema, buildMedicalClinicSchema, buildFaqSchema } from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
 import { treatmentPath, locationPath } from "@/lib/utils";
@@ -152,6 +153,11 @@ export default async function LocationPage({ params }: PageProps) {
               title={t.title}
               description={t.shortDescription}
               href={treatmentPath(t.slug.current)}
+              imageUrl={
+                hasImageAsset(t.heroImage)
+                  ? urlForImage(t.heroImage).width(600).height(375).fit("crop").url()
+                  : undefined
+              }
             />
           ))}
         </RevealGrid>
