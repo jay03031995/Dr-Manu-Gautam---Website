@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ArrowRight, MapPin, Clock } from "lucide-react";
+import { ChevronDown, ArrowRight, MapPin, Clock, Phone } from "lucide-react";
 import { locationPath, cn } from "@/lib/utils";
 import type { Location } from "@/sanity/lib/types";
 
-type NavLocation = Pick<Location, "_id" | "name" | "slug" | "city" | "hours">;
+type NavLocation = Pick<Location, "_id" | "name" | "slug" | "city" | "addressLine" | "postalCode" | "phone" | "hours">;
 
 interface ClinicsMegaMenuProps {
   locations: NavLocation[];
@@ -70,7 +70,7 @@ export function ClinicsMegaMenu({ locations }: ClinicsMegaMenuProps) {
         <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} aria-hidden="true" />
       </button>
 
-      {open && <div className="absolute left-1/2 top-full h-3 w-[340px] -translate-x-1/2" aria-hidden="true" />}
+      {open && <div className="absolute left-1/2 top-full h-3 w-[420px] -translate-x-1/2" aria-hidden="true" />}
 
       <AnimatePresence>
         {open && (
@@ -80,7 +80,7 @@ export function ClinicsMegaMenu({ locations }: ClinicsMegaMenuProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
             transition={{ duration: 0.15 }}
-            className="absolute left-1/2 top-full z-50 mt-3 w-[340px] -translate-x-1/2 rounded-lg border border-light-grey bg-white p-3 shadow-elevation-4"
+            className="absolute left-1/2 top-full z-50 mt-3 w-[420px] -translate-x-1/2 rounded-lg border border-light-grey bg-white p-3 shadow-elevation-4"
           >
             <ul className="space-y-1">
               {locations.map((loc) => (
@@ -95,13 +95,21 @@ export function ClinicsMegaMenu({ locations }: ClinicsMegaMenuProps) {
                       <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-medical-blue" aria-hidden="true" />
                       <span className="min-w-0">
                         <span className="block text-sm font-semibold text-dark-navy">{loc.name}</span>
-                        <span className="block text-xs text-dark-gray">{loc.city}</span>
-                        {loc.hours?.[0] && (
+                        <span className="block text-xs text-dark-gray">
+                          {[loc.addressLine, loc.postalCode].filter(Boolean).join(" - ")}
+                        </span>
+                        {loc.phone && (
                           <span className="mt-1 flex items-center gap-1 text-xs text-dark-gray">
-                            <Clock className="h-3 w-3 shrink-0" aria-hidden="true" />
-                            {loc.hours[0].days}: {loc.hours[0].time}
+                            <Phone className="h-3 w-3 shrink-0" aria-hidden="true" />
+                            {loc.phone}
                           </span>
                         )}
+                        {loc.hours?.map((hours) => (
+                          <span key={`${hours.days}-${hours.time}`} className="mt-1 flex items-center gap-1 text-xs text-dark-gray">
+                            <Clock className="h-3 w-3 shrink-0" aria-hidden="true" />
+                            {hours.days}: {hours.time}
+                          </span>
+                        ))}
                         <span className="mt-1.5 inline-block text-xs font-medium text-medical-blue">
                           View location &rarr;
                         </span>

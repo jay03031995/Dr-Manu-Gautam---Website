@@ -223,7 +223,7 @@ const serviceDoc = {
   references: [],
   locations: [
     { _key: key(), _type: "reference", _ref: "location-noida" },
-    { _key: key(), _type: "reference", _ref: "location-ghaziabad" },
+    { _key: key(), _type: "reference", _ref: "location-delhi" },
   ],
   doctor: { _type: "reference", _ref: "doctor-manu-gautam" },
   testimonials: [],

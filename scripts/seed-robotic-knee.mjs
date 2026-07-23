@@ -174,14 +174,14 @@ const treatment = {
   ],
   locations: [
     { _type: "reference", _ref: "location-noida", _key: "l1" },
-    { _type: "reference", _ref: "location-ghaziabad", _key: "l2" },
+    { _type: "reference", _ref: "location-delhi", _key: "l2" },
   ],
   doctor: { _type: "reference", _ref: "doctor-manu-gautam" },
   medicalReviewer: { _type: "reference", _ref: "doctor-manu-gautam" },
   reviewDate: new Date().toISOString().slice(0, 10),
 
   seo: {
-    metaTitle: "Robotic Knee Replacement in Noida & Ghaziabad",
+    metaTitle: "Robotic Knee Replacement in Noida & Delhi NCR",
     metaDescription:
       "Learn about robotic-assisted knee replacement: how it works, who may be suitable, and what to expect from consultation through recovery.",
   },

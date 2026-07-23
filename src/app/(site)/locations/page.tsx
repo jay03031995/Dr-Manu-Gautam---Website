@@ -15,7 +15,7 @@ export const revalidate = 60;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Consultation Locations",
-  description: `Find ${siteConfig.shortName}'s orthopaedic consultation locations across Noida & Ghaziabad, with addresses, timings and directions.`,
+  description: `Find ${siteConfig.shortName}'s orthopaedic consultation locations across Noida & Delhi NCR, with addresses, timings and directions.`,
   path: "/locations",
 });
 

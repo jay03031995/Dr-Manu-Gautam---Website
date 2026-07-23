@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { clinicLocations } from "@/lib/constants";
 import {
   siteSettingsQuery,
   homePageQuery,
@@ -9,7 +10,6 @@ import {
   featuredTestimonialsQuery,
   videosQuery,
   locationsQuery,
-  locationBySlugQuery,
   doctorBySlugQuery,
   blogPostsQuery,
   blogPostBySlugQuery,
@@ -32,6 +32,45 @@ import type { BlogPost, BlogPostSummary } from "@/sanity/lib/types";
 // revalidate: content changes in Sanity show up within a minute without a full redeploy.
 const REVALIDATE_SECONDS = 60;
 
+const canonicalLocations = clinicLocations.map((location) => ({
+  ...location,
+  slug: { ...location.slug },
+  hours: location.hours.map((hours) => ({ ...hours })),
+}));
+
+function normalizeLocation(location: Location): Location {
+  const key = location.slug.current === "ghaziabad" ? "delhi" : location.slug.current;
+  const canonical = canonicalLocations.find((item) => item.slug.current === key || item._id === location._id);
+
+  if (!canonical) return location;
+
+  return {
+    ...location,
+    ...canonical,
+    slug: { ...canonical.slug },
+    hours: canonical.hours.map((hours) => ({ ...hours })),
+    coordinates: location.coordinates,
+    image: location.image,
+  };
+}
+
+function normalizeLocations(locations?: Location[]) {
+  const normalized = (locations ?? []).map(normalizeLocation);
+  const seen = new Set(normalized.map((location) => location.slug.current));
+
+  for (const canonical of canonicalLocations) {
+    if (!seen.has(canonical.slug.current)) {
+      normalized.push({
+        ...canonical,
+        slug: { ...canonical.slug },
+        hours: canonical.hours.map((hours) => ({ ...hours })),
+      });
+    }
+  }
+
+  return normalized;
+}
+
 export function getSiteSettings() {
   return client.fetch<SiteSettings | null>(siteSettingsQuery, {}, { next: { revalidate: REVALIDATE_SECONDS } });
 }
@@ -53,7 +92,14 @@ export function getFeaturedServices() {
 }
 
 export function getServiceBySlug(slug: string) {
-  return client.fetch<Service | null>(serviceBySlugQuery, { slug }, { next: { revalidate: REVALIDATE_SECONDS } });
+  return client.fetch<Service | null>(serviceBySlugQuery, { slug }, { next: { revalidate: REVALIDATE_SECONDS } }).then((service) => {
+    if (!service) return service;
+
+    return {
+      ...service,
+      locations: service.locations ? normalizeLocations(service.locations) : service.locations,
+    };
+  });
 }
 
 export function getFeaturedTestimonials() {
@@ -65,15 +111,24 @@ export function getVideos() {
 }
 
 export function getLocations() {
-  return client.fetch<Location[]>(locationsQuery, {}, { next: { revalidate: REVALIDATE_SECONDS } });
+  return client
+    .fetch<Location[]>(locationsQuery, {}, { next: { revalidate: REVALIDATE_SECONDS } })
+    .then((locations) => normalizeLocations(locations));
 }
 
 export function getLocationBySlug(slug: string) {
-  return client.fetch<Location | null>(locationBySlugQuery, { slug }, { next: { revalidate: REVALIDATE_SECONDS } });
+  return getLocations().then((locations) => locations.find((location) => location.slug.current === slug) ?? null);
 }
 
 export function getDoctorBySlug(slug: string) {
-  return client.fetch<Doctor | null>(doctorBySlugQuery, { slug }, { next: { revalidate: REVALIDATE_SECONDS } });
+  return client.fetch<Doctor | null>(doctorBySlugQuery, { slug }, { next: { revalidate: REVALIDATE_SECONDS } }).then((doctor) => {
+    if (!doctor) return doctor;
+
+    return {
+      ...doctor,
+      locations: doctor.locations ? normalizeLocations(doctor.locations) : doctor.locations,
+    };
+  });
 }
 
 export function getBlogPosts() {

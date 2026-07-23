@@ -35,7 +35,7 @@ export function buildPageMetadata({ title, description, path = "", image }: Page
   };
 }
 
-/** schema.org MedicalOrganization + LocalBusiness markup for Noida/Ghaziabad local SEO. */
+/** schema.org MedicalOrganization + LocalBusiness markup for Noida/Delhi NCR local SEO. */
 export function buildLocalBusinessSchema() {
   return {
     "@context": "https://schema.org",

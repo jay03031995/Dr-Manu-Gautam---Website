@@ -10,8 +10,7 @@
 // new joint-replacement content. Resolve the conflict in Studio (doctor-manu-gautam)
 // before adding that detail back into page copy.
 //
-// Also note: the Ghaziabad location's phone number is still the placeholder
-// "+91-XXXXXXXXXX" in the CMS — replace it with the real number when available.
+// Location references use the canonical Noida and Delhi NCR clinic records.
 //
 // Run with: node --env-file=.env.local scripts/seed-joint-replacement.mjs
 import { createClient } from "@sanity/client";
@@ -360,7 +359,7 @@ const serviceDoc = {
   references: [],
   locations: [
     { _key: key(), _type: "reference", _ref: "location-noida" },
-    { _key: key(), _type: "reference", _ref: "location-ghaziabad" },
+    { _key: key(), _type: "reference", _ref: "location-delhi" },
   ],
   doctor: { _type: "reference", _ref: "doctor-manu-gautam" },
   testimonials: [],

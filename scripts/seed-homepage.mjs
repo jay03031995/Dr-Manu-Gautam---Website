@@ -67,7 +67,7 @@ const doc = {
   ],
 
   finalCtaHeading: "Ready to Start Your Recovery Journey?",
-  finalCtaSubtext: "Schedule a consultation with our orthopedic specialists in Noida & Ghaziabad today.",
+  finalCtaSubtext: "Schedule a consultation with our orthopedic specialists in Noida & Delhi NCR today.",
 };
 
 async function seed() {

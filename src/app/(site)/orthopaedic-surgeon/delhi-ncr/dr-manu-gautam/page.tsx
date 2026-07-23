@@ -25,9 +25,9 @@ import { siteConfig } from "@/lib/constants";
 export const revalidate = 60;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Orthopaedic Surgeon in Noida & Ghaziabad — Doctor Profile",
+  title: "Orthopaedic Surgeon in Noida & Delhi NCR - Doctor Profile",
   description:
-    "Dr. Manu Gautam is an orthopaedic surgeon with 15+ years of experience in joint replacement, robotic knee surgery, spine care, and sports injury management across Noida and Ghaziabad.",
+    "Dr. Manu Gautam is an orthopaedic surgeon with 15+ years of experience in joint replacement, robotic knee surgery, spine care, and sports injury management across Noida and Delhi NCR.",
   path: DOCTOR_PROFILE_PATH,
 });
 
@@ -253,7 +253,7 @@ export default async function DoctorProfilePage() {
           <Reveal className="flex flex-col items-center gap-6 text-center">
             <h2 className="text-white">Ready to Discuss Your Orthopaedic Concern?</h2>
             <p className="max-w-xl text-white/80">
-              Book a consultation with {doctor?.name ?? "Dr. Manu Gautam"} at our Noida or Ghaziabad clinic.
+              Book a consultation with {doctor?.name ?? "Dr. Manu Gautam"} at our Noida or Delhi NCR clinic.
             </p>
             <BookAppointmentButton size="large">
               Book an Appointment

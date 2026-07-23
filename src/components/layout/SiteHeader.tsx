@@ -19,7 +19,7 @@ import type { Service, Location } from "@/sanity/lib/types";
 interface SiteHeaderProps {
   logoUrl?: string;
   treatments: Pick<Service, "_id" | "title" | "slug" | "icon" | "shortDescription" | "conditionsTreated">[];
-  locations: Pick<Location, "_id" | "name" | "slug" | "city" | "hours">[];
+  locations: Pick<Location, "_id" | "name" | "slug" | "city" | "addressLine" | "postalCode" | "phone" | "hours">[];
 }
 
 export function SiteHeader({ logoUrl, treatments, locations }: SiteHeaderProps) {

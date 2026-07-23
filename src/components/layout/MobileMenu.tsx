@@ -17,7 +17,7 @@ interface MobileMenuProps {
   open: boolean;
   onClose: () => void;
   treatments: Pick<Service, "_id" | "title" | "slug" | "icon">[];
-  locations: Pick<Location, "_id" | "name" | "slug" | "city" | "hours">[];
+  locations: Pick<Location, "_id" | "name" | "slug" | "city" | "addressLine" | "postalCode" | "phone" | "hours">[];
 }
 
 type AccordionKey = "specialties" | "clinics" | null;
@@ -136,13 +136,21 @@ export function MobileMenu({ id, open, onClose, treatments, locations }: MobileM
                                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-medical-blue" aria-hidden="true" />
                                 <span>
                                   <span className="block font-medium text-charcoal">{loc.name}</span>
-                                  <span className="block text-xs text-dark-gray">{loc.city}</span>
-                                  {loc.hours?.[0] && (
+                                  <span className="block text-xs text-dark-gray">
+                                    {[loc.addressLine, loc.postalCode].filter(Boolean).join(" - ")}
+                                  </span>
+                                  {loc.phone && (
                                     <span className="mt-0.5 flex items-center gap-1 text-xs text-dark-gray">
-                                      <Clock className="h-3 w-3 shrink-0" aria-hidden="true" />
-                                      {loc.hours[0].days}: {loc.hours[0].time}
+                                      <Phone className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                      {loc.phone}
                                     </span>
                                   )}
+                                  {loc.hours?.map((hours) => (
+                                    <span key={`${hours.days}-${hours.time}`} className="mt-0.5 flex items-center gap-1 text-xs text-dark-gray">
+                                      <Clock className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                      {hours.days}: {hours.time}
+                                    </span>
+                                  ))}
                                 </span>
                               </span>
                             </Link>

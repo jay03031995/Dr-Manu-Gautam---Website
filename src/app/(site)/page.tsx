@@ -22,7 +22,7 @@ import { treatmentPath } from "@/lib/utils";
 import { getFaqs, getFeaturedServices, getConcerns, getHomePage, getDoctorBySlug } from "@/sanity/lib/fetch";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Expert Orthopedic Care in Noida & Ghaziabad",
+  title: "Expert Orthopedic Care in Noida & Delhi NCR",
   description: siteConfig.description,
   path: "/",
 });
@@ -94,7 +94,7 @@ export default async function Home() {
 
   const finalCtaHeading = homePage?.finalCtaHeading || "Ready to Start Your Recovery Journey?";
   const finalCtaSubtext =
-    homePage?.finalCtaSubtext || "Schedule a consultation with our orthopedic specialists in Noida & Ghaziabad today.";
+    homePage?.finalCtaSubtext || "Schedule a consultation with our orthopedic specialists in Noida & Delhi NCR today.";
   const finalCtaImageUrl = hasImageAsset(homePage?.finalCtaImage)
     ? urlForImage(homePage.finalCtaImage).width(1600).height(900).fit("crop").url()
     : FALLBACK_FINAL_CTA_IMAGE;

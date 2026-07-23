@@ -26,23 +26,26 @@ const locations = [
     name: "Dr. Manu Gautam - Orthopaedic Clinic",
     slug: { current: "noida" },
     city: "Noida",
-    addressLine: "D-8, Sector 20",
+    addressLine: "D-8, D Block, Sector 20, Noida, Uttar Pradesh",
     postalCode: "201301",
-    phone: "+91 9769761602",
+    phone: "+91 9999770850",
     email: "info.drmanugautam@gmail.com",
-    hours: [{ _key: "h1", days: "Mon - Sat", time: "10:00 AM - 7:00 PM" }],
+    hours: [
+      { _key: "h1", days: "Monday - Saturday", time: "10:00 AM - 8:00 PM" },
+      { _key: "h2", days: "Sunday", time: "11:00 AM - 1:00 PM" },
+    ],
   },
   {
-    _id: "location-ghaziabad",
+    _id: "location-delhi",
     _type: "location",
-    name: "OrthoCare Ghaziabad",
-    slug: { current: "ghaziabad" },
-    city: "Ghaziabad",
-    addressLine: "Raj Nagar Extension, Ghaziabad",
-    postalCode: "201017",
-    phone: "+91-XXXXXXXXXX",
-    email: "ghaziabad@drmanugautam.com",
-    hours: [{ _key: "h1", days: "Mon - Sat", time: "10:00 AM - 6:00 PM" }],
+    name: "Dharamshila Narayana Hospital",
+    slug: { current: "delhi" },
+    city: "New Delhi",
+    addressLine: "Dharamshila Rd, near Ashok Nagar Metro Station, Vasundhara Enclave, New Delhi, Delhi",
+    postalCode: "110096",
+    phone: "+91 9769761602",
+    email: "info.drmanugautam@gmail.com",
+    hours: [{ _key: "h1", days: "Monday - Sunday", time: "Open 24 hours" }],
   },
 ];
 
@@ -58,7 +61,7 @@ const doctor = {
   memberships: ["Indian Orthopedic Association"],
   locations: [
     { _type: "reference", _ref: "location-noida", _key: "loc1" },
-    { _type: "reference", _ref: "location-ghaziabad", _key: "loc2" },
+    { _type: "reference", _ref: "location-delhi", _key: "loc2" },
   ],
 };
 

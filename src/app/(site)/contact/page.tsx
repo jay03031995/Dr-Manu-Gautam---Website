@@ -17,9 +17,9 @@ import { telHref } from "@/lib/utils";
 export const revalidate = 60;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Contact Us — Noida & Ghaziabad Clinics",
+  title: "Contact Us - Noida & Delhi NCR Clinics",
   description:
-    "Contact Dr. Manu Gautam's clinic in Noida and Ghaziabad. Find addresses, consultation timings, phone numbers and book an appointment online.",
+    "Contact Dr. Manu Gautam's clinics in Noida and Delhi NCR. Find addresses, consultation timings, phone numbers and book an appointment online.",
   path: "/contact",
 });
 

@@ -2,21 +2,21 @@ export const siteConfig = {
   name: "Dr. Manu Gautam - Orthopedic Surgery",
   shortName: "Dr. Manu Gautam",
   description:
-    "Expert orthopedic care in Noida & Ghaziabad. Advanced treatments, compassionate care, and personalized solutions for joint replacement, spine care, sports injuries, and rehabilitation.",
+    "Expert orthopedic care in Noida & Delhi NCR. Advanced treatments, compassionate care, and personalized solutions for joint replacement, spine care, sports injuries, and rehabilitation.",
   url: "https://www.drmanugautam.com",
   ogImage: "/images/og-image.jpg",
   locale: "en_IN",
-  phone: "+91 9769761602",
-  emergencyPhone: "+91 9999770850",
+  phone: "+91 9999770850",
+  emergencyPhone: "+91 9769761602",
   email: "info.drmanugautam@gmail.com",
   address: {
-    line1: "D-8, Sector 20",
+    line1: "D-8, D Block, Sector 20",
     locality: "Noida",
     region: "Uttar Pradesh",
     postalCode: "201301",
     country: "IN",
   },
-  serviceAreas: ["Noida", "Ghaziabad", "Greater Noida", "Delhi NCR"],
+  serviceAreas: ["Noida", "New Delhi", "Greater Noida", "Delhi NCR"],
   social: {
     facebook: "https://facebook.com/people/DrManu-Gautam/100084198227670/",
     instagram: "https://www.instagram.com/drmanugautam/",
@@ -38,6 +38,34 @@ export const siteConfig = {
     totalReviews: 370,
   },
 } as const;
+
+export const clinicLocations = [
+  {
+    _id: "location-noida",
+    name: "Dr. Manu Gautam - Orthopaedic Clinic",
+    slug: { current: "noida" },
+    city: "Noida",
+    addressLine: "D-8, D Block, Sector 20, Noida, Uttar Pradesh",
+    postalCode: "201301",
+    phone: "+91 9999770850",
+    email: "info.drmanugautam@gmail.com",
+    hours: [
+      { days: "Monday - Saturday", time: "10:00 AM - 8:00 PM" },
+      { days: "Sunday", time: "11:00 AM - 1:00 PM" },
+    ],
+  },
+  {
+    _id: "location-delhi",
+    name: "Dharamshila Narayana Hospital",
+    slug: { current: "delhi" },
+    city: "New Delhi",
+    addressLine: "Dharamshila Rd, near Ashok Nagar Metro Station, Vasundhara Enclave, New Delhi, Delhi",
+    postalCode: "110096",
+    phone: "+91 9769761602",
+    email: "info.drmanugautam@gmail.com",
+    hours: [{ days: "Monday - Sunday", time: "Open 24 hours" }],
+  },
+] as const;
 
 export const mainNavLinks = [
   { label: "About Dr. Manu", href: "/about" },
