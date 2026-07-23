@@ -68,7 +68,12 @@ function normalizeLocations(locations?: Location[]) {
     }
   }
 
-  return normalized;
+  return normalized.sort((a, b) => {
+    const aIndex = canonicalLocations.findIndex((location) => location.slug.current === a.slug.current);
+    const bIndex = canonicalLocations.findIndex((location) => location.slug.current === b.slug.current);
+
+    return (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) - (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex);
+  });
 }
 
 export function getSiteSettings() {
