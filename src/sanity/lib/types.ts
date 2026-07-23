@@ -133,7 +133,7 @@ export interface Service {
   doctor?: Doctor;
   testimonials?: { author: string; role?: string; rating: number; quote: string }[];
   videos?: { title: string; slug: Slug; youtubeUrl: string; thumbnail?: Image; duration?: string }[];
-  relatedTreatments?: { title: string; slug: Slug; shortDescription: string; icon?: string }[];
+  relatedTreatments?: { title: string; slug: Slug; shortDescription: string; icon?: string; heroImage?: Image }[];
   relatedConditions?: { title: string; slug: Slug; shortDescription: string }[];
   faqs?: { question: string; answer: string }[];
   medicalReviewer?: { name: string; credentials?: string };
@@ -211,7 +211,7 @@ export interface BlogPost extends BlogPostSummary {
   medicalReviewer?: { name: string; credentials?: string };
   faqs?: { question: string; answer: string }[];
   references?: ReferenceLink[];
-  relatedTreatments?: { title: string; slug: Slug; shortDescription: string; icon?: string }[];
+  relatedTreatments?: { title: string; slug: Slug; shortDescription: string; icon?: string; heroImage?: Image }[];
   seo?: Seo;
 }
 

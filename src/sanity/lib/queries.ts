@@ -89,7 +89,7 @@ export const serviceBySlugQuery = groq`*[_type == "service" && slug.current == $
   "doctor": doctor->{_id, name, slug, credentials, photo, specialties, yearsExperience, education, memberships},
   "testimonials": testimonials[]->{author, role, rating, quote},
   "videos": videos[]->{title, slug, youtubeUrl, thumbnail, duration},
-  "relatedTreatments": relatedTreatments[]->{title, slug, shortDescription, icon},
+  "relatedTreatments": relatedTreatments[]->{title, slug, shortDescription, icon, heroImage},
   "relatedConditions": relatedConditions[]->{title, slug, shortDescription},
   "faqs": faqs[]->{question, answer},
   "medicalReviewer": medicalReviewer->{name, credentials},
@@ -202,7 +202,7 @@ export const blogPostBySlugQuery = groq`*[_type == "blogPost" && slug.current ==
   "categories": categories[]->{title, slug},
   "faqs": faqs[]->{question, answer},
   references,
-  "relatedTreatments": relatedTreatments[]->{title, slug, shortDescription, icon},
+  "relatedTreatments": relatedTreatments[]->{title, slug, shortDescription, icon, heroImage},
   seo
 }`;
 

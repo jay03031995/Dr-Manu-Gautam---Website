@@ -713,6 +713,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                 title={t.title}
                 description={t.shortDescription}
                 href={treatmentPath(t.slug.current)}
+                imageUrl={
+                  hasImageAsset(t.heroImage)
+                    ? urlForImage(t.heroImage).width(600).height(750).fit("crop").url()
+                    : undefined
+                }
               />
             ))}
           </RevealGrid>
