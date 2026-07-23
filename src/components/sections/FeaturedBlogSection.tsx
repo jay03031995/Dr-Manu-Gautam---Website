@@ -58,23 +58,38 @@ export async function FeaturedBlogSection() {
           </Link>
         </Reveal>
 
-        <RevealGrid className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <RevealGrid className="flex flex-col gap-4">
           {supporting.map((post) => (
             <Link
               key={post._id}
               href={`/blog/${post.slug.current}`}
-              className="card-base card-shadow flex flex-col p-5"
+              className="card-base card-shadow group flex items-stretch gap-4 p-3"
             >
-              {post.categories?.[0] && (
-                <span className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-medical-blue">
-                  {post.categories[0].title}
-                </span>
-              )}
-              <h3 className="mb-2 text-sm font-semibold text-dark-navy line-clamp-2">{post.title}</h3>
-              <div className="mt-auto flex items-center gap-2 text-xs text-dark-gray">
-                <span>{formatDate(post.publishedAt)}</span>
-                <span aria-hidden="true">&middot;</span>
-                <span>{estimateReadingTime(post.body)}</span>
+              <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-md bg-light-teal sm:w-28">
+                {hasImageAsset(post.coverImage) && (
+                  <Image
+                    src={urlForImage(post.coverImage).width(224).height(224).fit("crop").url()}
+                    alt={post.title}
+                    fill
+                    sizes="112px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                )}
+              </div>
+              <div className="flex min-w-0 flex-1 flex-col justify-center py-1">
+                {post.categories?.[0] && (
+                  <span className="mb-1 text-xs font-semibold uppercase tracking-wider text-medical-blue">
+                    {post.categories[0].title}
+                  </span>
+                )}
+                <h3 className="mb-1.5 text-sm font-semibold text-dark-navy line-clamp-2 group-hover:text-medical-blue">
+                  {post.title}
+                </h3>
+                <div className="flex items-center gap-2 text-xs text-dark-gray">
+                  <span>{formatDate(post.publishedAt)}</span>
+                  <span aria-hidden="true">&middot;</span>
+                  <span>{estimateReadingTime(post.body)}</span>
+                </div>
               </div>
             </Link>
           ))}
