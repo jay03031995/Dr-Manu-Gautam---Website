@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { SearchIcon } from "@sanity/icons/Search";
+import { SearchIcon } from "@sanity/icons";
 
 export default defineType({
   name: "seo",

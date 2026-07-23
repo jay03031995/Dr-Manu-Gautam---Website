@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { HeartIcon } from "@sanity/icons/Heart";
+import { HeartIcon } from "@sanity/icons";
 
 export default defineType({
   name: "service",

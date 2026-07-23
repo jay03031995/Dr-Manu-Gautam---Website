@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { PinIcon } from "@sanity/icons/Pin";
+import { PinIcon } from "@sanity/icons";
 
 export default defineType({
   name: "location",

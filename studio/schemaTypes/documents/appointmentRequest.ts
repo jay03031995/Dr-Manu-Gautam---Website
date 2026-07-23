@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { CalendarIcon } from "@sanity/icons/Calendar";
+import { CalendarIcon } from "@sanity/icons";
 
 export default defineType({
   name: "appointmentRequest",
