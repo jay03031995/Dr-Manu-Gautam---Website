@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { FolderIcon } from "@sanity/icons/Folder";
+import { FolderIcon } from "@sanity/icons";
 
 export default defineType({
   name: "treatmentCategory",

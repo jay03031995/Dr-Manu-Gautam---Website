@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { ActivityIcon } from "@sanity/icons/Activity";
+import { ActivityIcon } from "@sanity/icons";
 
 export default defineType({
   name: "condition",

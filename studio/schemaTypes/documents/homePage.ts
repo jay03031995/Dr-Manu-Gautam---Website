@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { HomeIcon } from "@sanity/icons/Home";
+import { HomeIcon } from "@sanity/icons";
 
 export default defineType({
   name: "homePage",

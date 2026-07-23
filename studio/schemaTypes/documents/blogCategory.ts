@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { TagIcon } from "@sanity/icons/Tag";
+import { TagIcon } from "@sanity/icons";
 
 export default defineType({
   name: "blogCategory",

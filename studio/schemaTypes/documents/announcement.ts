@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { BellIcon } from "@sanity/icons/Bell";
+import { BellIcon } from "@sanity/icons";
 
 export default defineType({
   name: "announcement",

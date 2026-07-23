@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { DocumentTextIcon } from "@sanity/icons/DocumentText";
+import { DocumentTextIcon } from "@sanity/icons";
 
 export default defineType({
   name: "blogPost",
