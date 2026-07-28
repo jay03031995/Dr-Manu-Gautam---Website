@@ -5,7 +5,7 @@ export const siteConfig = {
     "Expert orthopedic care in Noida & Delhi NCR. Advanced treatments, compassionate care, and personalized solutions for joint replacement, spine care, sports injuries, and rehabilitation.",
   url: "https://drmanugautam.com",
   ogImage: "/images/og-image.png",
-  logo: "/icons/icon-512.png",
+  logo: "/images/logo.png",
   locale: "en_IN",
   phone: "+91 9999770850",
   emergencyPhone: "+91 9769761602",
