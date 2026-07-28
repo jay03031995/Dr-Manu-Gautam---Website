@@ -32,12 +32,35 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.shortName}`,
   },
   description: siteConfig.description,
+  applicationName: siteConfig.shortName,
+  authors: [{ name: siteConfig.shortName, url: siteConfig.url }],
+  creator: siteConfig.shortName,
+  publisher: siteConfig.shortName,
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icons/favicon.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192.png", type: "image/png", sizes: "192x192" },
+    ],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     title: siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.shortName,
-    images: [siteConfig.ogImage],
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.shortName} - Orthopedic care in Noida and Delhi NCR`,
+        type: "image/png",
+      },
+    ],
     locale: siteConfig.locale,
     type: "website",
   },

@@ -42,6 +42,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `Orthopaedic Surgeon in ${location.city}`,
     description: `Consult ${siteConfig.shortName} in ${location.city} for personalised diagnosis and treatment of joint, bone, sports injury and musculoskeletal conditions.`,
     path: locationPath(params.location),
+    image: hasImageAsset(location.image)
+      ? urlForImage(location.image).width(1200).height(630).fit("crop").url()
+      : undefined,
   });
 }
 

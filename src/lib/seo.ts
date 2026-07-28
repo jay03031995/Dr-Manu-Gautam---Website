@@ -6,23 +6,64 @@ interface PageMetaOptions {
   description: string;
   path?: string;
   image?: string;
+  noIndex?: boolean;
+}
+
+export function normalizePath(path = "") {
+  if (!path || path === "/") return "/";
+  const withLeadingSlash = path.startsWith("/") ? path : `/${path}`;
+  if (/\.[a-z0-9]{2,5}$/i.test(withLeadingSlash)) return withLeadingSlash;
+  return withLeadingSlash.endsWith("/") ? withLeadingSlash : `${withLeadingSlash}/`;
+}
+
+export function absoluteUrl(pathOrUrl = "") {
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  return `${siteConfig.url}${normalizePath(pathOrUrl)}`;
 }
 
 /** Builds a Next.js Metadata object with sensible OG/Twitter defaults for a page. */
-export function buildPageMetadata({ title, description, path = "", image }: PageMetaOptions): Metadata {
-  const url = `${siteConfig.url}${path}`;
-  const ogImage = image ?? siteConfig.ogImage;
+export function buildPageMetadata({ title, description, path = "", image, noIndex = false }: PageMetaOptions): Metadata {
+  const url = absoluteUrl(path);
+  const ogImage = absoluteUrl(image ?? siteConfig.ogImage);
 
   return {
     title,
     description,
+    keywords: [
+      "orthopedic surgeon in Noida",
+      "orthopaedic surgeon in Delhi NCR",
+      "Dr Manu Gautam",
+      "joint replacement surgeon",
+      "robotic knee replacement Noida",
+      "sports injury specialist",
+      "spine care Noida",
+    ],
     alternates: { canonical: url },
+    robots: {
+      index: !noIndex,
+      follow: !noIndex,
+      googleBot: {
+        index: !noIndex,
+        follow: !noIndex,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
     openGraph: {
       title,
       description,
       url,
       siteName: siteConfig.shortName,
-      images: [ogImage],
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${siteConfig.shortName} - Orthopedic care in Noida and Delhi NCR`,
+          type: "image/png",
+        },
+      ],
       locale: siteConfig.locale,
       type: "website",
     },
@@ -31,6 +72,24 @@ export function buildPageMetadata({ title, description, path = "", image }: Page
       title,
       description,
       images: [ogImage],
+    },
+    category: "healthcare",
+  };
+}
+
+export function buildWebsiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    alternateName: siteConfig.shortName,
+    url: siteConfig.url,
+    inLanguage: "en-IN",
+    publisher: {
+      "@type": "MedicalOrganization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+      logo: absoluteUrl(siteConfig.logo),
     },
   };
 }
@@ -42,6 +101,8 @@ export function buildLocalBusinessSchema() {
     "@type": ["MedicalOrganization", "LocalBusiness"],
     name: siteConfig.name,
     url: siteConfig.url,
+    logo: absoluteUrl(siteConfig.logo),
+    image: absoluteUrl(siteConfig.ogImage),
     telephone: siteConfig.phone,
     email: siteConfig.email,
     address: {
@@ -54,6 +115,7 @@ export function buildLocalBusinessSchema() {
     },
     areaServed: siteConfig.serviceAreas.map((name) => ({ "@type": "City", name })),
     medicalSpecialty: "Orthopedic",
+    priceRange: "$$",
     sameAs: Object.values(siteConfig.social),
   };
 }
@@ -70,13 +132,23 @@ export function buildPhysicianSchema(name: string, image?: string, options?: Phy
     "@context": "https://schema.org",
     "@type": "Physician",
     name,
-    image,
+    image: image ? absoluteUrl(image) : absoluteUrl(siteConfig.ogImage),
     url: options?.url,
+    telephone: siteConfig.phone,
     honorificSuffix: options?.credentials,
     medicalSpecialty: "Orthopedic",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: siteConfig.address.line1,
+      addressLocality: siteConfig.address.locality,
+      addressRegion: siteConfig.address.region,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country,
+    },
     worksFor: {
       "@type": "MedicalOrganization",
       name: siteConfig.name,
+      url: siteConfig.url,
     },
     alumniOf: options?.education?.map((school) => ({ "@type": "EducationalOrganization", name: school })),
     memberOf: options?.memberships?.map((org) => ({ "@type": "Organization", name: org })),
@@ -91,7 +163,7 @@ export function buildBreadcrumbSchema(items: { name: string; url: string }[]) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `${siteConfig.url}${item.url}`,
+      item: absoluteUrl(item.url),
     })),
   };
 }
@@ -112,7 +184,7 @@ export function buildMedicalProcedureSchema(options: MedicalProcedureOptions) {
     "@type": "MedicalProcedure",
     name: options.name,
     description: options.description,
-    url: options.url,
+    url: absoluteUrl(options.url),
     procedureType: "https://schema.org/SurgicalProcedure",
     ...(options.bodyLocation?.length ? { bodyLocation: options.bodyLocation } : {}),
     relevantSpecialty: {
@@ -141,7 +213,8 @@ export function buildMedicalClinicSchema(options: MedicalClinicOptions) {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
     name: options.name,
-    url: options.url,
+    url: absoluteUrl(options.url),
+    image: absoluteUrl(siteConfig.ogImage),
     ...(options.telephone ? { telephone: options.telephone } : {}),
     address: {
       "@type": "PostalAddress",
@@ -169,7 +242,8 @@ export function buildWebPageSchema(options: { name: string; description: string;
     "@type": "WebPage",
     name: options.name,
     description: options.description,
-    url: options.url,
+    url: absoluteUrl(options.url),
+    inLanguage: "en-IN",
     isPartOf: {
       "@type": "WebSite",
       name: siteConfig.name,
@@ -194,8 +268,8 @@ export function buildArticleSchema(options: ArticleOptions) {
     "@type": "MedicalWebPage",
     headline: options.headline,
     description: options.description,
-    url: options.url,
-    ...(options.image ? { image: options.image } : {}),
+    url: absoluteUrl(options.url),
+    image: options.image ? absoluteUrl(options.image) : absoluteUrl(siteConfig.ogImage),
     datePublished: options.datePublished,
     dateModified: options.dateModified ?? options.datePublished,
     author: {

@@ -3,8 +3,9 @@ export const siteConfig = {
   shortName: "Dr. Manu Gautam",
   description:
     "Expert orthopedic care in Noida & Delhi NCR. Advanced treatments, compassionate care, and personalized solutions for joint replacement, spine care, sports injuries, and rehabilitation.",
-  url: "https://www.drmanugautam.com",
-  ogImage: "/images/og-image.jpg",
+  url: "https://drmanugautam.com",
+  ogImage: "/images/og-image.png",
+  logo: "/icons/icon-512.png",
   locale: "en_IN",
   phone: "+91 9999770850",
   emergencyPhone: "+91 9769761602",

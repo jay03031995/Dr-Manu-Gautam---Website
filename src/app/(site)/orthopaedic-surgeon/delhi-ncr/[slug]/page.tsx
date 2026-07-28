@@ -60,6 +60,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: service.seo?.metaTitle || service.title,
     description: service.seo?.metaDescription || service.shortDescription,
     path: treatmentPath(params.slug),
+    image: hasImageAsset(service.seo?.ogImage)
+      ? urlForImage(service.seo.ogImage).width(1200).height(630).fit("crop").url()
+      : hasImageAsset(service.heroImage)
+        ? urlForImage(service.heroImage).width(1200).height(630).fit("crop").url()
+        : undefined,
+    noIndex: service.seo?.noIndex,
   });
 }
 

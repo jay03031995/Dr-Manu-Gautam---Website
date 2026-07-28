@@ -14,7 +14,7 @@ import { GoogleReviewsSection } from "@/components/sections/GoogleReviewsSection
 import { FeaturedBlogSection } from "@/components/sections/FeaturedBlogSection";
 import { GoogleReviewsSkeleton } from "@/components/sections/GoogleReviewsSkeleton";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { buildPageMetadata, buildLocalBusinessSchema, buildFaqSchema } from "@/lib/seo";
+import { buildPageMetadata, buildWebsiteSchema, buildLocalBusinessSchema, buildFaqSchema } from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
@@ -75,8 +75,8 @@ export default async function Home() {
   // short, general teaser, not every FAQ on the site.
   const homeFaqs = faqs.filter((f) => f.category !== "treatments").slice(0, 6);
   const schemas = homeFaqs.length
-    ? [buildLocalBusinessSchema(), buildFaqSchema(homeFaqs)]
-    : buildLocalBusinessSchema();
+    ? [buildWebsiteSchema(), buildLocalBusinessSchema(), buildFaqSchema(homeFaqs)]
+    : [buildWebsiteSchema(), buildLocalBusinessSchema()];
 
   const whyChooseHeading = homePage?.whyChooseHeading || `Why Choose ${siteConfig.shortName}`;
   const whyChooseDescription =

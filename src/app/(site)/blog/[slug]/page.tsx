@@ -40,6 +40,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: post.seo?.metaTitle || post.title,
     description: post.seo?.metaDescription || post.excerpt,
     path: `/blog/${params.slug}`,
+    image: hasImageAsset(post.seo?.ogImage)
+      ? urlForImage(post.seo.ogImage).width(1200).height(630).fit("crop").url()
+      : hasImageAsset(post.coverImage)
+        ? urlForImage(post.coverImage).width(1200).height(630).fit("crop").url()
+        : undefined,
+    noIndex: post.seo?.noIndex,
   });
 }
 
