@@ -41,6 +41,8 @@ export interface ButtonProps extends NativeButtonProps, VariantProps<typeof butt
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
   href?: string;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 }
 
 const tapHover = { whileHover: { scale: 1.03 }, whileTap: { scale: 0.97 } };
@@ -59,6 +61,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <MotionLink
           href={href}
+          target={props.target}
+          rel={props.rel}
           onClick={props.onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
           className={cn(buttonVariants({ variant, size }), className)}
           {...tapHover}
