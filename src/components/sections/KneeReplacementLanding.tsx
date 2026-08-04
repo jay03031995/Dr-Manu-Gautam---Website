@@ -45,21 +45,25 @@ const experienceCards = [
     title: "Knee pain while walking",
     description: "Persistent pain can make everyday movement feel exhausting, even on short walks or around the home.",
     icon: "HeartPulse",
+    imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80",
   },
   {
     title: "Difficulty climbing stairs",
     description: "Pain and instability can make stairs feel difficult and increase your fear of falling.",
     icon: "Bone",
+    imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=900&q=80",
   },
   {
     title: "Morning stiffness",
     description: "Stiffness after rest can make getting moving feel slow and uncomfortable each day.",
     icon: "Activity",
+    imageUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=900&q=80",
   },
   {
     title: "Swelling and inflammation",
     description: "Joint swelling can limit comfort, movement, and your ability to stay active throughout the day.",
     icon: "Footprints",
+    imageUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
@@ -392,7 +396,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </section>
 
-         <Section background="light">
+    <Section background="light">
         <Reveal className="mb-8 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Recovery Stories</p>
           <h2>Before & after recovery support</h2>
@@ -434,7 +438,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             </div>
           </div>
         </div>
-      </Section>
+    </Section>
 
     <Section background="white">
         <Reveal className="mb-8 text-center">
@@ -456,7 +460,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             </div>
           ))}
         </div>
-      </Section>
+    </Section>
 
       <Section background="light">
         <Reveal className="mb-8 text-center">
@@ -507,6 +511,8 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               title={card.title}
               description={card.description}
               href="#lead-form"
+              imageUrl={card.imageUrl}
+              showExplore={false}
             />
           ))}
         </RevealGrid>
@@ -576,7 +582,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </section>
 
-            <Section background="light">
+      <Section background="light">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
           <Reveal>
             <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Why Patients Choose Dr. Manu Gautam</p>
@@ -625,7 +631,6 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </Section>
 
-
       <Section background="white">
         <Reveal className="mb-8 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Patient Reviews</p>
@@ -649,8 +654,6 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
           ))}
         </div>
       </Section>
-
-
 
       <Section background="white">
         <Reveal className="mb-8 text-center">

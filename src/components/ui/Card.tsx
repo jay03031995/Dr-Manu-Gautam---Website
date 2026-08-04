@@ -33,11 +33,12 @@ interface ServiceCardProps {
    *  placeholder to a photo automatically. */
   imageUrl?: string;
   className?: string;
+  showExplore?: boolean;
 }
 
 const MotionLink = motion.create(Link);
 
-export function ServiceCard({ icon, title, description, href, imageUrl, className }: ServiceCardProps) {
+export function ServiceCard({ icon, title, description, href, imageUrl, className, showExplore = true }: ServiceCardProps) {
   return (
     <MotionLink
       href={href}
@@ -66,12 +67,14 @@ export function ServiceCard({ icon, title, description, href, imageUrl, classNam
       <div className="flex flex-1 flex-col p-5">
         <h3 className="mb-1 text-base font-semibold text-dark-navy">{title}</h3>
         <p className="mb-4 line-clamp-2 text-sm text-dark-gray leading-relaxed">{description}</p>
-        <div className="mt-auto flex items-center justify-end border-t border-light-grey pt-4">
-          <span className="inline-flex items-center gap-1 rounded-full bg-light-teal px-3 py-1.5 text-xs font-medium text-medical-blue transition-colors group-hover:bg-medical-blue group-hover:text-white">
-            Explore
-            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-          </span>
-        </div>
+        {showExplore && (
+          <div className="mt-auto flex items-center justify-end border-t border-light-grey pt-4">
+            <span className="inline-flex items-center gap-1 rounded-full bg-light-teal px-3 py-1.5 text-xs font-medium text-medical-blue transition-colors group-hover:bg-medical-blue group-hover:text-white">
+              Explore
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </div>
+        )}
       </div>
     </MotionLink>
   );
