@@ -45,25 +45,25 @@ const experienceCards = [
     title: "Knee pain while walking",
     description: "Persistent pain can make everyday movement feel exhausting, even on short walks or around the home.",
     icon: "HeartPulse",
-    imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80",
+    imageUrl: "/images/pain.jpeg",
   },
   {
     title: "Difficulty climbing stairs",
     description: "Pain and instability can make stairs feel difficult and increase your fear of falling.",
     icon: "Bone",
-    imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=900&q=80",
+    imageUrl: "/images/stairs.jpg",
   },
   {
     title: "Morning stiffness",
     description: "Stiffness after rest can make getting moving feel slow and uncomfortable each day.",
     icon: "Activity",
-    imageUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=900&q=80",
+    imageUrl: "/images/morning.jpg",
   },
   {
     title: "Swelling and inflammation",
     description: "Joint swelling can limit comfort, movement, and your ability to stay active throughout the day.",
     icon: "Footprints",
-    imageUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=80",
+    imageUrl: "/images/swell.webp",
   },
 ];
 
@@ -559,125 +559,90 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
 
 
 
-<section className="bg-gradient-to-br from-dark-navy via-dark-navy to-slate-900 py-12 md:py-20">
+<section className="bg-dark-navy py-10">
   <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-    <div className="overflow-hidden rounded-[32px] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
+    <div className="grid overflow-hidden rounded-3xl bg-white shadow-xl lg:grid-cols-[1.3fr_0.7fr]">
 
-      <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
+      {/* Content */}
+      <div className="p-6 md:p-8">
 
-        {/* Left Content */}
-        <div className="p-8 md:p-12 lg:p-16">
+        <span className="inline-flex rounded-full bg-medical-blue/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-medical-blue">
+          Knee Replacement Specialist
+        </span>
 
-          <span className="inline-flex rounded-full bg-medical-blue/10 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-medical-blue">
-            Knee Replacement Specialist
-          </span>
+        <h2 className="mt-4 text-2xl font-bold leading-tight text-dark-navy md:text-3xl">
+          Still Living With Knee Pain?
+        </h2>
 
-          <h2 className="mt-6 text-3xl font-bold leading-tight text-dark-navy md:text-5xl">
-            Still Living With
-            <span className="block text-medical-blue">
-              Knee Pain?
-            </span>
-          </h2>
+        <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">
+          Consult Dr. Manu Gautam to understand whether your symptoms are due
+          to arthritis, cartilage damage, or advanced joint degeneration.
+        </p>
 
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
-            Consult Dr. Manu Gautam and understand the real cause of your knee
-            pain. Get expert guidance on arthritis treatment, advanced knee
-            preservation techniques, and knee replacement options.
-          </p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-
-            <div className="rounded-2xl border border-slate-200 p-4">
-              <h3 className="font-semibold text-dark-navy">
-                ✓ Expert Assessment
-              </h3>
-              <p className="mt-2 text-sm text-slate-600">
-                Detailed evaluation of arthritis and joint damage.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 p-4">
-              <h3 className="font-semibold text-dark-navy">
-                ✓ Personalized Treatment
-              </h3>
-              <p className="mt-2 text-sm text-slate-600">
-                Surgery is recommended only when genuinely required.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 p-4">
-              <h3 className="font-semibold text-dark-navy">
-                ✓ Advanced Knee Care
-              </h3>
-              <p className="mt-2 text-sm text-slate-600">
-                Modern treatment protocols for better recovery.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 p-4">
-              <h3 className="font-semibold text-dark-navy">
-                ✓ Faster Recovery
-              </h3>
-              <p className="mt-2 text-sm text-slate-600">
-                Focus on mobility, comfort, and long-term outcomes.
-              </p>
-            </div>
-
+          <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
+            ✓ Arthritis Evaluation
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
+            ✓ Knee Replacement Guidance
+          </div>
 
-            <Button
-              href={telHref(primaryPhone)}
-              variant="primary"
-              size="large"
-              className="bg-cta-orange hover:bg-cta-orange/90"
-            >
-              Call Now
-            </Button>
+          <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
+            ✓ Personalized Treatment Plan
+          </div>
 
-            <Button
-              href={whatsappUrl}
-              target="_blank"
-              rel="noreferrer"
-              variant="secondary"
-              size="large"
-            >
-              WhatsApp Consultation
-            </Button>
-
+          <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
+            ✓ Faster Recovery Focus
           </div>
 
         </div>
 
-        {/* Right Form */}
-        <div className="bg-slate-50 p-6 md:p-10">
+        <div className="mt-5 flex flex-wrap gap-3">
 
-          <div className="rounded-3xl bg-white p-6 shadow-xl">
+          <Button
+            href={telHref(primaryPhone)}
+            variant="primary"
+            size="large"
+            className="bg-cta-orange px-5 py-3 text-sm hover:bg-cta-orange/90"
+          >
+            Call Now
+          </Button>
 
-            <div className="mb-6 text-center">
+          <Button
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            variant="secondary"
+            size="large"
+            className="px-5 py-3 text-sm"
+          >
+            WhatsApp
+          </Button>
 
-              <h3 className="text-2xl font-bold text-dark-navy">
-                Book Your Consultation
-              </h3>
+        </div>
 
-              <p className="mt-2 text-slate-600">
-                Fill in your details and our team will contact you shortly.
-              </p>
+      </div>
 
-            </div>
+      {/* Form */}
+      <div className="bg-slate-50 p-5 md:p-6">
 
-            <LeadForm
-              compact={false}
-              buttonLabel="Request Callback"
-            />
+        <div className="rounded-2xl bg-white p-5 shadow-md">
 
-            <div className="mt-5 text-center text-sm text-slate-500">
-              Your information remains secure and confidential.
-            </div>
+          <h3 className="mb-1 text-lg font-semibold text-dark-navy">
+            Book Consultation
+          </h3>
 
-          </div>
+          <p className="mb-4 text-xs text-slate-500">
+            Our team will call you shortly.
+          </p>
+
+          <LeadForm
+            compact
+            buttonLabel="Request Callback"
+          />
 
         </div>
 
