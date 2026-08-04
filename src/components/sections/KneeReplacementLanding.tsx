@@ -559,28 +559,134 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
 
 
 
-      <section className="bg-dark-navy py-8 text-white md:py-12">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_0.8fr] lg:px-8">
-          <div className="flex flex-col justify-center">
-            <p className="mb-3 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-medical-blue">Still Living with Knee Pain?</p>
-            <h2 className="max-w-2xl text-[28px] leading-tight sm:text-[34px] lg:text-[40px]">
-              Speak with Dr. Manu Gautam today and understand your treatment options.
-            </h2>
-            <p className="mt-4 max-w-xl text-white/80">A consultation can help clarify whether your symptoms point to arthritis, joint degeneration, or the need for joint replacement care.</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Button href={telHref(primaryPhone)} variant="primary" size="large" className="bg-cta-orange hover:bg-cta-orange/90">
-                Call Now
-              </Button>
-              <Button href={whatsappUrl} target="_blank" rel="noreferrer" variant="secondary" size="large" className="border-white/30 bg-white/10 text-white hover:bg-white/20">
-                WhatsApp Consultation
-              </Button>
+<section className="bg-gradient-to-br from-dark-navy via-dark-navy to-slate-900 py-12 md:py-20">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <div className="overflow-hidden rounded-[32px] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
+
+      <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
+
+        {/* Left Content */}
+        <div className="p-8 md:p-12 lg:p-16">
+
+          <span className="inline-flex rounded-full bg-medical-blue/10 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Knee Replacement Specialist
+          </span>
+
+          <h2 className="mt-6 text-3xl font-bold leading-tight text-dark-navy md:text-5xl">
+            Still Living With
+            <span className="block text-medical-blue">
+              Knee Pain?
+            </span>
+          </h2>
+
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
+            Consult Dr. Manu Gautam and understand the real cause of your knee
+            pain. Get expert guidance on arthritis treatment, advanced knee
+            preservation techniques, and knee replacement options.
+          </p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+
+            <div className="rounded-2xl border border-slate-200 p-4">
+              <h3 className="font-semibold text-dark-navy">
+                ✓ Expert Assessment
+              </h3>
+              <p className="mt-2 text-sm text-slate-600">
+                Detailed evaluation of arthritis and joint damage.
+              </p>
             </div>
+
+            <div className="rounded-2xl border border-slate-200 p-4">
+              <h3 className="font-semibold text-dark-navy">
+                ✓ Personalized Treatment
+              </h3>
+              <p className="mt-2 text-sm text-slate-600">
+                Surgery is recommended only when genuinely required.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 p-4">
+              <h3 className="font-semibold text-dark-navy">
+                ✓ Advanced Knee Care
+              </h3>
+              <p className="mt-2 text-sm text-slate-600">
+                Modern treatment protocols for better recovery.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 p-4">
+              <h3 className="font-semibold text-dark-navy">
+                ✓ Faster Recovery
+              </h3>
+              <p className="mt-2 text-sm text-slate-600">
+                Focus on mobility, comfort, and long-term outcomes.
+              </p>
+            </div>
+
           </div>
-          <div id="lead-form" className="rounded-[28px] border border-white/10 bg-white/10 p-5 shadow-elevation-3 backdrop-blur-sm">
-            <LeadForm compact buttonLabel="Request Callback" />
+
+          <div className="mt-8 flex flex-wrap gap-4">
+
+            <Button
+              href={telHref(primaryPhone)}
+              variant="primary"
+              size="large"
+              className="bg-cta-orange hover:bg-cta-orange/90"
+            >
+              Call Now
+            </Button>
+
+            <Button
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              variant="secondary"
+              size="large"
+            >
+              WhatsApp Consultation
+            </Button>
+
           </div>
+
         </div>
-      </section>
+
+        {/* Right Form */}
+        <div className="bg-slate-50 p-6 md:p-10">
+
+          <div className="rounded-3xl bg-white p-6 shadow-xl">
+
+            <div className="mb-6 text-center">
+
+              <h3 className="text-2xl font-bold text-dark-navy">
+                Book Your Consultation
+              </h3>
+
+              <p className="mt-2 text-slate-600">
+                Fill in your details and our team will contact you shortly.
+              </p>
+
+            </div>
+
+            <LeadForm
+              compact={false}
+              buttonLabel="Request Callback"
+            />
+
+            <div className="mt-5 text-center text-sm text-slate-500">
+              Your information remains secure and confidential.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
       <Section background="light">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
