@@ -321,13 +321,13 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
   return (
     <>
       <div className="sticky top-0 z-40 border-b border-light-grey bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <div>
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="min-w-0 overflow-hidden">
             <p className="font-heading text-sm font-semibold text-medical-blue">Knee Replacement Specialist</p>
-            <p className="text-sm text-dark-gray">Consult Dr. Manu Gautam</p>
+            <p className="truncate text-sm text-dark-gray">Consult Dr. Manu Gautam</p>
           </div>
-          <div className="flex items-center justify-end gap-2">
-            <Button href={telHref(primaryPhone)} variant="primary" size="small" className="bg-medical-blue hover:bg-medical-blue/90">
+          <div className="flex shrink-0 items-center justify-end gap-2">
+            <Button href={telHref(primaryPhone)} variant="primary" size="small" className="bg-medical-blue hover:bg-medical-blue/90 whitespace-nowrap">
               Call Now
             </Button>
             <div className="hidden sm:flex flex-wrap items-center gap-2">
@@ -354,24 +354,24 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               Consult Dr. Manu Gautam for advanced robotic and minimally invasive knee replacement solutions that are designed to reduce pain, restore mobility, and improve quality of life.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <BookAppointmentButton size="large" className="bg-cta-orange hover:bg-cta-orange/90">
+              <BookAppointmentButton size="large" className="min-w-0 whitespace-nowrap bg-cta-orange hover:bg-cta-orange/90 text-sm">
                 Book Consultation
               </BookAppointmentButton>
-              <Button href="#lead-form" variant="secondary" size="large">
+              <Button href="#lead-form" variant="secondary" size="large" className="min-w-0 whitespace-nowrap text-sm">
                 Request Callback
               </Button>
             </div>
-            <div className="mt-8 grid grid-cols-3 gap-4 rounded-3xl border border-light-grey bg-white p-5 shadow-elevation-2">
-              <div className="min-w-0">
-                <p className="font-heading text-2xl font-bold text-dark-navy">15+ yrs</p>
+            <div className="mt-4 grid grid-cols-3 gap-3 rounded-3xl border border-light-grey bg-white p-4 shadow-elevation-2">
+              <div className="min-w-0 text-center sm:text-left">
+                <p className="font-heading text-xl font-bold text-dark-navy">15+ yrs</p>
                 <p className="text-sm text-dark-gray">Experience</p>
               </div>
-              <div className="min-w-0">
-                <p className="font-heading text-2xl font-bold text-dark-navy">2,500+</p>
+              <div className="min-w-0 text-center sm:text-left">
+                <p className="font-heading text-xl font-bold text-dark-navy">2,500+</p>
                 <p className="text-sm text-dark-gray">Procedures</p>
               </div>
-              <div className="min-w-0">
-                <p className="font-heading text-2xl font-bold text-dark-navy">370+</p>
+              <div className="min-w-0 text-center sm:text-left">
+                <p className="font-heading text-xl font-bold text-dark-navy">370+</p>
                 <p className="text-sm text-dark-gray">Google Reviews</p>
               </div>
             </div>
@@ -432,7 +432,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
           <div className="rounded-3xl border border-light-grey bg-dark-navy p-8 text-white shadow-elevation-2">
             <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-medical-blue">Outcome Metrics</p>
             <h3 className="mt-3 text-2xl font-semibold">Improved mobility and confidence after focused treatment</h3>
-            <div className="mt-4 grid grid-cols-2 gap-4">
+            <div className="mt-2 grid grid-cols-2 gap-3">
               <Counter value={2500} label="Successful Procedures" />
               <Counter value={98} label="Happy Patients" />
               <Counter value={15} label="Years Experience" />
@@ -694,11 +694,11 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </Reveal>
         <div className="grid gap-4 grid-cols-3 xl:grid-cols-6">
           {timeline.map((step, index) => (
-            <div key={step} className="rounded-2xl border border-light-grey bg-light-blue p-5 text-center">
+            <div key={step} className="rounded-2xl border border-light-grey bg-light-blue p-5 text-center overflow-hidden">
               <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-medical-blue text-sm font-semibold text-white">
                 {index + 1}
               </div>
-              <h3 className="text-lg font-semibold text-dark-navy">{step}</h3>
+              <h3 className="text-lg font-semibold text-dark-navy truncate">{step}</h3>
             </div>
           ))}
         </div>
@@ -748,7 +748,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
       <button
         type="button"
         onClick={() => setIsFloatingOpen(true)}
-        className="fixed bottom-24 right-4 z-50 flex items-center gap-2 rounded-full bg-medical-blue px-4 py-3 text-sm font-semibold text-white shadow-elevation-3 transition hover:bg-medical-blue/90 sm:bottom-6 sm:right-6"
+        className="fixed bottom-44 right-4 z-50 flex items-center gap-2 rounded-full bg-medical-blue px-4 py-3 text-sm font-semibold text-white shadow-elevation-3 transition hover:bg-medical-blue/90 sm:bottom-6 sm:right-6"
       >
         <MessageCircle className="h-5 w-5" />
         Book a Call

@@ -9,7 +9,7 @@ const whatsappNumber = siteConfig.phone.replace(/[^\d]/g, "");
 /** Sticky WhatsApp shortcut — the Contact tab in the bottom nav already covers calling. */
 export function FloatingActions() {
   return (
-    <div className="fixed bottom-24 right-5 z-40 flex flex-col gap-3 md:hidden">
+    <div className="fixed bottom-28 right-5 z-50 flex flex-col gap-3 md:hidden">
       <motion.a
         href={`https://wa.me/${whatsappNumber}`}
         target="_blank"
