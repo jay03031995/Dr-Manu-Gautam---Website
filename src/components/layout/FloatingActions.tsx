@@ -3,13 +3,17 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
+import { usePathname } from "next/navigation";
 
 const whatsappNumber = siteConfig.phone.replace(/[^\d]/g, "");
 
 /** Sticky WhatsApp shortcut — the Contact tab in the bottom nav already covers calling. */
 export function FloatingActions() {
+  const pathname = usePathname();
+  const isKneeLanding = Boolean(pathname && (pathname.includes("knee") && pathname.includes("replacement"))) || pathname === "/best-doctor-of-knee-replacement-in-noida";
+
   return (
-    <div className="fixed bottom-28 right-5 z-50 flex flex-col gap-3 md:hidden">
+    <div className={`fixed bottom-28 right-5 z-50 flex flex-col gap-3 ${isKneeLanding ? "" : "md:hidden"}`}>
       <motion.a
         href={`https://wa.me/${whatsappNumber}`}
         target="_blank"

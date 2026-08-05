@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MapPin, Mail, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/ui/SocialIcons";
@@ -11,6 +14,8 @@ interface SiteFooterProps {
 }
 
 export function SiteFooter({ logoUrl }: SiteFooterProps) {
+  const pathname = usePathname();
+  const isKneeLanding = Boolean(pathname && (pathname.includes("knee") && pathname.includes("replacement"))) || pathname === "/best-doctor-of-knee-replacement-in-noida";
   const year = new Date().getFullYear();
 
   return (
@@ -48,7 +53,7 @@ export function SiteFooter({ logoUrl }: SiteFooterProps) {
             <ul className="flex flex-col gap-2">
               {footerLinks.treatments.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-white/80 hover:text-white">
+                  <Link href={isKneeLanding && link.href.startsWith("/") ? "#" : link.href} className="text-sm text-white/80 hover:text-white">
                     {link.label}
                   </Link>
                 </li>
@@ -63,7 +68,7 @@ export function SiteFooter({ logoUrl }: SiteFooterProps) {
             <ul className="flex flex-col gap-2">
               {footerLinks.practice.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-white/80 hover:text-white">
+                  <Link href={isKneeLanding && link.href.startsWith("/") ? "#" : link.href} className="text-sm text-white/80 hover:text-white">
                     {link.label}
                   </Link>
                 </li>

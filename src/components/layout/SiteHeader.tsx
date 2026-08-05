@@ -33,6 +33,7 @@ export function SiteHeader({ logoUrl, treatments, locations }: SiteHeaderProps) 
   });
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const isKneeLanding = Boolean(pathname && (pathname.includes("knee") && pathname.includes("replacement"))) || pathname === "/best-doctor-of-knee-replacement-in-noida";
 
   return (
     <motion.header
@@ -43,7 +44,7 @@ export function SiteHeader({ logoUrl, treatments, locations }: SiteHeaderProps) 
     >
       <Container className="grid h-16 grid-cols-[auto_1fr_auto] items-center gap-4 md:h-[4.5rem]">
         {/* Left: logo */}
-        <Link href="/" aria-label="Go to homepage" className="flex shrink-0 items-center font-heading text-lg font-bold text-dark-navy md:mr-4 md:text-xl">
+        <Link href={isKneeLanding ? "#" : "/"} aria-label="Go to homepage" className="flex shrink-0 items-center font-heading text-lg font-bold text-dark-navy md:mr-4 md:text-xl">
           {logoUrl ? (
             <span className="relative block h-9 w-32 md:h-10 md:w-36">
               <Image
@@ -71,7 +72,7 @@ export function SiteHeader({ logoUrl, treatments, locations }: SiteHeaderProps) 
                   <ClinicsMegaMenu locations={locations} />
                 ) : (
                   <Link
-                    href={link.href}
+                    href={isKneeLanding && link.href.startsWith("/") ? "#" : link.href}
                     aria-current={isActive(link.href) ? "page" : undefined}
                     className={cn(
                       "rounded-sm text-sm font-medium hover:text-medical-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue focus-visible:ring-offset-2",
