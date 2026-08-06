@@ -298,6 +298,13 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
   const primaryPhone = siteConfig.phone;
   const whatsappUrl = `https://wa.me/${primaryPhone.replace(/\D/g, "")}`;
   const doctorCredentials = doctor?.credentials ?? "MBBS, MS (Orthopaedics)";
+  const sectionLinks = [
+    { label: "Specializations", id: "specializations" },
+    { label: "Process", id: "process" },
+    { label: "Results", id: "results" },
+    { label: "FAQ", id: "faq" },
+    { label: "Contact", id: "contact" },
+  ];
   const faqItems = useMemo(() => {
     const baseFaqs = [
       { question: "How long does knee replacement recovery take?", answer: "Most patients begin walking with support within a day or two after surgery and continue progressive rehabilitation over several weeks. Full functional recovery varies by patient and procedure." },
@@ -321,18 +328,36 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
   return (
     <>
       <div className="sticky top-0 z-40 border-b border-light-grey bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-          <div className="min-w-0 overflow-hidden">
-            <p className="font-heading text-sm font-semibold text-medical-blue">Knee Replacement Specialist</p>
-            <p className="truncate text-sm text-dark-gray">Consult Dr. Manu Gautam</p>
+<div className="mx-auto flex flex-wrap items-center justify-between gap-4 lg:gap-16 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="flex min-w-0 items-center gap-3">
+            <Image src={siteConfig.logo} alt="Dr. Manu Gautam logo" width={100} height={100} className="h-auto w-auto object-contain" />
+            <div className="min-w-0">
+              <p className="font-heading text-sm font-semibold text-medical-blue">Knee Replacement Specialist</p>
+              <p className="truncate text-sm text-dark-gray">Consult Dr. Manu Gautam</p>
+            </div>
           </div>
-          <div className="flex shrink-0 items-center justify-end gap-2">
+
+          <nav aria-label="Knee landing navigation" className="order-3 min-w-0 flex flex-1 overflow-x-auto whitespace-nowrap px-1 text-sm sm:order-2 sm:px-0">
+            <div className="flex items-center gap-6 text-sm md:gap-8">
+              {sectionLinks.map((link) => (
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  className="inline-flex shrink-0 items-center text-sm font-medium text-dark-navy transition hover:text-medical-blue"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+
+          <div className="order-2 flex shrink-0 items-center gap-2 sm:order-3">
             <Button href={telHref(primaryPhone)} variant="primary" size="small" className="bg-medical-blue hover:bg-medical-blue/90 whitespace-nowrap">
               Call Now
             </Button>
-            <div className="hidden sm:flex flex-wrap items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <BookAppointmentButton size="small" variant="secondary">Book Appointment</BookAppointmentButton>
-              <Button href={whatsappUrl} target="_blank" rel="noreferrer" variant="secondary" size="small">
+              <Button href={whatsappUrl} target="_blank" rel="noreferrer" variant="secondary" size="small" className="whitespace-nowrap">
                 WhatsApp
               </Button>
             </div>
@@ -398,7 +423,21 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </section>
 
-    <Section background="light">
+      <section className="bg-white border-b border-light-grey py-4">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-2 px-4 sm:px-6 md:gap-4">
+          {sectionLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              className="inline-flex items-center rounded-full border border-light-grey bg-white px-4 py-2 text-sm font-medium text-dark-navy shadow-sm transition hover:border-medical-blue hover:bg-medical-blue/10"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </section>
+
+    <Section background="light" id="recovery">
         <Reveal className="mb-8 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Recovery Stories</p>
           <h2>Before & after recovery support</h2>
@@ -442,7 +481,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
     </Section>
 
-    <Section background="white">
+    <Section background="white" id="testimonials">
         <Reveal className="mb-8 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Real Patient Experiences</p>
           <h2>Premium video testimonials from patients who chose knee care</h2>
@@ -497,7 +536,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
       </Section>
 
 
-      <Section background="light">
+      <Section background="light" id="about">
         <Reveal className="mb-10 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Start Here</p>
           <h2 className="mb-3">What Are You Experiencing?</h2>
@@ -521,7 +560,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
       </Section>
 
 
-      <Section background="light">
+      <Section background="light" id="specializations" className="scroll-mt-24">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
           <Reveal className="rounded-[32px] border border-light-grey bg-white p-6 shadow-elevation-2 sm:p-8">
             <p className="mb-3 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Doctor Profile</p>
@@ -561,7 +600,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
 
 
 
-<section className="bg-dark-navy py-10">
+<section className="bg-dark-navy py-10 scroll-mt-24" id="contact">
   <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
     <div className="grid overflow-hidden rounded-3xl bg-white shadow-xl lg:grid-cols-[1.3fr_0.7fr]">
@@ -687,7 +726,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </Section>
 
-      <Section background="white">
+      <Section background="white" id="process" className="scroll-mt-24">
         <Reveal className="mb-8 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Treatment Journey</p>
           <h2>Your path from pain to recovery</h2>
@@ -704,7 +743,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </Section>
 
-      <Section background="white">
+      <Section background="white" id="results" className="scroll-mt-24">
         <Reveal className="mb-8 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Patient Reviews</p>
           <h2>A premium Google review wall built for trust and conversion</h2>
@@ -728,7 +767,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </Section>
 
-      <Section background="white">
+      <Section background="white" id="faq" className="scroll-mt-24">
         <Reveal className="mb-8 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Frequently Asked Questions</p>
           <h2>Clear answers for patients exploring knee replacement</h2>

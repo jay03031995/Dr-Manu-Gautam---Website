@@ -35,6 +35,10 @@ export function SiteHeader({ logoUrl, treatments, locations }: SiteHeaderProps) 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
   const isKneeLanding = Boolean(pathname && (pathname.includes("knee") && pathname.includes("replacement"))) || pathname === "/best-doctor-of-knee-replacement-in-noida";
 
+  if (isKneeLanding) {
+    return null;
+  }
+
   return (
     <motion.header
       className={cn(
