@@ -302,6 +302,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
     { label: "Specializations", id: "specializations" },
     { label: "Process", id: "process" },
     { label: "Results", id: "results" },
+    { label: "Testimonials", id: "testimonials" },
     { label: "FAQ", id: "faq" },
     { label: "Contact", id: "contact" },
   ];
@@ -423,19 +424,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </section>
 
-      <section className="bg-white border-b border-light-grey py-4">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-2 px-4 sm:px-6 md:gap-4">
-          {sectionLinks.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
-              className="inline-flex items-center rounded-full border border-light-grey bg-white px-4 py-2 text-sm font-medium text-dark-navy shadow-sm transition hover:border-medical-blue hover:bg-medical-blue/10"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      </section>
+
 
     <Section background="light" id="recovery">
         <Reveal className="mb-8 text-center">
