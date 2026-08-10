@@ -81,6 +81,7 @@ export function buildWebsiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${siteConfig.url}/#website`,
     name: siteConfig.name,
     alternateName: siteConfig.shortName,
     url: siteConfig.url,
@@ -91,6 +92,11 @@ export function buildWebsiteSchema() {
       url: siteConfig.url,
       logo: absoluteUrl(siteConfig.logo),
     },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteConfig.url}/?s={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
@@ -99,6 +105,7 @@ export function buildLocalBusinessSchema() {
   return {
     "@context": "https://schema.org",
     "@type": ["MedicalOrganization", "LocalBusiness"],
+    "@id": `${siteConfig.url}/#medical-practice`,
     name: siteConfig.name,
     url: siteConfig.url,
     logo: absoluteUrl(siteConfig.logo),
@@ -116,6 +123,13 @@ export function buildLocalBusinessSchema() {
     areaServed: siteConfig.serviceAreas.map((name) => ({ "@type": "City", name })),
     medicalSpecialty: "Orthopedic",
     priceRange: "$$",
+    openingHoursSpecification: siteConfig.openingHours.map((hours) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: hours.days,
+      opens: hours.opens,
+      closes: hours.closes,
+    })),
+    hasMap: siteConfig.googleMapsUrl,
     sameAs: Object.values(siteConfig.social),
   };
 }
@@ -149,6 +163,7 @@ export function buildPhysicianSchema(name: string, image?: string, options?: Phy
       "@type": "MedicalOrganization",
       name: siteConfig.name,
       url: siteConfig.url,
+      "@id": `${siteConfig.url}/#medical-practice`,
     },
     alumniOf: options?.education?.map((school) => ({ "@type": "EducationalOrganization", name: school })),
     memberOf: options?.memberships?.map((org) => ({ "@type": "Organization", name: org })),
@@ -248,6 +263,12 @@ export function buildWebPageSchema(options: { name: string; description: string;
       "@type": "WebSite",
       name: siteConfig.name,
       url: siteConfig.url,
+      "@id": `${siteConfig.url}/#website`,
+    },
+    publisher: {
+      "@type": "MedicalOrganization",
+      name: siteConfig.name,
+      "@id": `${siteConfig.url}/#medical-practice`,
     },
   };
 }

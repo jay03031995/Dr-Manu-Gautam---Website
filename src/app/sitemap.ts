@@ -21,6 +21,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteConfig.url}/contact/`, lastModified, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteConfig.url}/appointment/`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteConfig.url}/blog/`, lastModified, changeFrequency: "weekly", priority: 0.7 },
+    {
+      url: `${siteConfig.url}/best-doctor-of-knee-replacement-in-noida/`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
   ];
 
   const blogRoutes: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({

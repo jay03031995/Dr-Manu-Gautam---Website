@@ -36,8 +36,28 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.shortName, url: siteConfig.url }],
   creator: siteConfig.shortName,
   publisher: siteConfig.shortName,
+  referrer: "origin-when-cross-origin",
   alternates: {
     canonical: siteConfig.url,
+    types: {
+      "text/plain": `${siteConfig.url}/llms.txt`,
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: {
+    telephone: true,
+    address: true,
+    email: true,
   },
   icons: {
     icon: [

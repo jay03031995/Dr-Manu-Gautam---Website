@@ -25,6 +25,15 @@ export const siteConfig = {
   },
   youtubeChannelId: "UCK-nHyg1cxQMziniY81YbJA",
   googleMapsUrl: "https://maps.app.goo.gl/pAApdhFc9P1gd5oY6",
+  openingHours: [
+    { days: "Monday", opens: "10:00", closes: "20:00" },
+    { days: "Tuesday", opens: "10:00", closes: "20:00" },
+    { days: "Wednesday", opens: "10:00", closes: "20:00" },
+    { days: "Thursday", opens: "10:00", closes: "20:00" },
+    { days: "Friday", opens: "10:00", closes: "20:00" },
+    { days: "Saturday", opens: "10:00", closes: "20:00" },
+    { days: "Sunday", opens: "11:00", closes: "13:00" },
+  ],
   googlePlaceSearch: {
     // Used server-side as a Find Place fallback query if GOOGLE_PLACE_ID isn't set.
     query: "Dr Manu Gautam Noida",
