@@ -92,11 +92,6 @@ export function buildWebsiteSchema() {
       url: siteConfig.url,
       logo: absoluteUrl(siteConfig.logo),
     },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteConfig.url}/?s={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
   };
 }
 
@@ -110,7 +105,23 @@ export function buildLocalBusinessSchema() {
     url: siteConfig.url,
     logo: absoluteUrl(siteConfig.logo),
     image: absoluteUrl(siteConfig.ogImage),
-    telephone: siteConfig.phone,
+    telephone: [siteConfig.phone, siteConfig.emergencyPhone],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: siteConfig.phone,
+        contactType: "appointments",
+        areaServed: "IN",
+        availableLanguage: ["en", "hi"],
+      },
+      {
+        "@type": "ContactPoint",
+        telephone: siteConfig.emergencyPhone,
+        contactType: "emergency",
+        areaServed: "IN",
+        availableLanguage: ["en", "hi"],
+      },
+    ],
     email: siteConfig.email,
     address: {
       "@type": "PostalAddress",

@@ -38,7 +38,6 @@ export const metadata: Metadata = {
   publisher: siteConfig.shortName,
   referrer: "origin-when-cross-origin",
   alternates: {
-    canonical: siteConfig.url,
     types: {
       "text/plain": `${siteConfig.url}/llms.txt`,
     },

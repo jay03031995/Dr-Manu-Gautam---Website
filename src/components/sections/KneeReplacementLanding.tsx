@@ -425,7 +425,6 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
       </section>
 
 
-
     <Section background="light" id="recovery">
         <Reveal className="mb-8 text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Recovery Stories</p>
