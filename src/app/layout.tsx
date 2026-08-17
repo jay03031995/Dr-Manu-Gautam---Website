@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import { siteConfig } from "@/lib/constants";
 import "./globals.css";
 
@@ -97,7 +98,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${manrope.variable} ${inter.variable} ${playfair.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16665276342" strategy="afterInteractive" />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-16665276342');
+          `}
+        </Script>
+        {children}
+      </body>
     </html>
   );
 }

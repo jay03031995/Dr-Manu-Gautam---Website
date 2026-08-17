@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { KneeReplacementLanding } from "@/components/sections/KneeReplacementLanding";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -56,15 +55,6 @@ export default async function BestDoctorOfKneeReplacementPage() {
 
   return (
     <>
-      <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16665276342" strategy="afterInteractive" />
-      <Script id="google-ads-tag" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'AW-16665276342');
-        `}
-      </Script>
       <JsonLd data={schemas} />
       <KneeReplacementLanding doctor={doctor} locations={locations} faqs={faqs} />
     </>
