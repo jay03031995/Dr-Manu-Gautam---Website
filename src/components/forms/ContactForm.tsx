@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { LEADS_API_PATH } from "@/lib/utils";
+import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
 import { markLeadSubmitted } from "@/lib/leadStorage";
 
 interface ContactFormProps {
@@ -12,6 +13,7 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ className, source = "contact" }: ContactFormProps) {
+  const router = useRouter();
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -56,6 +58,7 @@ export function ContactForm({ className, source = "contact" }: ContactFormProps)
       markLeadSubmitted();
       setStatus("success");
       form.reset();
+      router.push(THANK_YOU_PATH);
     } catch {
       setError("Something went wrong. Please try again or call us directly.");
       setStatus("error");

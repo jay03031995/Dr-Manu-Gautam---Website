@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, Loader2, ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
-import { LEADS_API_PATH } from "@/lib/utils";
+import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
 import { markLeadSubmitted } from "@/lib/leadStorage";
 import type { Service, Location } from "@/sanity/lib/types";
@@ -53,6 +54,7 @@ function isValidEmail(email: string) {
 }
 
 export function AppointmentForm({ services, locations, source = "appointment", onSuccess, className }: AppointmentFormProps) {
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<FormState>(INITIAL_STATE);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
@@ -89,6 +91,7 @@ export function AppointmentForm({ services, locations, source = "appointment", o
     if (data.company) {
       // Honeypot tripped — silently no-op as if it succeeded.
       setStatus("success");
+      router.push(THANK_YOU_PATH);
       return;
     }
     if (!validateStep(0)) {
@@ -125,6 +128,7 @@ export function AppointmentForm({ services, locations, source = "appointment", o
       markLeadSubmitted();
       setStatus("success");
       onSuccess?.();
+      router.push(THANK_YOU_PATH);
     } catch {
       setSubmitError("Something went wrong. Please try again or call us directly.");
       setStatus("error");

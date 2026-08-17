@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, Clock3, MapPin, MessageCircle, ShieldCheck, Sparkles, Star, Stethoscope, Users, X } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
@@ -12,7 +13,7 @@ import { TextInput } from "@/components/ui/TextInput";
 import { Textarea } from "@/components/ui/Textarea";
 import { ServiceCard } from "@/components/ui/Card";
 import { siteConfig } from "@/lib/constants";
-import { LEADS_API_PATH, cn, telHref } from "@/lib/utils";
+import { LEADS_API_PATH, THANK_YOU_PATH, cn, telHref } from "@/lib/utils";
 import { hasImageAsset, urlForImage } from "@/sanity/lib/image";
 import { trackEvent } from "@/lib/analytics";
 import { ServiceIcon } from "@/lib/serviceIcons";
@@ -167,6 +168,7 @@ function Counter({ value, label }: { value: number; label: string }) {
 }
 
 function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMode = "api" }: { compact?: boolean; buttonLabel?: string; submitMode?: "api" | "whatsapp" }) {
+  const router = useRouter();
   const [data, setData] = useState<FormState>(INITIAL_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -198,6 +200,7 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
         .join("\n");
       window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank", "noopener,noreferrer");
       setStatus("success");
+      router.push(THANK_YOU_PATH);
       return;
     }
 
@@ -225,6 +228,7 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
       }
       trackEvent("knee_landing_form_submit");
       setStatus("success");
+      router.push(THANK_YOU_PATH);
     } catch {
       setSubmitError("Sorry, we could not submit your request. Please call us directly.");
       setStatus("error");

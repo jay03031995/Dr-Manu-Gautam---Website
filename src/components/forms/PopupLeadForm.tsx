@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { Select } from "@/components/ui/Select";
-import { LEADS_API_PATH } from "@/lib/utils";
+import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
 import { markLeadSubmitted, hasSubmittedLead, hasPopupShownThisSession, markPopupShown } from "@/lib/leadStorage";
 import type { Service } from "@/sanity/lib/types";
@@ -22,6 +23,7 @@ function isValidPhone(phone: string) {
 }
 
 export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
+  const router = useRouter();
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -49,6 +51,7 @@ export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
     e.preventDefault();
     if (company) {
       setStatus("success");
+      router.push(THANK_YOU_PATH);
       return;
     }
 
@@ -81,6 +84,7 @@ export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
       trackEvent("popup_lead_form_submit");
       markLeadSubmitted();
       setStatus("success");
+      router.push(THANK_YOU_PATH);
     } catch {
       setSubmitError("Something went wrong. Please try again or call us directly.");
       setStatus("error");

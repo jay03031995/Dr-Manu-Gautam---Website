@@ -25,6 +25,9 @@ export function locationPath(slug: string) {
  *  /orthopaedic-surgeon/delhi-ncr/ path as treatments for SEO consistency. */
 export const DOCTOR_PROFILE_PATH = "/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/";
 
+/** Confirmation page shown after a successful lead form submission. */
+export const THANK_YOU_PATH = "/thank-you/";
+
 /** The site runs with trailingSlash:true, which also redirects API routes —
  *  fetch calls must hit this exact (slash-terminated) path to avoid an extra
  *  redirect hop. Reuse this constant rather than typing the URL by hand. */
