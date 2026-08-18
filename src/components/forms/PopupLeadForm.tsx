@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { Select } from "@/components/ui/Select";
 import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
-import { trackEvent } from "@/lib/analytics";
+import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackEvent } from "@/lib/analytics";
 import { markLeadSubmitted, hasSubmittedLead, hasPopupShownThisSession, markPopupShown } from "@/lib/leadStorage";
 import type { Service } from "@/sanity/lib/types";
 
@@ -22,14 +22,19 @@ function isValidPhone(phone: string) {
   return /^[+\d][\d\s-]{6,}$/.test(phone.trim());
 }
 
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
 export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [serviceSlug, setServiceSlug] = useState("");
   const [company, setCompany] = useState(""); // honeypot
-  const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -55,8 +60,9 @@ export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
       return;
     }
 
-    const nextErrors: { name?: string; phone?: string } = {};
+    const nextErrors: { name?: string; email?: string; phone?: string } = {};
     if (name.trim().length < 2) nextErrors.name = "Please enter your full name.";
+    if (!isValidEmail(email)) nextErrors.email = "Please enter a valid email address.";
     if (!isValidPhone(phone)) nextErrors.phone = "Please enter a valid mobile number.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
@@ -69,6 +75,7 @@ export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
+          email: normalizeEmailForAnalytics(email),
           phone: phone.trim(),
           serviceSlug: serviceSlug || undefined,
           company,
@@ -81,7 +88,12 @@ export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
         setStatus("error");
         return;
       }
-      trackEvent("popup_lead_form_submit");
+      trackEvent("knee_landing_form_submit", {
+        form_location: "popup",
+        lead_id: typeof json.leadId === "string" ? json.leadId : undefined,
+        email: normalizeEmailForAnalytics(email),
+        phone: normalizePhoneForAnalytics(phone),
+      });
       markLeadSubmitted();
       setStatus("success");
       router.push(THANK_YOU_PATH);
@@ -156,6 +168,18 @@ export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
                 }}
                 error={errors.name}
                 autoComplete="name"
+              />
+              <TextInput
+                label="Email Address"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErrors((prev) => ({ ...prev, email: undefined }));
+                }}
+                error={errors.email}
+                autoComplete="email"
               />
               <TextInput
                 label="Mobile Number"

@@ -81,11 +81,11 @@ export async function POST(request: Request) {
       if (service) doc.service = { _type: "reference", _ref: service._id };
     }
 
-    await writeClient.create(doc);
+    const createdLead = await writeClient.create(doc);
 
     await sendNotificationEmail({ name, phone, email: body.email, message: doc.message as string | undefined });
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, leadId: createdLead._id });
   } catch (err) {
     console.error("Lead submission failed:", err);
     return NextResponse.json(

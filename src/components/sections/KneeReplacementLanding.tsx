@@ -15,7 +15,7 @@ import { ServiceCard } from "@/components/ui/Card";
 import { siteConfig } from "@/lib/constants";
 import { LEADS_API_PATH, THANK_YOU_PATH, cn, telHref } from "@/lib/utils";
 import { hasImageAsset, urlForImage } from "@/sanity/lib/image";
-import { trackEvent } from "@/lib/analytics";
+import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackEvent } from "@/lib/analytics";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import type { Doctor, Faq, Location } from "@/sanity/lib/types";
 
@@ -27,6 +27,7 @@ interface KneeReplacementLandingProps {
 
 interface FormState {
   name: string;
+  email: string;
   phone: string;
   city: string;
   message: string;
@@ -35,6 +36,7 @@ interface FormState {
 
 const INITIAL_FORM: FormState = {
   name: "",
+  email: "",
   phone: "",
   city: "",
   message: "",
@@ -139,6 +141,10 @@ function isValidPhone(phone: string) {
   return /^[+\d][\d\s-]{6,}$/.test(phone.trim());
 }
 
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
 function Counter({ value, label }: { value: number; label: string }) {
   const [display, setDisplay] = useState(0);
 
@@ -183,6 +189,7 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
     e.preventDefault();
     const nextErrors: Partial<Record<keyof FormState, string>> = {};
     if (!data.name.trim()) nextErrors.name = "Please enter your name.";
+    if (!isValidEmail(data.email)) nextErrors.email = "Please enter a valid email address.";
     if (!isValidPhone(data.phone)) nextErrors.phone = "Please enter a valid phone number.";
     if (!data.city.trim()) nextErrors.city = "Please share your city.";
     setErrors(nextErrors);
@@ -213,6 +220,7 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: data.name.trim(),
+          email: normalizeEmailForAnalytics(data.email),
           phone: data.phone.trim(),
           city: data.city.trim(),
           message: data.message.trim() || undefined,
@@ -226,7 +234,12 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
         setStatus("error");
         return;
       }
-      trackEvent("knee_landing_form_submit");
+      trackEvent("knee_landing_form_submit", {
+        form_location: "landing_page",
+        lead_id: typeof json.leadId === "string" ? json.leadId : undefined,
+        email: normalizeEmailForAnalytics(data.email),
+        phone: normalizePhoneForAnalytics(data.phone),
+      });
       setStatus("success");
       router.push(THANK_YOU_PATH);
     } catch {
@@ -248,6 +261,7 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
   return (
     <form onSubmit={handleSubmit} noValidate className={cn("space-y-3", compact ? "space-y-2" : "space-y-4")}> 
       <TextInput label="Full Name" required value={data.name} onChange={(e) => update("name", e.target.value)} error={errors.name} />
+      <TextInput label="Email Address" type="email" required value={data.email} onChange={(e) => update("email", e.target.value)} error={errors.email} autoComplete="email" />
       <TextInput label="Phone Number" type="tel" required value={data.phone} onChange={(e) => update("phone", e.target.value)} error={errors.phone} />
       <TextInput label="City" required value={data.city} onChange={(e) => update("city", e.target.value)} error={errors.city} />
       <Textarea label="Tell us about your knee pain" rows={3} value={data.message} onChange={(e) => update("message", e.target.value)} placeholder="Mention pain, stiffness, swelling, or walking difficulty." />
@@ -357,12 +371,26 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
           </nav>
 
           <div className="order-2 flex shrink-0 items-center gap-2 sm:order-3">
-            <Button href={telHref(primaryPhone)} variant="primary" size="small" className="bg-medical-blue hover:bg-medical-blue/90 whitespace-nowrap">
+            <Button
+              href={telHref(primaryPhone)}
+              variant="primary"
+              size="small"
+              onClick={() => trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "sticky_nav" })}
+              className="bg-medical-blue hover:bg-medical-blue/90 whitespace-nowrap"
+            >
               Call Now
             </Button>
             <div className="hidden md:flex items-center gap-2">
               <BookAppointmentButton size="small" variant="secondary">Book Appointment</BookAppointmentButton>
-              <Button href={whatsappUrl} target="_blank" rel="noreferrer" variant="secondary" size="small" className="whitespace-nowrap">
+              <Button
+                href={whatsappUrl}
+                target="_blank"
+                rel="noreferrer"
+                variant="secondary"
+                size="small"
+                onClick={() => trackEvent("whatsapp_click", { location: "sticky_nav" })}
+                className="whitespace-nowrap"
+              >
                 WhatsApp
               </Button>
             </div>
@@ -639,6 +667,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             href={telHref(primaryPhone)}
             variant="primary"
             size="large"
+            onClick={() => trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "cta_section" })}
             className="bg-cta-orange px-5 py-3 text-sm hover:bg-cta-orange/90"
           >
             Call Now
@@ -650,6 +679,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             rel="noreferrer"
             variant="secondary"
             size="large"
+            onClick={() => trackEvent("whatsapp_click", { location: "cta_section" })}
             className="px-5 py-3 text-sm"
           >
             WhatsApp
