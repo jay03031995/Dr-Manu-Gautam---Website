@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
-import GoogleAdsTracking from "@/components/GoogleAdsTracking";
 import { siteConfig } from "@/lib/constants";
 import "./globals.css";
 
@@ -100,6 +99,36 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${manrope.variable} ${inter.variable} ${playfair.variable}`}>
       <head>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16665276342"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-16665276342');
+          `}
+        </Script>
+        <Script id="google-ads-submit-lead-conversion" strategy="afterInteractive">
+          {`
+            function gtag_report_conversion(url) {
+              var callback = function () {
+                if (typeof(url) != 'undefined') {
+                  window.location = url;
+                }
+              };
+              gtag('event', 'conversion', {
+                  'send_to': 'AW-16665276342/Qny7CMj6leIcELbfz4o-',
+                  'event_callback': callback
+              });
+              return false;
+            }
+          `}
+        </Script>
         <Script id="data-layer-init" strategy="beforeInteractive">
           {`window.dataLayer = window.dataLayer || [];`}
         </Script>
@@ -114,7 +143,6 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="antialiased">
-        <GoogleAdsTracking />
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PT92KW4B"
