@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
+import GoogleAdsTracking from "@/components/GoogleAdsTracking";
 import { siteConfig } from "@/lib/constants";
 import "./globals.css";
 
@@ -113,6 +114,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="antialiased">
+        <GoogleAdsTracking />
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PT92KW4B"
