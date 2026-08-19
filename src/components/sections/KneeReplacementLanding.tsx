@@ -15,7 +15,7 @@ import { ServiceCard } from "@/components/ui/Card";
 import { siteConfig } from "@/lib/constants";
 import { LEADS_API_PATH, THANK_YOU_PATH, cn, telHref } from "@/lib/utils";
 import { hasImageAsset, urlForImage } from "@/sanity/lib/image";
-import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackEvent } from "@/lib/analytics";
+import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackCtaClick, trackEvent, trackGoogleAdsLeadConversion } from "@/lib/analytics";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import type { Doctor, Faq, Location } from "@/sanity/lib/types";
 
@@ -206,6 +206,7 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
         .filter(Boolean)
         .join("\n");
       window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank", "noopener,noreferrer");
+      trackGoogleAdsLeadConversion();
       setStatus("success");
       router.push(THANK_YOU_PATH);
       return;
@@ -240,6 +241,7 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
         email: normalizeEmailForAnalytics(data.email),
         phone: normalizePhoneForAnalytics(data.phone),
       });
+      trackGoogleAdsLeadConversion();
       setStatus("success");
       router.push(THANK_YOU_PATH);
     } catch {
@@ -375,20 +377,26 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               href={telHref(primaryPhone)}
               variant="primary"
               size="small"
-              onClick={() => trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "sticky_nav" })}
+              onClick={() => {
+                trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "sticky_nav" });
+                trackCtaClick("call_now", "sticky_nav");
+              }}
               className="bg-medical-blue hover:bg-medical-blue/90 whitespace-nowrap"
             >
               Call Now
             </Button>
             <div className="hidden md:flex items-center gap-2">
-              <BookAppointmentButton size="small" variant="secondary">Book Appointment</BookAppointmentButton>
+              <BookAppointmentButton size="small" variant="secondary" trackingLocation="sticky_nav">Book Appointment</BookAppointmentButton>
               <Button
                 href={whatsappUrl}
                 target="_blank"
                 rel="noreferrer"
                 variant="secondary"
                 size="small"
-                onClick={() => trackEvent("whatsapp_click", { location: "sticky_nav" })}
+                onClick={() => {
+                  trackEvent("whatsapp_click", { location: "sticky_nav" });
+                  trackCtaClick("whatsapp", "sticky_nav");
+                }}
                 className="whitespace-nowrap"
               >
                 WhatsApp
@@ -412,10 +420,10 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               Consult Dr. Manu Gautam for advanced robotic and minimally invasive knee replacement solutions that are designed to reduce pain, restore mobility, and improve quality of life.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <BookAppointmentButton size="large" className="min-w-0 whitespace-nowrap bg-cta-orange hover:bg-cta-orange/90 text-sm">
+              <BookAppointmentButton size="large" trackingLocation="hero" className="min-w-0 whitespace-nowrap bg-cta-orange hover:bg-cta-orange/90 text-sm">
                 Book Consultation
               </BookAppointmentButton>
-              <Button href="#lead-form" variant="secondary" size="large" className="min-w-0 whitespace-nowrap text-sm">
+              <Button href="#lead-form" variant="secondary" size="large" onClick={() => trackCtaClick("request_callback", "hero")} className="min-w-0 whitespace-nowrap text-sm">
                 Request Callback
               </Button>
             </div>
@@ -572,6 +580,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               title={card.title}
               description={card.description}
               href="#lead-form"
+              onClick={() => trackCtaClick("symptom_card", "symptom_selector")}
               imageUrl={card.imageUrl}
               showExplore={false}
             />
@@ -667,7 +676,10 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             href={telHref(primaryPhone)}
             variant="primary"
             size="large"
-            onClick={() => trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "cta_section" })}
+            onClick={() => {
+              trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "cta_section" });
+              trackCtaClick("call_now", "cta_section");
+            }}
             className="bg-cta-orange px-5 py-3 text-sm hover:bg-cta-orange/90"
           >
             Call Now
@@ -679,7 +691,10 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             rel="noreferrer"
             variant="secondary"
             size="large"
-            onClick={() => trackEvent("whatsapp_click", { location: "cta_section" })}
+            onClick={() => {
+              trackEvent("whatsapp_click", { location: "cta_section" });
+              trackCtaClick("whatsapp", "cta_section");
+            }}
             className="px-5 py-3 text-sm"
           >
             WhatsApp
@@ -808,7 +823,10 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
 
       <button
         type="button"
-        onClick={() => setIsFloatingOpen(true)}
+        onClick={() => {
+          trackCtaClick("book_a_call", "floating_button");
+          setIsFloatingOpen(true);
+        }}
         className="fixed bottom-44 right-4 z-50 flex items-center gap-2 rounded-full bg-medical-blue px-4 py-3 text-sm font-semibold text-white shadow-elevation-3 transition hover:bg-medical-blue/90 sm:bottom-6 sm:right-6"
       >
         <MessageCircle className="h-5 w-5" />

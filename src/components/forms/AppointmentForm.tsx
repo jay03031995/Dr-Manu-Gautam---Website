@@ -8,7 +8,7 @@ import { TextInput } from "@/components/ui/TextInput";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackGoogleAdsLeadConversion } from "@/lib/analytics";
 import { markLeadSubmitted } from "@/lib/leadStorage";
 import type { Service, Location } from "@/sanity/lib/types";
 
@@ -125,6 +125,7 @@ export function AppointmentForm({ services, locations, source = "appointment", o
         return;
       }
       trackEvent("appointment_form_submit", { source });
+      trackGoogleAdsLeadConversion();
       markLeadSubmitted();
       setStatus("success");
       onSuccess?.();

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
-import { trackEvent } from "@/lib/analytics";
+import { trackCtaClick, trackEvent } from "@/lib/analytics";
 import { usePathname } from "next/navigation";
 
 const whatsappNumber = siteConfig.phone.replace(/[^\d]/g, "");
@@ -20,7 +20,10 @@ export function FloatingActions() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
-        onClick={() => trackEvent("whatsapp_click", { location: "floating_pill" })}
+        onClick={() => {
+          trackEvent("whatsapp_click", { location: "floating_pill" });
+          trackCtaClick("whatsapp", "floating_pill");
+        }}
         className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-elevation-3"
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}

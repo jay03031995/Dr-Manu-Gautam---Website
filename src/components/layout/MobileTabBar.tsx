@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Home, Bone, User, Phone, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppointmentModal } from "@/components/forms/AppointmentModalContext";
+import { trackCtaClick } from "@/lib/analytics";
 
 const tabs = [
   { label: "Home", href: "/", icon: Home },
@@ -46,7 +47,10 @@ export function MobileTabBar() {
       })}
       <button
         type="button"
-        onClick={openModal}
+        onClick={() => {
+          trackCtaClick("book_appointment", "mobile_tab_bar");
+          openModal();
+        }}
         className="flex flex-1 flex-col items-center gap-1 py-1 text-[11px] font-medium"
       >
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-cta-orange/90 text-white transition-colors">

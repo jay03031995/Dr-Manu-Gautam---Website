@@ -34,14 +34,16 @@ interface ServiceCardProps {
   imageUrl?: string;
   className?: string;
   showExplore?: boolean;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
 const MotionLink = motion.create(Link);
 
-export function ServiceCard({ icon, title, description, href, imageUrl, className, showExplore = true }: ServiceCardProps) {
+export function ServiceCard({ icon, title, description, href, imageUrl, className, showExplore = true, onClick }: ServiceCardProps) {
   return (
     <MotionLink
       href={href}
+      onClick={onClick}
       className={cn("card-base card-shadow group block overflow-hidden p-0", className)}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}

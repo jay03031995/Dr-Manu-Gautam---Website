@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { Select } from "@/components/ui/Select";
 import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
-import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackEvent } from "@/lib/analytics";
+import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackEvent, trackGoogleAdsLeadConversion } from "@/lib/analytics";
 import { markLeadSubmitted, hasSubmittedLead, hasPopupShownThisSession, markPopupShown } from "@/lib/leadStorage";
 import type { Service } from "@/sanity/lib/types";
 
@@ -94,6 +94,7 @@ export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
         email: normalizeEmailForAnalytics(email),
         phone: normalizePhoneForAnalytics(phone),
       });
+      trackGoogleAdsLeadConversion();
       markLeadSubmitted();
       setStatus("success");
       router.push(THANK_YOU_PATH);

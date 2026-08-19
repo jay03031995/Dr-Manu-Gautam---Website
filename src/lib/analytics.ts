@@ -26,9 +26,25 @@ export function trackEvent(name: string, params?: Record<string, unknown>) {
   if (typeof window === "undefined") return;
   if (Array.isArray(window.dataLayer)) {
     window.dataLayer.push({ event: name, ...params });
-    return;
   }
   if (typeof window.gtag === "function") {
     window.gtag("event", name, params);
   }
+}
+
+/** Records an interaction with a lead CTA without inflating lead conversions. */
+export function trackCtaClick(ctaName: string, location: string) {
+  trackEvent("cta_click", {
+    cta_name: ctaName,
+    cta_location: location,
+    page_path: window.location.pathname,
+  });
+}
+
+/** Fires the configured Google Ads lead conversion after a genuine lead submission. */
+export function trackGoogleAdsLeadConversion() {
+  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+  window.gtag("event", "conversion", {
+    send_to: "AW-16665276342/Qny7CMj6leIcELbfz4o-",
+  });
 }
