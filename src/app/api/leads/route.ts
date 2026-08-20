@@ -90,7 +90,7 @@ export async function POST(request: Request) {
 
     const createdLead = await writeClient.create(doc);
 
-    await sendNotificationEmail({ name, phone, email: body.email, message: doc.message as string | undefined });
+    await sendNotificationEmailWithTimeout({ name, phone, email: body.email, message: doc.message as string | undefined });
 
     return NextResponse.json({ ok: true, leadId: createdLead._id });
   } catch (err) {
@@ -100,6 +100,17 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+}
+
+async function sendNotificationEmailWithTimeout(lead: { name: string; phone: string; email?: string; message?: string }) {
+  const timeout = new Promise<void>((resolve) => {
+    setTimeout(() => {
+      console.warn("Lead notification email timed out — continuing because the lead is saved in Sanity.");
+      resolve();
+    }, 3000);
+  });
+
+  await Promise.race([sendNotificationEmail(lead), timeout]);
 }
 
 async function sendNotificationEmail(lead: { name: string; phone: string; email?: string; message?: string }) {
