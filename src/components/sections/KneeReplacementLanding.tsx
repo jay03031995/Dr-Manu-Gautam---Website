@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { ServiceCard } from "@/components/ui/Card";
 import { siteConfig } from "@/lib/constants";
 import { LEADS_API_PATH, THANK_YOU_PATH, cn, telHref } from "@/lib/utils";
+import { markLeadSubmitted } from "@/lib/leadStorage";
 import { hasImageAsset, urlForImage } from "@/sanity/lib/image";
 import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackCtaClick, trackEvent, trackGoogleAdsLeadConversion } from "@/lib/analytics";
 import { ServiceIcon } from "@/lib/serviceIcons";
@@ -195,39 +196,25 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
-    if (submitMode === "whatsapp") {
-      const whatsappPhone = siteConfig.phone.replace(/\D/g, "");
-      const whatsappMessage = [
-        `Name: ${data.name.trim()}`,
-        `Phone: ${data.phone.trim()}`,
-        `City: ${data.city.trim()}`,
-        data.message.trim() ? `Message: ${data.message.trim()}` : undefined,
-      ]
-        .filter(Boolean)
-        .join("\n");
-      window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank", "noopener,noreferrer");
-      trackGoogleAdsLeadConversion();
-      setStatus("success");
-      router.push(THANK_YOU_PATH);
-      return;
-    }
-
     setStatus("submitting");
     setSubmitError(null);
+
+    const payload = {
+      name: data.name.trim(),
+      email: normalizeEmailForAnalytics(data.email),
+      phone: data.phone.trim(),
+      city: data.city.trim(),
+      message: data.message.trim() || undefined,
+      company: data.company,
+      source: "landing-page",
+      submissionAction: submitMode === "whatsapp" ? "whatsapp_redirect" : "callback_request",
+    };
 
     try {
       const res = await fetch(LEADS_API_PATH, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name.trim(),
-          email: normalizeEmailForAnalytics(data.email),
-          phone: data.phone.trim(),
-          city: data.city.trim(),
-          message: data.message.trim() || undefined,
-          company: data.company,
-          source: "appointment",
-        }),
+        body: JSON.stringify(payload),
       });
       const json = await res.json();
       if (!res.ok || !json.ok) {
@@ -235,12 +222,38 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
         setStatus("error");
         return;
       }
+
+      if (submitMode === "whatsapp") {
+        const whatsappPhone = siteConfig.phone.replace(/\D/g, "");
+        const whatsappMessage = [
+          `Name: ${data.name.trim()}`,
+          `Phone: ${data.phone.trim()}`,
+          `City: ${data.city.trim()}`,
+          data.message.trim() ? `Message: ${data.message.trim()}` : undefined,
+        ]
+          .filter(Boolean)
+          .join("\n");
+        trackEvent("knee_landing_whatsapp_form_submit", {
+          form_location: "floating_landing_form",
+          lead_id: typeof json.leadId === "string" ? json.leadId : undefined,
+          email: normalizeEmailForAnalytics(data.email),
+          phone: normalizePhoneForAnalytics(data.phone),
+        });
+        markLeadSubmitted();
+        trackGoogleAdsLeadConversion();
+        window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank", "noopener,noreferrer");
+        setStatus("success");
+        router.push(THANK_YOU_PATH);
+        return;
+      }
+
       trackEvent("knee_landing_form_submit", {
         form_location: "landing_page",
         lead_id: typeof json.leadId === "string" ? json.leadId : undefined,
         email: normalizeEmailForAnalytics(data.email),
         phone: normalizePhoneForAnalytics(data.phone),
       });
+      markLeadSubmitted();
       trackGoogleAdsLeadConversion();
       setStatus("success");
       router.push(THANK_YOU_PATH);
@@ -272,8 +285,8 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
         <input id="landing-company" value={data.company} onChange={(e) => update("company", e.target.value)} />
       </div>
       {submitError && <p className="text-sm text-red-600">{submitError}</p>}
-      <Button type="submit" className="w-full" variant="primary" size={compact ? "regular" : "large"}>
-        {buttonLabel}
+      <Button type="submit" className="w-full" variant="primary" size={compact ? "regular" : "large"} disabled={status === "submitting"}>
+        {status === "submitting" ? "Submitting..." : buttonLabel}
       </Button>
     </form>
   );

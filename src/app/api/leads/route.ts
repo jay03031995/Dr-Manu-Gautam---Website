@@ -6,12 +6,14 @@ interface LeadPayload {
   name?: string;
   phone?: string;
   email?: string;
+  city?: string;
   message?: string;
   locationSlug?: string;
   serviceSlug?: string;
   consultationType?: "online" | "in-clinic";
   preferredDate?: string;
-  source?: "contact" | "appointment" | "popup";
+  source?: "contact" | "appointment" | "popup" | "landing-page";
+  submissionAction?: "callback_request" | "whatsapp_redirect" | "thank_you_redirect";
   // Honeypot — real users never fill this in; bots usually do.
   company?: string;
 }
@@ -58,11 +60,16 @@ export async function POST(request: Request) {
       status: "new",
     };
     if (body.email) doc.email = body.email.trim();
+    if (body.city) doc.city = body.city.trim();
+    if (body.source) doc.source = body.source;
+    if (body.submissionAction) doc.submissionAction = body.submissionAction;
 
     const messageParts = [body.message?.trim()].filter(Boolean);
     if (body.consultationType) messageParts.push(`Consultation type: ${body.consultationType}`);
     if (body.preferredDate) messageParts.push(`Preferred date: ${body.preferredDate}`);
+    if (body.city) messageParts.push(`City: ${body.city.trim()}`);
     if (body.source) messageParts.push(`Source: ${body.source}`);
+    if (body.submissionAction) messageParts.push(`Submission action: ${body.submissionAction}`);
     if (messageParts.length) doc.message = messageParts.join("\n");
 
     if (body.locationSlug) {

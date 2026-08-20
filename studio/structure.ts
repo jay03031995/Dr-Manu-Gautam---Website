@@ -13,6 +13,16 @@ export const structure: StructureResolver = (S) =>
         .title("Home Page")
         .id("homePage")
         .child(S.document().schemaType("homePage").documentId("homePage")),
+      S.listItem()
+        .title("Landing Page Appointments")
+        .id("landingPageAppointments")
+        .schemaType("appointmentRequest")
+        .child(
+          S.documentTypeList("appointmentRequest")
+            .title("Landing Page Appointments")
+            .filter('_type == "appointmentRequest" && source == "landing-page"')
+            .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
+        ),
       S.divider(),
       ...S.documentTypeListItems().filter((item) => !["siteSettings", "homePage"].includes(item.getId() ?? "")),
     ]);
