@@ -47,10 +47,13 @@ export default defineType({
           { title: "Callback Request", value: "callback_request" },
           { title: "WhatsApp Redirect", value: "whatsapp_redirect" },
           { title: "Thank You Redirect", value: "thank_you_redirect" },
+          { title: "Call Click", value: "call_click" },
         ],
       },
       readOnly: true,
     }),
+    defineField({ name: "callTargetPhone", title: "Call target phone", type: "string", readOnly: true }),
+    defineField({ name: "ctaLocation", title: "CTA location", type: "string", readOnly: true }),
     defineField({
       name: "status",
       title: "Status",
@@ -71,10 +74,10 @@ export default defineType({
     { title: "Newest first", name: "submittedDesc", by: [{ field: "submittedAt", direction: "desc" }] },
   ],
   preview: {
-    select: { title: "name", subtitle: "phone", city: "city", source: "source", status: "status" },
-    prepare: ({ title, subtitle, city, source, status }) => ({
+    select: { title: "name", subtitle: "phone", city: "city", source: "source", action: "submissionAction", status: "status" },
+    prepare: ({ title, subtitle, city, source, action, status }) => ({
       title,
-      subtitle: [subtitle, city, source, status].filter(Boolean).join(" · "),
+      subtitle: [subtitle, city, source, action, status].filter(Boolean).join(" · "),
     }),
   },
 });

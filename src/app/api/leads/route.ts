@@ -13,7 +13,9 @@ interface LeadPayload {
   consultationType?: "online" | "in-clinic";
   preferredDate?: string;
   source?: "contact" | "appointment" | "popup" | "landing-page";
-  submissionAction?: "callback_request" | "whatsapp_redirect" | "thank_you_redirect";
+  submissionAction?: "callback_request" | "whatsapp_redirect" | "thank_you_redirect" | "call_click";
+  callTargetPhone?: string;
+  ctaLocation?: string;
   // Honeypot — real users never fill this in; bots usually do.
   company?: string;
 }
@@ -38,11 +40,12 @@ export async function POST(request: Request) {
 
   const name = body.name?.trim();
   const phone = body.phone?.trim();
+  const isCallClick = body.source === "landing-page" && body.submissionAction === "call_click";
 
-  if (!name || name.length < 2) {
+  if (!isCallClick && (!name || name.length < 2)) {
     return NextResponse.json({ ok: false, error: "Please enter your full name." }, { status: 400 });
   }
-  if (!phone || !isValidPhone(phone)) {
+  if (!isCallClick && (!phone || !isValidPhone(phone))) {
     return NextResponse.json({ ok: false, error: "Please enter a valid mobile number." }, { status: 400 });
   }
   if (body.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) {
@@ -54,8 +57,8 @@ export async function POST(request: Request) {
 
     const doc: { _type: "appointmentRequest"; [key: string]: unknown } = {
       _type: "appointmentRequest",
-      name,
-      phone,
+      name: isCallClick ? "Phone call click" : name,
+      phone: isCallClick ? (body.callTargetPhone?.trim() || siteConfig.phone) : phone,
       submittedAt: new Date().toISOString(),
       status: "new",
     };
@@ -63,6 +66,8 @@ export async function POST(request: Request) {
     if (body.city) doc.city = body.city.trim();
     if (body.source) doc.source = body.source;
     if (body.submissionAction) doc.submissionAction = body.submissionAction;
+    if (body.callTargetPhone) doc.callTargetPhone = body.callTargetPhone.trim();
+    if (body.ctaLocation) doc.ctaLocation = body.ctaLocation.trim();
 
     const messageParts = [body.message?.trim()].filter(Boolean);
     if (body.consultationType) messageParts.push(`Consultation type: ${body.consultationType}`);
@@ -70,6 +75,9 @@ export async function POST(request: Request) {
     if (body.city) messageParts.push(`City: ${body.city.trim()}`);
     if (body.source) messageParts.push(`Source: ${body.source}`);
     if (body.submissionAction) messageParts.push(`Submission action: ${body.submissionAction}`);
+    if (body.callTargetPhone) messageParts.push(`Call target phone: ${body.callTargetPhone.trim()}`);
+    if (body.ctaLocation) messageParts.push(`CTA location: ${body.ctaLocation.trim()}`);
+    if (isCallClick) messageParts.push("Caller details were not captured because this lead came from a phone link click.");
     if (messageParts.length) doc.message = messageParts.join("\n");
 
     if (body.locationSlug) {
@@ -90,7 +98,12 @@ export async function POST(request: Request) {
 
     const createdLead = await writeClient.create(doc);
 
-    await sendNotificationEmailWithTimeout({ name, phone, email: body.email, message: doc.message as string | undefined });
+    await sendNotificationEmailWithTimeout({
+      name: doc.name as string,
+      phone: doc.phone as string,
+      email: body.email,
+      message: doc.message as string | undefined,
+    });
 
     return NextResponse.json({ ok: true, leadId: createdLead._id });
   } catch (err) {

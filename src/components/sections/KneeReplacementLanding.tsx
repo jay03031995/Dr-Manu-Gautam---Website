@@ -146,6 +146,28 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
+function recordLandingCallLead(ctaLocation: string, phone: string) {
+  const payload = JSON.stringify({
+    source: "landing-page",
+    submissionAction: "call_click",
+    callTargetPhone: phone,
+    ctaLocation,
+    message: "Visitor clicked a landing page phone call CTA.",
+  });
+
+  if (navigator.sendBeacon) {
+    const blob = new Blob([payload], { type: "application/json" });
+    if (navigator.sendBeacon(LEADS_API_PATH, blob)) return;
+  }
+
+  void fetch(LEADS_API_PATH, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: payload,
+    keepalive: true,
+  });
+}
+
 function Counter({ value, label }: { value: number; label: string }) {
   const [display, setDisplay] = useState(0);
 
@@ -393,6 +415,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               onClick={() => {
                 trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "sticky_nav" });
                 trackCtaClick("call_now", "sticky_nav");
+                recordLandingCallLead("sticky_nav", primaryPhone);
               }}
               className="bg-medical-blue hover:bg-medical-blue/90 whitespace-nowrap"
             >
@@ -692,6 +715,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             onClick={() => {
               trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "cta_section" });
               trackCtaClick("call_now", "cta_section");
+              recordLandingCallLead("cta_section", primaryPhone);
             }}
             className="bg-cta-orange px-5 py-3 text-sm hover:bg-cta-orange/90"
           >
