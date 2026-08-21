@@ -146,7 +146,7 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
-function recordLandingCallLead(ctaLocation: string, phone: string) {
+function recordLandingPageCallLead(ctaLocation: string, phone: string) {
   const payload = JSON.stringify({
     source: "landing-page",
     submissionAction: "call_click",
@@ -415,7 +415,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               onClick={() => {
                 trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "sticky_nav" });
                 trackCtaClick("call_now", "sticky_nav");
-                recordLandingCallLead("sticky_nav", primaryPhone);
+                recordLandingPageCallLead("sticky_nav", primaryPhone);
               }}
               className="bg-medical-blue hover:bg-medical-blue/90 whitespace-nowrap"
             >
@@ -715,7 +715,7 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             onClick={() => {
               trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "cta_section" });
               trackCtaClick("call_now", "cta_section");
-              recordLandingCallLead("cta_section", primaryPhone);
+              recordLandingPageCallLead("cta_section", primaryPhone);
             }}
             className="bg-cta-orange px-5 py-3 text-sm hover:bg-cta-orange/90"
           >
