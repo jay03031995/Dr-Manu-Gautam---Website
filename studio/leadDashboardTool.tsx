@@ -1,4 +1,3 @@
-import {DashboardIcon} from '@sanity/icons'
 import {definePlugin, useClient, type Tool} from 'sanity'
 import {useEffect, useMemo, useState} from 'react'
 import type {CSSProperties, ReactNode} from 'react'
@@ -514,7 +513,6 @@ export const leadDashboardTool = definePlugin({
     {
       name: 'appointment-dashboard',
       title: 'Appointment Dashboard',
-      icon: DashboardIcon,
       component: LeadDashboardTool,
     } satisfies Tool,
   ],

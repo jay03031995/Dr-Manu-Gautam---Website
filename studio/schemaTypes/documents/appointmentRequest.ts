@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { CalendarIcon } from "@sanity/icons";
 
 export default defineType({
   name: "appointmentRequest",
   title: "Appointment Request",
   type: "document",
-  icon: CalendarIcon,
   fields: [
     defineField({ name: "name", title: "Name", type: "string", validation: (Rule) => Rule.required() }),
     defineField({ name: "phone", title: "Phone", type: "string", validation: (Rule) => Rule.required() }),

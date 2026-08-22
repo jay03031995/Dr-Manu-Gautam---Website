@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
   name: "page",
   title: "Page",
   type: "document",
-  icon: DocumentIcon,
   description: "Flexible content page for sections not covered by a dedicated schema (About, Insurance, etc.)",
   fields: [
     defineField({ name: "title", title: "Title", type: "string", validation: (Rule) => Rule.required() }),

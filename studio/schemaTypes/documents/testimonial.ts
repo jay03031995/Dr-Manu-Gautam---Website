@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { StarIcon } from "@sanity/icons";
 
 export default defineType({
   name: "testimonial",
   title: "Testimonial",
   type: "document",
-  icon: StarIcon,
   fields: [
     defineField({ name: "author", title: "Patient name", type: "string", validation: (Rule) => Rule.required() }),
     defineField({

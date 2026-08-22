@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { ActivityIcon } from "@sanity/icons";
 
 export default defineType({
   name: "condition",
   title: "Condition",
   type: "document",
-  icon: ActivityIcon,
   description: "Patient-facing condition page (e.g. Knee Arthritis, ACL Injury) used for cross-linking from treatments.",
   fields: [
     defineField({ name: "title", title: "Title", type: "string", validation: (Rule) => Rule.required() }),
