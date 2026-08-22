@@ -1,4 +1,5 @@
 import type { StructureResolver } from "sanity/structure";
+import { AppointmentDashboard } from "./leadDashboardTool";
 
 /** siteSettings and homePage are singletons; every other type lists normally. */
 export const structure: StructureResolver = (S) =>
@@ -14,15 +15,19 @@ export const structure: StructureResolver = (S) =>
         .id("homePage")
         .child(S.document().schemaType("homePage").documentId("homePage")),
       S.listItem()
-        .title("Landing Page Appointments")
-        .id("landingPageAppointments")
+        .title("Appointment Dashboard")
+        .id("appointmentDashboard")
+        .child(S.component(AppointmentDashboard).title("Appointment Dashboard")),
+      S.listItem()
+        .title("All Appointment Requests")
+        .id("appointmentRequests")
         .schemaType("appointmentRequest")
         .child(
           S.documentTypeList("appointmentRequest")
-            .title("Landing Page Appointments")
-            .filter('_type == "appointmentRequest" && source == "landing-page"')
+            .title("All Appointment Requests")
+            .filter('_type == "appointmentRequest"')
             .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
         ),
       S.divider(),
-      ...S.documentTypeListItems().filter((item) => !["siteSettings", "homePage"].includes(item.getId() ?? "")),
+      ...S.documentTypeListItems().filter((item) => !["siteSettings", "homePage", "appointmentRequest"].includes(item.getId() ?? "")),
     ]);

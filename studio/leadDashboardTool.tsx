@@ -151,7 +151,7 @@ function FilterButton({
   )
 }
 
-function LeadDashboardTool() {
+export function AppointmentDashboard() {
   const client = useClient({apiVersion: '2024-01-01'})
   const [period, setPeriod] = useState<PeriodKey>('today')
   const [source, setSource] = useState<SourceKey>('all')
@@ -513,7 +513,7 @@ export const leadDashboardTool = definePlugin({
     {
       name: 'appointment-dashboard',
       title: 'Appointment Dashboard',
-      component: LeadDashboardTool,
+      component: AppointmentDashboard,
     } satisfies Tool,
   ],
 })
