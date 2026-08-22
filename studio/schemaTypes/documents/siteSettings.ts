@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { CogIcon } from "@sanity/icons";
 
 export default defineType({
   name: "siteSettings",
   title: "Site Settings",
   type: "document",
-  icon: CogIcon,
   // Rendered as a single "settings" entry in the Studio structure, not a list.
   fields: [
     defineField({ name: "siteName", title: "Site name", type: "string", validation: (Rule) => Rule.required() }),

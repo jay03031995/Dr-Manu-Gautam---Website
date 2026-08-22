@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { HelpCircleIcon } from "@sanity/icons";
 
 export default defineType({
   name: "concern",
   title: "Patient Concern",
   type: "document",
-  icon: HelpCircleIcon,
   description: "Powers the homepage \"What Are You Experiencing?\" symptom-entry cards.",
   fields: [
     defineField({ name: "label", title: "Label", type: "string", validation: (Rule) => Rule.required() }),

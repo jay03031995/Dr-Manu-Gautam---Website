@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { BellIcon } from "@sanity/icons";
 
 export default defineType({
   name: "announcement",
   title: "Announcement Bar",
   type: "document",
-  icon: BellIcon,
   description: "The thin bar above the main header. Only one should be active at a time.",
   fields: [
     defineField({ name: "message", title: "Message", type: "string", validation: (Rule) => Rule.required().max(120) }),

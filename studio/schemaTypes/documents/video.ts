@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { PlayIcon } from "@sanity/icons";
 
 export default defineType({
   name: "video",
   title: "Video",
   type: "document",
-  icon: PlayIcon,
   fields: [
     defineField({ name: "title", title: "Title", type: "string", validation: (Rule) => Rule.required() }),
     defineField({

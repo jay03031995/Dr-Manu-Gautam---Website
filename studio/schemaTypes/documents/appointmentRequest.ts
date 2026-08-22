@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { CalendarIcon } from "@sanity/icons";
 
 export default defineType({
   name: "appointmentRequest",
   title: "Appointment Request",
   type: "document",
-  icon: CalendarIcon,
   fields: [
     defineField({ name: "name", title: "Name", type: "string", validation: (Rule) => Rule.required() }),
     defineField({ name: "phone", title: "Phone", type: "string", validation: (Rule) => Rule.required() }),
@@ -24,6 +22,7 @@ export default defineType({
       to: [{ type: "service" }],
     }),
     defineField({ name: "message", title: "Message", type: "text", rows: 4 }),
+    defineField({ name: "appointmentAt", title: "Appointment date & time", type: "datetime" }),
     defineField({
       name: "source",
       title: "Source",
@@ -62,12 +61,26 @@ export default defineType({
         list: [
           { title: "New", value: "new" },
           { title: "Contacted", value: "contacted" },
+          { title: "Confirmed", value: "confirmed" },
           { title: "Scheduled", value: "scheduled" },
+          { title: "Visited", value: "visited" },
+          { title: "No-show", value: "no-show" },
           { title: "Closed", value: "closed" },
         ],
       },
       initialValue: "new",
     }),
+    defineField({ name: "visited", title: "Patient visited", type: "boolean", initialValue: false }),
+    defineField({
+      name: "outcome",
+      title: "Outcome",
+      type: "string",
+      options: { list: [{ title: "Won", value: "won" }, { title: "Lost", value: "lost" }, { title: "Pending", value: "pending" }] },
+      initialValue: "pending",
+    }),
+    defineField({ name: "revenue", title: "Revenue (INR)", type: "number", validation: (Rule) => Rule.min(0) }),
+    defineField({ name: "lastFollowUpAt", title: "Last follow-up", type: "datetime" }),
+    defineField({ name: "internalNotes", title: "Internal notes", type: "text", rows: 4 }),
     defineField({ name: "submittedAt", title: "Submitted at", type: "datetime", validation: (Rule) => Rule.required() }),
   ],
   orderings: [

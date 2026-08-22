@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { HomeIcon } from "@sanity/icons";
 
 export default defineType({
   name: "homePage",
   title: "Home Page",
   type: "document",
-  icon: HomeIcon,
   description: "Editable copy and images for the homepage hero, Why Choose, and Final CTA sections.",
   groups: [
     { name: "hero", title: "Hero", default: true },

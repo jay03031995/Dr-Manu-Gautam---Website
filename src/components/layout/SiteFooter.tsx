@@ -113,9 +113,15 @@ export function SiteFooter({ logoUrl }: SiteFooterProps) {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-sm text-white/60">
+        <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-white/60">
             &copy; {year} {siteConfig.shortName}. All rights reserved. Serving {siteConfig.serviceAreas.join(", ")}.
+          </p>
+          <p>
+            Created by{" "}
+            <a href="https://genesisvirtue.com" target="_blank" rel="noopener noreferrer" className="font-medium text-white/80 hover:text-white">
+              Genesis Virtue
+            </a>
           </p>
         </div>
       </Container>

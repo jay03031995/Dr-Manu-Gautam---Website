@@ -1,4 +1,3 @@
-import {DashboardIcon} from '@sanity/icons'
 import {definePlugin, useClient, type Tool} from 'sanity'
 import {useEffect, useMemo, useState} from 'react'
 import type {CSSProperties, ReactNode} from 'react'
@@ -19,6 +18,11 @@ interface Lead {
   submittedAt?: string
   status?: string
   message?: string
+  appointmentAt?: string
+  visited?: boolean
+  outcome?: string
+  revenue?: number
+  lastFollowUpAt?: string
 }
 
 interface LeadDashboardData {
@@ -27,6 +31,11 @@ interface LeadDashboardData {
   whatsapp: number
   form: number
   other: number
+  confirmed: number
+  visited: number
+  won: number
+  noShow: number
+  revenue: number
   latest: Lead[]
 }
 
@@ -149,19 +158,27 @@ function LeadDashboardTool() {
   const [data, setData] = useState<LeadDashboardData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [status, setStatus] = useState('all')
 
   const range = useMemo(() => getPeriodRange(period), [period])
 
   useEffect(() => {
     let cancelled = false
     const sourceFilter = source === 'all' ? '' : ' && source == $source'
-    const baseFilter = `_type == "appointmentRequest" && defined(submittedAt) && submittedAt >= $start && submittedAt < $end${sourceFilter}`
+    const statusFilter = status === 'all' ? '' : ' && status == $status'
+    const baseFilter = `_type == "appointmentRequest" && defined(submittedAt) && submittedAt >= $start && submittedAt < $end${sourceFilter}${statusFilter}`
     const query = `{
       "total": count(*[${baseFilter}]),
       "call": count(*[${baseFilter} && submissionAction == "call_click"]),
       "whatsapp": count(*[${baseFilter} && submissionAction == "whatsapp_redirect"]),
       "form": count(*[${baseFilter} && (!defined(submissionAction) || submissionAction in ["callback_request", "thank_you_redirect"])]),
       "other": count(*[${baseFilter} && defined(submissionAction) && !(submissionAction in ["call_click", "whatsapp_redirect", "callback_request", "thank_you_redirect"])]),
+      "confirmed": count(*[${baseFilter} && status in ["confirmed", "scheduled", "visited"]]),
+      "visited": count(*[${baseFilter} && (visited == true || status == "visited")]),
+      "won": count(*[${baseFilter} && outcome == "won"]),
+      "noShow": count(*[${baseFilter} && status == "no-show"]),
+      "revenue": math::sum(*[${baseFilter} && outcome == "won"].revenue),
       "latest": *[${baseFilter}] | order(submittedAt desc)[0...100]{
         _id,
         name,
@@ -175,6 +192,11 @@ function LeadDashboardTool() {
         submittedAt,
         status,
         message
+        ,appointmentAt,
+        visited,
+        outcome,
+        revenue,
+        lastFollowUpAt
       }
     }`
 
@@ -185,6 +207,7 @@ function LeadDashboardTool() {
         start: range.start.toISOString(),
         end: range.end.toISOString(),
         source,
+        status,
       })
       .then((result) => {
         if (!cancelled) setData(result)
@@ -199,19 +222,38 @@ function LeadDashboardTool() {
     return () => {
       cancelled = true
     }
-  }, [client, period, range.end, range.start, source])
+  }, [client, period, range.end, range.start, source, status])
+
+  const visibleLeads = useMemo(() => {
+    const needle = search.trim().toLowerCase()
+    if (!needle) return data?.latest ?? []
+    return (data?.latest ?? []).filter((lead) =>
+      [lead.name, lead.phone, lead.email, lead.city].some((value) => value?.toLowerCase().includes(needle)),
+    )
+  }, [data?.latest, search])
+
+  async function updateLead(id: string, values: Record<string, unknown>) {
+    await client.patch(id).set({...values, lastFollowUpAt: new Date().toISOString()}).commit()
+    setData((current) => current ? {...current, latest: current.latest.map((lead) => lead._id === id ? {...lead, ...values, lastFollowUpAt: new Date().toISOString()} : lead)} : current)
+  }
 
   return (
     <main style={styles.page}>
       <div style={styles.header}>
         <div>
-          <h1 style={styles.title}>Lead Dashboard</h1>
-          <p style={styles.subtitle}>Track form, WhatsApp, and landing-page call-click leads.</p>
+          <h1 style={styles.title}>Appointment Dashboard</h1>
+          <p style={styles.subtitle}>Track requests, confirmations, visits, outcomes and revenue.</p>
         </div>
         <div style={styles.rangeLabel}>{formatRange(range.start, range.end)}</div>
       </div>
 
       <section style={styles.controls}>
+        <div style={styles.filterGroup}>
+          <input aria-label="Search appointments" value={search} onChange={(event) => setSearch(event.currentTarget.value)} placeholder="Search by name, phone or email" style={styles.searchInput} />
+          <select aria-label="Filter by status" value={status} onChange={(event) => setStatus(event.currentTarget.value)} style={styles.select}>
+            <option value="all">All statuses</option><option value="new">New</option><option value="confirmed">Confirmed</option><option value="scheduled">Scheduled</option><option value="visited">Visited</option><option value="no-show">No-show</option><option value="closed">Closed</option>
+          </select>
+        </div>
         <div style={styles.filterGroup}>
           {periods.map((item) => (
             <FilterButton key={item.key} active={period === item.key} onClick={() => setPeriod(item.key)}>
@@ -231,11 +273,12 @@ function LeadDashboardTool() {
       {error ? <div style={styles.error}>{error}</div> : null}
 
       <section style={styles.statsGrid}>
-        <StatCard label="Total leads" value={data?.total ?? 0} />
-        <StatCard label="Call clicks" value={data?.call ?? 0} tone="#0b6e99" />
-        <StatCard label="WhatsApp leads" value={data?.whatsapp ?? 0} tone="#168a46" />
-        <StatCard label="Form leads" value={data?.form ?? 0} tone="#b45309" />
-        {(data?.other ?? 0) > 0 ? <StatCard label="Other" value={data?.other ?? 0} tone="#7c3aed" /> : null}
+        <StatCard label="Total requests" value={data?.total ?? 0} />
+        <StatCard label="Confirmed" value={data?.confirmed ?? 0} tone="#168a46" />
+        <StatCard label="Visited" value={data?.visited ?? 0} tone="#2563eb" />
+        <StatCard label="Won" value={data?.won ?? 0} tone="#15803d" />
+        <StatCard label="No-show" value={data?.noShow ?? 0} tone="#dc2626" />
+        <div style={styles.statCard}><div style={styles.statLabel}>Revenue</div><div style={{...styles.statValue, color: '#7c3aed'}}>₹{(data?.revenue ?? 0).toLocaleString('en-IN')}</div></div>
       </section>
 
       <section style={styles.tableCard}>
@@ -248,28 +291,34 @@ function LeadDashboardTool() {
           <table style={styles.table}>
             <thead>
               <tr>
-                <th style={styles.th}>Date</th>
+                <th style={styles.th}>Submitted</th>
+                <th style={styles.th}>Appointment</th>
                 <th style={styles.th}>Type</th>
                 <th style={styles.th}>Name</th>
                 <th style={styles.th}>Phone</th>
                 <th style={styles.th}>Source</th>
                 <th style={styles.th}>CTA / City</th>
                 <th style={styles.th}>Status</th>
+                <th style={styles.th}>Visited</th>
+                <th style={styles.th}>Outcome</th>
+                <th style={styles.th}>Revenue</th>
+                <th style={styles.th}>Quick actions</th>
               </tr>
             </thead>
             <tbody>
               {!loading && data?.latest.length === 0 ? (
                 <tr>
-                  <td style={styles.emptyCell} colSpan={7}>
+                  <td style={styles.emptyCell} colSpan={13}>
                     No leads found for this filter.
                   </td>
                 </tr>
               ) : null}
-              {(data?.latest ?? []).map((lead) => {
+              {visibleLeads.map((lead) => {
                 const isCall = lead.submissionAction === 'call_click'
                 return (
                   <tr key={lead._id}>
                     <td style={styles.td}>{formatDateTime(lead.submittedAt)}</td>
+                    <td style={styles.td}>{formatDateTime(lead.appointmentAt)}</td>
                     <td style={styles.td}>
                       <span style={{...styles.badge, ...(isCall ? styles.callBadge : undefined)}}>
                         {getActionLabel(lead.submissionAction)}
@@ -280,6 +329,10 @@ function LeadDashboardTool() {
                     <td style={styles.td}>{lead.source || '-'}</td>
                     <td style={styles.td}>{lead.ctaLocation || lead.city || '-'}</td>
                     <td style={styles.td}>{lead.status || '-'}</td>
+                    <td style={styles.td}>{lead.visited ? 'Yes' : 'No'}</td>
+                    <td style={styles.td}>{lead.outcome || 'pending'}</td>
+                    <td style={styles.td}>{lead.revenue ? `₹${lead.revenue.toLocaleString('en-IN')}` : '-'}</td>
+                    <td style={styles.td}><div style={styles.actions}><button style={styles.actionButton} onClick={() => updateLead(lead._id, {status: 'confirmed'})}>Confirm</button><button style={styles.actionButton} onClick={() => updateLead(lead._id, {status: 'visited', visited: true})}>Visited</button><button style={styles.wonButton} onClick={() => updateLead(lead._id, {outcome: 'won'})}>Won</button><button style={styles.actionButton} onClick={() => updateLead(lead._id, {status: 'no-show'})}>No-show</button></div></td>
                   </tr>
                 )
               })}
@@ -287,6 +340,7 @@ function LeadDashboardTool() {
           </table>
         </div>
       </section>
+      <aside style={styles.supportCard}><strong>Need help?</strong><span>Genesis Virtue support for dashboard and website operations.</span><a href="https://genesisvirtue.com" target="_blank" rel="noreferrer" style={styles.supportLink}>Contact Genesis Virtue</a></aside>
     </main>
   )
 }
@@ -348,6 +402,8 @@ const styles: Record<string, CSSProperties> = {
     borderColor: '#101112',
     color: '#fff',
   },
+  searchInput: {minWidth: '260px', flex: 1, border: '1px solid #d8dde3', borderRadius: '8px', background: '#fff', color: '#101112', font: 'inherit', padding: '10px 12px'},
+  select: {border: '1px solid #d8dde3', borderRadius: '8px', background: '#fff', color: '#101112', font: 'inherit', padding: '10px 12px'},
   error: {
     border: '1px solid #f2b8b5',
     borderRadius: '8px',
@@ -405,7 +461,7 @@ const styles: Record<string, CSSProperties> = {
   },
   table: {
     borderCollapse: 'collapse',
-    minWidth: '920px',
+    minWidth: '1500px',
     width: '100%',
   },
   th: {
@@ -444,15 +500,19 @@ const styles: Record<string, CSSProperties> = {
     background: '#e0f2fe',
     color: '#075985',
   },
+  actions: {display: 'flex', flexWrap: 'wrap', gap: '6px'},
+  actionButton: {border: '1px solid #cbd5e1', borderRadius: '6px', background: '#fff', color: '#334155', cursor: 'pointer', padding: '6px 8px'},
+  wonButton: {border: '1px solid #86efac', borderRadius: '6px', background: '#f0fdf4', color: '#166534', cursor: 'pointer', padding: '6px 8px'},
+  supportCard: {display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '20px', border: '1px solid #dbeafe', borderRadius: '10px', background: '#eff6ff', color: '#1e3a8a', padding: '18px'},
+  supportLink: {color: '#1d4ed8', fontWeight: 700, textDecoration: 'none'},
 }
 
 export const leadDashboardTool = definePlugin({
   name: 'lead-dashboard-tool',
   tools: [
     {
-      name: 'lead-dashboard',
-      title: 'Lead Dashboard',
-      icon: DashboardIcon,
+      name: 'appointment-dashboard',
+      title: 'Appointment Dashboard',
       component: LeadDashboardTool,
     } satisfies Tool,
   ],

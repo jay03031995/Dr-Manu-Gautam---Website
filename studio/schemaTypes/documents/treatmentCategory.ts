@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { FolderIcon } from "@sanity/icons";
 
 export default defineType({
   name: "treatmentCategory",
   title: "Treatment Category",
   type: "document",
-  icon: FolderIcon,
   description: "e.g. Joint Replacement, Arthroscopy, Sports Injury, Trauma, Paediatric Orthopaedics, Non-Surgical Care",
   fields: [
     defineField({ name: "title", title: "Title", type: "string", validation: (Rule) => Rule.required() }),
