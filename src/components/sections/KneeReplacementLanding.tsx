@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { ServiceCard } from "@/components/ui/Card";
 import { siteConfig } from "@/lib/constants";
 import { LEADS_API_PATH, THANK_YOU_PATH, cn, telHref } from "@/lib/utils";
+import { getLeadAttribution } from "@/lib/leadAttribution";
 import { markLeadSubmitted } from "@/lib/leadStorage";
 import { hasImageAsset, urlForImage } from "@/sanity/lib/image";
 import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackCtaClick, trackEvent, trackGoogleAdsLeadConversion } from "@/lib/analytics";
@@ -150,6 +151,7 @@ function recordLandingPageCallLead(ctaLocation: string, phone: string) {
   const payload = JSON.stringify({
     source: "landing-page",
     submissionAction: "call_click",
+    ...getLeadAttribution(),
     callTargetPhone: phone,
     ctaLocation,
     message: "Visitor clicked a landing page phone call CTA.",
@@ -230,6 +232,7 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
       company: data.company,
       source: "landing-page",
       submissionAction: submitMode === "whatsapp" ? "whatsapp_redirect" : "callback_request",
+      ...getLeadAttribution(),
     };
 
     try {

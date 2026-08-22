@@ -16,12 +16,24 @@ interface LeadPayload {
   submissionAction?: "callback_request" | "whatsapp_redirect" | "thank_you_redirect" | "call_click";
   callTargetPhone?: string;
   ctaLocation?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmTerm?: string;
+  utmContent?: string;
+  gclid?: string;
+  landingPage?: string;
+  referrer?: string;
   // Honeypot — real users never fill this in; bots usually do.
   company?: string;
 }
 
 function isValidPhone(phone: string) {
   return /^[+\d][\d\s-]{6,}$/.test(phone.trim());
+}
+
+function cleanAttribution(value?: string, maxLength = 240) {
+  return value?.trim().slice(0, maxLength) || undefined;
 }
 
 export async function POST(request: Request) {
@@ -61,6 +73,7 @@ export async function POST(request: Request) {
       phone: isCallClick ? (body.callTargetPhone?.trim() || siteConfig.phone) : phone,
       submittedAt: new Date().toISOString(),
       status: "new",
+      leadOrigin: body.source === "landing-page" ? "landing-page" : "main-website",
     };
     if (body.email) doc.email = body.email.trim();
     if (body.city) doc.city = body.city.trim();
@@ -68,6 +81,14 @@ export async function POST(request: Request) {
     if (body.submissionAction) doc.submissionAction = body.submissionAction;
     if (body.callTargetPhone) doc.callTargetPhone = body.callTargetPhone.trim();
     if (body.ctaLocation) doc.ctaLocation = body.ctaLocation.trim();
+    for (const field of ["utmSource", "utmMedium", "utmCampaign", "utmTerm", "utmContent", "gclid"] as const) {
+      const value = cleanAttribution(body[field]);
+      if (value) doc[field] = value;
+    }
+    const landingPage = cleanAttribution(body.landingPage, 500);
+    const referrer = cleanAttribution(body.referrer, 500);
+    if (landingPage) doc.landingPage = landingPage;
+    if (referrer) doc.referrer = referrer;
 
     const messageParts = [body.message?.trim()].filter(Boolean);
     if (body.consultationType) messageParts.push(`Consultation type: ${body.consultationType}`);

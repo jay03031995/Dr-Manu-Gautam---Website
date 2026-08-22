@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
 import { trackEvent, trackGoogleAdsLeadConversion } from "@/lib/analytics";
 import { markLeadSubmitted } from "@/lib/leadStorage";
+import { getLeadAttribution } from "@/lib/leadAttribution";
 import type { Service, Location } from "@/sanity/lib/types";
 
 interface AppointmentFormProps {
@@ -116,6 +117,7 @@ export function AppointmentForm({ services, locations, source = "appointment", o
           preferredDate: data.preferredDate || undefined,
           company: data.company,
           source,
+          ...getLeadAttribution(),
         }),
       });
       const json = await res.json();
