@@ -6,6 +6,7 @@ import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
 import { markLeadSubmitted } from "@/lib/leadStorage";
+import { getLeadAttribution } from "@/lib/leadAttribution";
 
 interface ContactFormProps {
   className?: string;
@@ -47,6 +48,7 @@ export function ContactForm({ className, source = "contact" }: ContactFormProps)
           message: String(data.get("message") ?? "").trim() || undefined,
           company: String(data.get("company") ?? ""),
           source,
+          ...getLeadAttribution(),
         }),
       });
       const json = await res.json();

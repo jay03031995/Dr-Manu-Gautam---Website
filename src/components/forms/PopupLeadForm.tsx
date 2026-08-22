@@ -10,6 +10,7 @@ import { Select } from "@/components/ui/Select";
 import { LEADS_API_PATH, THANK_YOU_PATH } from "@/lib/utils";
 import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackEvent, trackGoogleAdsLeadConversion } from "@/lib/analytics";
 import { markLeadSubmitted, hasSubmittedLead, hasPopupShownThisSession, markPopupShown } from "@/lib/leadStorage";
+import { getLeadAttribution } from "@/lib/leadAttribution";
 import type { Service } from "@/sanity/lib/types";
 
 const SHOW_DELAY_MS = 10_000;
@@ -80,6 +81,7 @@ export function PopupLeadForm({ treatments }: PopupLeadFormProps) {
           serviceSlug: serviceSlug || undefined,
           company,
           source: "popup",
+          ...getLeadAttribution(),
         }),
       });
       const json = await res.json();
