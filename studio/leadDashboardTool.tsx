@@ -511,7 +511,7 @@ export function AppointmentDashboard() {
     setToast(`${filtered.length} leads exported`)
   }
   async function bulkStatus(value: string) {
-    const ids = [...selected]
+    const ids = Array.from(selected)
     if (!ids.length) return
     try {
       await Promise.all(
