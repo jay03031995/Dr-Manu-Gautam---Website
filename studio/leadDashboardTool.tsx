@@ -5,6 +5,24 @@ import type {ReactNode} from 'react'
 type Period = 'today' | 'last7' | 'last30' | 'month' | 'custom'
 type Origin = 'all' | 'landing-page' | 'main-website'
 type SortKey = 'submittedAt' | 'appointmentAt' | 'name' | 'status' | 'revenue'
+type IconName =
+  | 'calendar'
+  | 'refresh'
+  | 'download'
+  | 'users'
+  | 'trend'
+  | 'globe'
+  | 'check'
+  | 'person'
+  | 'trophy'
+  | 'x'
+  | 'alert'
+  | 'minus'
+  | 'rupee'
+  | 'list'
+  | 'phone'
+  | 'copy'
+  | 'more'
 interface Lead {
   _id: string
   name?: string
@@ -156,6 +174,116 @@ const SourceBadge = ({lead}: {lead: Lead}) => (
     {originOf(lead)}
   </span>
 )
+function Icon({name, size = 15}: {name: IconName; size?: number}) {
+  const paths: Record<IconName, ReactNode> = {
+    calendar: (
+      <>
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M16 3v4M8 3v4M3 10h18" />
+      </>
+    ),
+    refresh: (
+      <>
+        <path d="M20 11a8 8 0 1 0 2 5" />
+        <path d="M20 4v7h-7" />
+      </>
+    ),
+    download: (
+      <>
+        <path d="M12 3v12M7 10l5 5 5-5M5 21h14" />
+      </>
+    ),
+    users: (
+      <>
+        <circle cx="9" cy="7" r="4" />
+        <path d="M2 21v-2a7 7 0 0 1 14 0v2M17 4a4 4 0 0 1 0 7M22 21v-2a6 6 0 0 0-3-5" />
+      </>
+    ),
+    trend: (
+      <>
+        <path d="M3 3v18h18M7 16l4-5 4 3 5-7" />
+      </>
+    ),
+    globe: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+      </>
+    ),
+    check: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="m8 12 2.5 2.5L16 9" />
+      </>
+    ),
+    person: (
+      <>
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21a8 8 0 0 1 16 0" />
+      </>
+    ),
+    trophy: (
+      <>
+        <path d="M8 4h8v5a4 4 0 0 1-8 0V4ZM8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 21h8M9 17h6" />
+      </>
+    ),
+    x: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="m9 9 6 6m0-6-6 6" />
+      </>
+    ),
+    alert: (
+      <>
+        <path d="M10.3 3.6 2.8 17a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0ZM12 9v4m0 3h.01" />
+      </>
+    ),
+    minus: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M8 12h8" />
+      </>
+    ),
+    rupee: <path d="M6 4h12M6 8h12M8 4c5 0 5 8 0 8H6l8 8" />,
+    list: (
+      <>
+        <path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01" />
+      </>
+    ),
+    phone: (
+      <path d="M22 17v3a2 2 0 0 1-2 2A19 19 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2c.1 1 .4 2 .8 3a2 2 0 0 1-.5 2L8 10a16 16 0 0 0 6 6l1-1.3a2 2 0 0 1 2-.5c1 .4 2 .7 3 .8a2 2 0 0 1 2 2Z" />
+    ),
+    copy: (
+      <>
+        <rect x="9" y="9" width="12" height="12" rx="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </>
+    ),
+    more: (
+      <>
+        <circle cx="5" cy="12" r="1" />
+        <circle cx="12" cy="12" r="1" />
+        <circle cx="19" cy="12" r="1" />
+      </>
+    ),
+  }
+  return (
+    <svg
+      className="ad-icon"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {paths[name]}
+    </svg>
+  )
+}
 function Kpi({
   label,
   value,
@@ -166,7 +294,7 @@ function Kpi({
   label: string
   value: string | number
   note: string
-  icon: string
+  icon: IconName
   tone: string
 }) {
   return (
@@ -176,23 +304,27 @@ function Kpi({
         <strong>{value}</strong>
         <small>{note}</small>
       </div>
-      <b>{icon}</b>
+      <b>
+        <Icon name={icon} size={17} />
+      </b>
     </div>
   )
 }
 function Header({
-  range,
+  startDate,
+  endDate,
+  onDateChange,
   onExport,
   onRefresh,
   loading,
 }: {
-  range: {start: Date; end: Date}
+  startDate: string
+  endDate: string
+  onDateChange: (start: string, end: string) => void
   onExport: () => void
   onRefresh: () => void
   loading: boolean
 }) {
-  const end = new Date(range.end)
-  if (end.getTime() > Date.now()) end.setTime(Date.now())
   return (
     <header className="ad-header">
       <div>
@@ -200,12 +332,29 @@ function Header({
         <p>Manage leads, appointments, attribution and conversions from one view.</p>
       </div>
       <div className="ad-header-actions">
-        <span className="ad-date">
-          ▣ {fmt(range.start.toISOString(), true)} – {fmt(end.toISOString(), true)}
-        </span>
-        <Btn onClick={onRefresh}>↻ {loading ? 'Refreshing…' : 'Refresh'}</Btn>
+        <div className="ad-date" title="Choose custom date range">
+          <Icon name="calendar" />
+          <input
+            type="date"
+            value={startDate}
+            max={endDate}
+            onChange={(e) => onDateChange(e.currentTarget.value, endDate)}
+            aria-label="From date"
+          />
+          <span>–</span>
+          <input
+            type="date"
+            value={endDate}
+            min={startDate}
+            onChange={(e) => onDateChange(startDate, e.currentTarget.value)}
+            aria-label="To date"
+          />
+        </div>
+        <Btn onClick={onRefresh}>
+          <Icon name="refresh" /> {loading ? 'Refreshing…' : 'Refresh'}
+        </Btn>
         <Btn onClick={onExport} active>
-          ⇩ Export CSV
+          <Icon name="download" /> Export CSV
         </Btn>
       </div>
     </header>
@@ -278,16 +427,20 @@ function Drawer({
               {lead.phone || lead.callTargetPhone || '-'}
             </a>
           </div>
-          <button onClick={onClose}>×</button>
+          <button onClick={onClose} aria-label="Close lead details">
+            <Icon name="x" />
+          </button>
         </div>
         <div className="ad-drawer-actions">
           <a className="ad-btn active" href={`tel:${lead.phone || lead.callTargetPhone}`}>
-            ☎ Call
+            <Icon name="phone" /> Call
           </a>
           <Btn tone="green" onClick={() => onCopy(lead)}>
-            ▣ Copy WhatsApp
+            <Icon name="copy" /> Copy WhatsApp
           </Btn>
-          <Btn onClick={() => onUpdate(lead._id, {status: 'confirmed'})}>✓ Confirm</Btn>
+          <Btn onClick={() => onUpdate(lead._id, {status: 'confirmed'})}>
+            <Icon name="check" /> Confirm
+          </Btn>
         </div>
         <DrawerSection
           title="Appointment"
@@ -528,9 +681,17 @@ export function AppointmentDashboard() {
   }
   return (
     <main className="ad-page">
-      <style>{css}</style>
+      <style>{css + iconCss}</style>
       <Header
-        range={range}
+        startDate={period === 'custom' ? customStart : iso(range.start)}
+        endDate={
+          period === 'custom' ? customEnd : iso(new Date(Math.min(range.end.getTime(), Date.now())))
+        }
+        onDateChange={(start, end) => {
+          setCustomStart(start)
+          setCustomEnd(end)
+          setPeriod('custom')
+        }}
         onExport={exportCsv}
         onRefresh={() => setRefresh((v) => v + 1)}
         loading={loading}
@@ -589,47 +750,55 @@ export function AppointmentDashboard() {
           label="Total Leads"
           value={data?.total || 0}
           note="All captured leads"
-          icon="◎"
+          icon="users"
           tone="navy"
         />
         <Kpi
           label="Landing Page"
           value={data?.landingPage || 0}
           note="Campaign leads"
-          icon="↗"
+          icon="trend"
           tone="teal"
         />
         <Kpi
           label="Main Website"
           value={data?.mainWebsite || 0}
           note="Website forms"
-          icon="◉"
+          icon="globe"
           tone="blue"
         />
         <Kpi
           label="Confirmed"
           value={data?.confirmed || 0}
           note="Appointments"
-          icon="✓"
+          icon="check"
           tone="indigo"
         />
-        <Kpi label="Visited" value={data?.visited || 0} note="Clinic visits" icon="♙" tone="cyan" />
-        <Kpi label="Won" value={data?.won || 0} note="Converted" icon="♕" tone="green" />
-        <Kpi label="No-show" value={data?.noShow || 0} note="Missed visits" icon="×" tone="red" />
-        <Kpi label="Spam" value={data?.spam || 0} note="Invalid leads" icon="!" tone="orange" />
-        <Kpi label="Lost" value={data?.lost || 0} note="Not converted" icon="−" tone="slate" />
+        <Kpi
+          label="Visited"
+          value={data?.visited || 0}
+          note="Clinic visits"
+          icon="person"
+          tone="cyan"
+        />
+        <Kpi label="Won" value={data?.won || 0} note="Converted" icon="trophy" tone="green" />
+        <Kpi label="No-show" value={data?.noShow || 0} note="Missed visits" icon="x" tone="red" />
+        <Kpi label="Spam" value={data?.spam || 0} note="Invalid leads" icon="alert" tone="orange" />
+        <Kpi label="Lost" value={data?.lost || 0} note="Not converted" icon="minus" tone="slate" />
         <Kpi
           label="Revenue"
           value={money(data?.revenue)}
           note="Won revenue"
-          icon="₹"
+          icon="rupee"
           tone="violet"
         />
       </section>
       <section className="ad-table-card">
         <div className="ad-table-title">
           <div>
-            <strong>☷ &nbsp;Latest Leads</strong>
+            <strong>
+              <Icon name="list" /> Latest Leads
+            </strong>
             <span>{filtered.length} results</span>
           </div>
           {selected.size > 0 && (
@@ -755,7 +924,11 @@ export function AppointmentDashboard() {
         onCopy={copyLead}
         onUpdate={updateLead}
       />
-      {toast && <div className="ad-toast">✓ {toast}</div>}
+      {toast && (
+        <div className="ad-toast">
+          <Icon name="check" /> {toast}
+        </div>
+      )}
     </main>
   )
 }
@@ -813,7 +986,7 @@ function LeadRow({
             setToast('Phone number copied')
           }}
         >
-          ▣
+          <Icon name="copy" size={13} />
         </button>
       </td>
       <td>
@@ -841,16 +1014,22 @@ function LeadRow({
       <td className="low">{l.revenue ? money(l.revenue) : '-'}</td>
       <td>
         <div className="ad-actions">
-          <Btn onClick={() => update(l._id, {status: 'confirmed'})}>✓ Confirm</Btn>
-          <Btn onClick={() => update(l._id, {status: 'visited', visited: true})}>♙ Visited</Btn>
+          <Btn onClick={() => update(l._id, {status: 'confirmed'})}>
+            <Icon name="check" size={13} /> Confirm
+          </Btn>
+          <Btn onClick={() => update(l._id, {status: 'visited', visited: true})}>
+            <Icon name="person" size={13} /> Visited
+          </Btn>
           <Btn tone="green" onClick={() => update(l._id, {outcome: 'won'})}>
-            ♕ Won
+            <Icon name="trophy" size={13} /> Won
           </Btn>
           <Btn tone="green" title="Copy lead details" onClick={() => copy(l)}>
-            ▣ Copy
+            <Icon name="copy" size={13} /> Copy
           </Btn>
           <details onClick={(e) => e.stopPropagation()}>
-            <summary>•••</summary>
+            <summary>
+              <Icon name="more" size={15} />
+            </summary>
             <div>
               <button onClick={() => update(l._id, {status: 'no-show'})}>Mark No-show</button>
               <button onClick={open}>View / edit lead</button>
@@ -872,6 +1051,8 @@ function LeadRow({
 }
 
 const css = `*{box-sizing:border-box}.ad-page{min-height:100%;background:#f7f9fc;color:#182230;padding:22px;font-family:Inter,Geist,Arial,sans-serif;font-size:13px}.ad-header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px}.ad-header h1{font-size:26px;letter-spacing:-.5px;margin:0 0 4px}.ad-header p{color:#667085;margin:0}.ad-header-actions,.ad-quick,.ad-quick>div,.ad-actions,.ad-bulk,.ad-pagination>div{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.ad-date{background:#fff;border:1px solid #e4e7ec;border-radius:9px;padding:9px 12px;font-weight:600}.ad-btn{border:1px solid #d8dee8;border-radius:7px;background:#fff;color:#344054;cursor:pointer;font:inherit;font-weight:600;padding:7px 10px;white-space:nowrap}.ad-btn:hover{background:#f2f4f7}.ad-btn.active{background:#2563eb;border-color:#2563eb;color:#fff}.ad-btn.green{border-color:#bbf7d0;color:#15803d;background:#f0fdf4}.ad-btn:disabled{opacity:.45}.ad-filter-card,.ad-table-card{background:#fff;border:1px solid #e4e7ec;border-radius:11px;box-shadow:0 1px 3px rgba(16,24,40,.035)}.ad-filter-card{padding:14px;margin-bottom:12px}.ad-filter-row{display:grid;grid-template-columns:minmax(230px,1.5fr) minmax(220px,1.3fr) repeat(3,minmax(130px,.55fr));gap:8px}.ad-filter-row input,.ad-filter-row select,.ad-custom input,.ad-bulk select,.ad-pagination select{height:36px;border:1px solid #dfe3ea;border-radius:7px;background:#fff;color:#344054;padding:0 10px;font:inherit;min-width:0}.ad-quick{border-top:1px solid #eef1f5;margin-top:11px;padding-top:11px;justify-content:space-between}.ad-tabs{border-left:1px solid #e4e7ec;padding-left:12px}.ad-kpis{display:grid;grid-template-columns:repeat(10,minmax(112px,1fr));gap:8px;margin-bottom:12px;overflow-x:auto}.ad-kpi{min-width:112px;background:#fff;border:1px solid #e4e7ec;border-top:3px solid var(--tone);border-radius:10px;padding:12px;display:flex;justify-content:space-between;gap:8px}.ad-kpi span,.ad-kpi small,.ad-table-title span,td small{display:block;color:#667085;font-size:11px}.ad-kpi strong{display:block;font-size:22px;line-height:1.15;margin:6px 0}.ad-kpi b{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:#f2f4f7;color:var(--tone)}.navy{--tone:#182230}.teal{--tone:#0f9f8f}.blue{--tone:#2563eb}.indigo{--tone:#4f46e5}.cyan{--tone:#0891b2}.green{--tone:#16a34a}.red{--tone:#dc2626}.orange{--tone:#ea580c}.slate{--tone:#64748b}.violet{--tone:#7c3aed}.ad-table-title{height:48px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e4e7ec}.ad-table-title>div:first-child{display:flex;align-items:center;gap:10px}.ad-table-title strong{color:#1d4ed8}.ad-table-wrap{overflow:auto;max-height:calc(100vh - 390px);min-height:300px}table{border-collapse:separate;border-spacing:0;min-width:1560px;width:100%}th{position:sticky;top:0;z-index:2;height:42px;background:#f8fafc;border-bottom:1px solid #e4e7ec;color:#475467;font-size:10px;text-transform:uppercase;text-align:left;padding:0 9px;white-space:nowrap}td{height:52px;border-bottom:1px solid #eef1f4;padding:6px 9px;vertical-align:middle;white-space:nowrap;font-size:12px}tbody tr:hover{background:#f5f8ff}td a{color:#182230;text-decoration:none;font-weight:600}.copy-phone{border:0;background:transparent;color:#667085;cursor:pointer;margin-left:5px}.muted{color:#98a2b3}.yes{color:#15803d;font-weight:700}.ad-pill{display:inline-block;border-radius:999px;padding:3px 7px;font-size:10px;font-weight:700}.source-landing{background:#ccfbf1;color:#0f766e}.source-website{background:#dbeafe;color:#1d4ed8}.status-new{background:#eaf2ff;color:#2563eb}.status-confirmed,.status-scheduled{background:#e0e7ff;color:#4338ca}.status-visited{background:#cffafe;color:#0e7490}.status-no-show{background:#fee2e2;color:#b91c1c}.status-cancelled{background:#ffedd5;color:#c2410c}.status-spam,.status-closed{background:#f1f5f9;color:#475569}.outcome-won{background:#dcfce7;color:#15803d}.outcome-lost{background:#fee2e2;color:#b91c1c}.outcome-pending{background:#fef3c7;color:#b45309}.ad-actions{flex-wrap:nowrap}.ad-actions .ad-btn{font-size:10px;padding:5px 7px}.ad-actions details{position:relative}.ad-actions summary{list-style:none;border:1px solid #d8dee8;border-radius:6px;padding:4px 7px;cursor:pointer}.ad-actions details div{position:absolute;right:0;top:28px;z-index:5;width:145px;background:#fff;border:1px solid #e4e7ec;border-radius:8px;box-shadow:0 12px 30px rgba(16,24,40,.14);padding:5px}.ad-actions details button{display:block;width:100%;border:0;background:#fff;text-align:left;padding:8px;border-radius:5px;cursor:pointer}.ad-pagination{height:48px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;color:#667085}.ad-empty{text-align:center;height:220px!important;color:#667085}.ad-empty b,.ad-empty span{display:block;margin:6px}.skeleton i{display:block;height:30px;border-radius:6px;background:#eef1f5}.ad-error{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:10px;border-radius:8px;margin-bottom:12px}.ad-toast{position:fixed;right:24px;bottom:24px;z-index:30;background:#182230;color:#fff;border-radius:8px;padding:11px 15px}.ad-drawer-backdrop{position:fixed;inset:0;z-index:20;background:rgba(16,24,40,.32);display:flex;justify-content:flex-end}.ad-drawer{width:min(470px,100%);height:100%;overflow:auto;background:#fff;box-shadow:-14px 0 40px rgba(16,24,40,.12);padding:20px}.ad-drawer-head{display:flex;justify-content:space-between;border-bottom:1px solid #e4e7ec;padding-bottom:16px}.ad-drawer-head h2{margin:5px 0}.ad-drawer-head button{border:0;background:#f2f4f7;border-radius:50%;width:32px;height:32px;font-size:20px}.ad-drawer-actions{display:flex;gap:7px;padding:14px 0}.ad-drawer section{border-top:1px solid #e4e7ec;padding:10px 0}.ad-drawer dl span{display:grid;grid-template-columns:125px 1fr;gap:10px;margin:10px 0}.ad-drawer dt{color:#667085}.ad-drawer dd{margin:0;overflow-wrap:anywhere}.ad-bulk b{color:#2563eb}@media(max-width:1200px){.ad-kpis{grid-template-columns:repeat(5,minmax(130px,1fr))}.low{display:none}.ad-filter-row{grid-template-columns:1fr 1fr repeat(3,130px)}}@media(max-width:760px){.ad-page{padding:12px}.ad-header{align-items:flex-start;flex-direction:column}.ad-header-actions{width:100%}.ad-date{width:100%}.ad-filter-row{grid-template-columns:1fr}.ad-quick{align-items:flex-start;flex-direction:column}.ad-tabs{border:0;padding:0}.ad-kpis{grid-template-columns:repeat(2,minmax(145px,1fr))}.ad-table-wrap{max-height:none;overflow:visible}table,thead,tbody,tr,td{display:block;min-width:0}thead{display:none}tbody{padding:8px}tbody tr{position:relative;border:1px solid #e4e7ec;border-radius:9px;margin-bottom:8px;padding:10px 10px 52px}td{height:auto;border:0;padding:4px 0;white-space:normal}td:first-child{position:absolute;right:9px;top:8px}td:nth-child(7),td:nth-child(8),td:nth-child(10),td:nth-child(12){display:none}.ad-actions{position:absolute;left:8px;right:8px;bottom:8px;overflow-x:auto}.ad-actions details{display:none}.ad-pagination{height:auto;gap:10px;align-items:flex-start;flex-direction:column;padding:12px}}`
+const iconCss = `.ad-icon{display:inline-block;flex:0 0 auto;vertical-align:middle}.ad-btn,.ad-date,.ad-table-title strong,.ad-toast{display:flex;align-items:center;gap:6px}.ad-date{padding:5px 9px}.ad-date input{width:118px;border:0;background:transparent;color:#182230;font:inherit;font-weight:600;outline:none}.ad-date input::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.65}.ad-actions summary{display:grid;place-items:center}.copy-phone{display:inline-flex;align-items:center}.ad-drawer-head button{display:grid;place-items:center}`
+
 export const leadDashboardTool = definePlugin({
   name: 'lead-dashboard-tool',
   tools: [
