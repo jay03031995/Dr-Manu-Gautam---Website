@@ -15,17 +15,36 @@ import { getDoctorBySlug, getFaqs, getLocations } from "@/sanity/lib/fetch";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Best Doctor for Knee Replacement in Noida | Dr. Manu Gautam",
-  description: "Consult Dr. Manu Gautam for advanced knee replacement surgery, robotic knee replacement, knee pain treatment, and joint replacement care in Noida & Delhi NCR.",
+  description:
+    "Consult Dr. Manu Gautam for advanced knee replacement surgery, robotic knee replacement, knee pain treatment, and joint replacement care in Noida & Delhi NCR.",
   path: "/best-doctor-of-knee-replacement-in-noida/",
+  keywords: [
+    "knee replacement",
+    "knee replacement surgery",
+    "knee replacement surgery cost",
+    "knee replacement operation",
+    "total knee replacement surgery",
+    "full knee replacement surgery",
+    "total knee replacement",
+    "tkr knee replacement",
+    "knee surgery",
+  ],
 });
 
 export default async function BestDoctorOfKneeReplacementPage() {
-  const [doctor, locations, faqs] = await Promise.all([getDoctorBySlug("dr-manu-gautam"), getLocations(), getFaqs()]);
+  const [doctor, locations, faqs] = await Promise.all([
+    getDoctorBySlug("dr-manu-gautam"),
+    getLocations(),
+    getFaqs(),
+  ]);
   const pageFaqs = faqs.slice(0, 8);
   const schemas = [
     buildBreadcrumbSchema([
       { name: "Home", url: "/" },
-      { name: "Best Doctor for Knee Replacement in Noida", url: "/best-doctor-of-knee-replacement-in-noida/" },
+      {
+        name: "Best Doctor for Knee Replacement in Noida",
+        url: "/best-doctor-of-knee-replacement-in-noida/",
+      },
     ]),
     buildWebPageSchema({
       name: "Best Doctor for Knee Replacement in Noida",
@@ -40,8 +59,10 @@ export default async function BestDoctorOfKneeReplacementPage() {
       bodyLocation: ["Knee", "Joint"],
       howPerformed:
         "Dr. Manu Gautam evaluates knee pain, imaging, mobility, and patient goals before recommending non-surgical care, robotic knee replacement, or joint replacement surgery when appropriate.",
-      preparation: "Consultation, diagnosis, imaging review, surgical planning, and pre-operative assessment when surgery is advised.",
-      followup: "Post-operative review, physiotherapy guidance, rehabilitation support, and mobility follow-up.",
+      preparation:
+        "Consultation, diagnosis, imaging review, surgical planning, and pre-operative assessment when surgery is advised.",
+      followup:
+        "Post-operative review, physiotherapy guidance, rehabilitation support, and mobility follow-up.",
     }),
     buildPhysicianSchema(doctor?.name ?? siteConfig.shortName, undefined, {
       credentials: doctor?.credentials,
@@ -56,7 +77,11 @@ export default async function BestDoctorOfKneeReplacementPage() {
   return (
     <>
       <JsonLd data={schemas} />
-      <KneeReplacementLanding doctor={doctor} locations={locations} faqs={faqs} />
+      <KneeReplacementLanding
+        doctor={doctor}
+        locations={locations}
+        faqs={faqs}
+      />
     </>
   );
 }

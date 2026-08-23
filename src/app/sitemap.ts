@@ -5,27 +5,79 @@ import { treatmentPath, locationPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [serviceSlugs, locationSlugs, blogSlugs] = await Promise.all([
-    client.fetch<string[]>(`*[_type == "service" && defined(slug.current)].slug.current`),
-    client.fetch<string[]>(`*[_type == "location" && defined(slug.current)].slug.current`),
-    client.fetch<string[]>(`*[_type == "blogPost" && defined(slug.current)].slug.current`),
+    client.fetch<string[]>(
+      `*[_type == "service" && defined(slug.current)].slug.current`,
+    ),
+    client.fetch<string[]>(
+      `*[_type == "location" && defined(slug.current)].slug.current`,
+    ),
+    client.fetch<string[]>(
+      `*[_type == "blogPost" && defined(slug.current)].slug.current`,
+    ),
   ]);
 
   const lastModified = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${siteConfig.url}/`, lastModified, changeFrequency: "weekly", priority: 1 },
-    { url: `${siteConfig.url}/about/`, lastModified, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${siteConfig.url}${DOCTOR_PROFILE_PATH}`, lastModified, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${siteConfig.url}/treatments/`, lastModified, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${siteConfig.url}/locations/`, lastModified, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${siteConfig.url}/contact/`, lastModified, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${siteConfig.url}/appointment/`, lastModified, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${siteConfig.url}/blog/`, lastModified, changeFrequency: "weekly", priority: 0.7 },
+    {
+      url: `${siteConfig.url}/`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: `${siteConfig.url}/about/`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${siteConfig.url}${DOCTOR_PROFILE_PATH}`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${siteConfig.url}/treatments/`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${siteConfig.url}/locations/`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteConfig.url}/contact/`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${siteConfig.url}/appointment/`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteConfig.url}/blog/`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
     {
       url: `${siteConfig.url}/best-doctor-of-knee-replacement-in-noida/`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.95,
+    },
+    {
+      url: `${siteConfig.url}/acl-tear-treatment-noida/`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.85,
     },
   ];
 
@@ -50,5 +102,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...treatmentRoutes, ...locationRoutes, ...blogRoutes];
+  return [
+    ...staticRoutes,
+    ...treatmentRoutes,
+    ...locationRoutes,
+    ...blogRoutes,
+  ];
 }
