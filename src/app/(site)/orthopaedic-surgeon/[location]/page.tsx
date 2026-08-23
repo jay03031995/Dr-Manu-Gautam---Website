@@ -17,9 +17,19 @@ import { GoogleReviewsSection } from "@/components/sections/GoogleReviewsSection
 import { GoogleReviewsSkeleton } from "@/components/sections/GoogleReviewsSkeleton";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ServiceIcon } from "@/lib/serviceIcons";
-import { getLocations, getLocationBySlug, getFeaturedServices, getFaqs } from "@/sanity/lib/fetch";
+import {
+  getLocations,
+  getLocationBySlug,
+  getFeaturedServices,
+  getFaqs,
+} from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
-import { buildPageMetadata, buildBreadcrumbSchema, buildMedicalClinicSchema, buildFaqSchema } from "@/lib/seo";
+import {
+  buildPageMetadata,
+  buildBreadcrumbSchema,
+  buildMedicalClinicSchema,
+  buildFaqSchema,
+} from "@/lib/seo";
 import { siteConfig } from "@/lib/constants";
 import { treatmentPath, locationPath } from "@/lib/utils";
 
@@ -34,14 +44,25 @@ export async function generateStaticParams() {
   return locations.map((loc) => ({ location: loc.slug.current }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const location = await getLocationBySlug(params.location);
   if (!location) return {};
 
   return buildPageMetadata({
-    title: `Orthopaedic Surgeon in ${location.city}`,
-    description: `Consult ${siteConfig.shortName} in ${location.city} for personalised diagnosis and treatment of joint, bone, sports injury and musculoskeletal conditions.`,
+    title: `Orthopedic Surgeon in ${location.city} | Dr. Manu Gautam`,
+    description: `Looking for an orthopedic surgeon or orthopedist near ${location.city}? Consult Dr. Manu Gautam for bone, joint, knee and sports injury care.`,
     path: locationPath(params.location),
+    keywords: [
+      "orthopedic near me",
+      "orthopedist near me",
+      "orthopedic surgeon near me",
+      "orthopedic surgeon",
+      "orthopedist",
+      "bone doctors",
+      "best orthopedic near me",
+    ],
   });
 }
 
@@ -53,9 +74,11 @@ export default async function LocationPage({ params }: PageProps) {
   ]);
   if (!location) notFound();
 
-  const faqs = allFaqs.filter((f) => f.category === "appointments" || f.category === "general");
+  const faqs = allFaqs.filter(
+    (f) => f.category === "appointments" || f.category === "general",
+  );
   const nearbyAreas = siteConfig.serviceAreas.filter(
-    (area) => area.toLowerCase() !== location.city.toLowerCase()
+    (area) => area.toLowerCase() !== location.city.toLowerCase(),
   );
 
   const breadcrumbItems = [
@@ -67,7 +90,8 @@ export default async function LocationPage({ params }: PageProps) {
   const clinicSchema = buildMedicalClinicSchema({
     name: location.name,
     url: `${siteConfig.url}${locationPath(params.location)}`,
-    telephone: location.phone && !/x/i.test(location.phone) ? location.phone : undefined,
+    telephone:
+      location.phone && !/x/i.test(location.phone) ? location.phone : undefined,
     streetAddress: location.addressLine,
     addressLocality: location.city,
     postalCode: location.postalCode,
@@ -77,7 +101,13 @@ export default async function LocationPage({ params }: PageProps) {
 
   return (
     <>
-      <JsonLd data={faqSchema ? [breadcrumbSchema, clinicSchema, faqSchema] : [breadcrumbSchema, clinicSchema]} />
+      <JsonLd
+        data={
+          faqSchema
+            ? [breadcrumbSchema, clinicSchema, faqSchema]
+            : [breadcrumbSchema, clinicSchema]
+        }
+      />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">
@@ -105,11 +135,19 @@ export default async function LocationPage({ params }: PageProps) {
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
             {location.city}
           </span>
-          <h1 className="mb-4">Orthopaedic Surgeon in {location.city}</h1>
+          <h1 className="mb-4">Orthopedic Surgeon in {location.city}</h1>
           <p className="mb-6 text-lg text-dark-gray leading-relaxed">
-            Consult {siteConfig.shortName} in {location.city} for personalised diagnosis and treatment of joint,
-            bone, sports injury and musculoskeletal conditions. Every consultation begins with a detailed
-            evaluation to understand your symptoms and the treatment options available to you.
+            Consult {siteConfig.shortName} in {location.city} for personalised
+            diagnosis and treatment of joint, bone, sports injury and
+            musculoskeletal conditions. Every consultation begins with a
+            detailed evaluation to understand your symptoms and the treatment
+            options available to you.
+          </p>
+          <p className="mx-auto mb-6 max-w-2xl text-sm text-dark-gray">
+            If you are searching for an orthopedist near you, a bone doctor, or
+            an orthopedic surgeon near {location.city}, the clinic provides
+            assessment-led care with clear guidance on non-surgical and surgical
+            options.
           </p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <BookAppointmentButton size="large">
@@ -134,7 +172,10 @@ export default async function LocationPage({ params }: PageProps) {
           />
         </Reveal>
         {nearbyAreas.length > 0 && (
-          <Reveal delay={0.15} className="mx-auto mt-8 max-w-2xl text-center text-sm text-dark-gray">
+          <Reveal
+            delay={0.15}
+            className="mx-auto mt-8 max-w-2xl text-center text-sm text-dark-gray"
+          >
             Also serving patients from {nearbyAreas.join(", ")}.
           </Reveal>
         )}
@@ -155,7 +196,11 @@ export default async function LocationPage({ params }: PageProps) {
               href={treatmentPath(t.slug.current)}
               imageUrl={
                 hasImageAsset(t.heroImage)
-                  ? urlForImage(t.heroImage).width(600).height(375).fit("crop").url()
+                  ? urlForImage(t.heroImage)
+                      .width(600)
+                      .height(375)
+                      .fit("crop")
+                      .url()
                   : undefined
               }
             />
@@ -171,9 +216,12 @@ export default async function LocationPage({ params }: PageProps) {
       {/* Appointment form */}
       <Section background="white">
         <Reveal className="mx-auto max-w-xl card-base card-shadow p-6 sm:p-8">
-          <h2 className="mb-2 text-xl">Book a Consultation in {location.city}</h2>
+          <h2 className="mb-2 text-xl">
+            Book a Consultation in {location.city}
+          </h2>
           <p className="mb-6 text-sm text-dark-gray">
-            Share your concern and the team will contact you to schedule a consultation.
+            Share your concern and the team will contact you to schedule a
+            consultation.
           </p>
           <ContactForm />
         </Reveal>

@@ -60,15 +60,18 @@ export default async function TreatmentsPage() {
           </p>
           <h1 className="mb-4">Comprehensive Orthopedic Solutions</h1>
           <p className="text-dark-gray leading-relaxed">
-            From joint replacement to sports injury recovery, our specialists offer evidence-based, minimally
-            invasive care tailored to your needs.
+            From joint replacement to sports injury recovery, our specialists
+            offer evidence-based, minimally invasive care tailored to your
+            needs.
           </p>
         </Reveal>
       </Section>
 
       <Section background="white">
         {services.length === 0 ? (
-          <p className="text-center text-dark-gray">Treatments are being updated — check back shortly.</p>
+          <p className="text-center text-dark-gray">
+            Treatments are being updated — check back shortly.
+          </p>
         ) : (
           <RevealGrid className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
@@ -80,13 +83,32 @@ export default async function TreatmentsPage() {
                 href={treatmentPath(service.slug.current)}
                 imageUrl={
                   hasImageAsset(service.heroImage)
-                    ? urlForImage(service.heroImage).width(600).height(375).fit("crop").url()
+                    ? urlForImage(service.heroImage)
+                        .width(600)
+                        .height(375)
+                        .fit("crop")
+                        .url()
                     : undefined
                 }
               />
             ))}
           </RevealGrid>
         )}
+      </Section>
+      <Section background="light">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="mb-3">Knee ligament and ACL care</h2>
+          <p className="mb-5 text-dark-gray">
+            Learn how ACL tears are assessed and when rehabilitation or surgical
+            consultation may be appropriate.
+          </p>
+          <Link
+            href="/acl-tear-treatment-noida/"
+            className="font-semibold text-medical-blue hover:underline"
+          >
+            Explore ACL tear treatment in Noida →
+          </Link>
+        </div>
       </Section>
     </>
   );

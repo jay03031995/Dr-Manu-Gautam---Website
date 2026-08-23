@@ -3,7 +3,18 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Clock3, MapPin, MessageCircle, ShieldCheck, Sparkles, Star, Stethoscope, Users, X } from "lucide-react";
+import {
+  CheckCircle2,
+  Clock3,
+  MapPin,
+  MessageCircle,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Stethoscope,
+  Users,
+  X,
+} from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
@@ -17,7 +28,13 @@ import { LEADS_API_PATH, THANK_YOU_PATH, cn, telHref } from "@/lib/utils";
 import { getLeadAttribution } from "@/lib/leadAttribution";
 import { markLeadSubmitted } from "@/lib/leadStorage";
 import { hasImageAsset, urlForImage } from "@/sanity/lib/image";
-import { normalizeEmailForAnalytics, normalizePhoneForAnalytics, trackCtaClick, trackEvent, trackGoogleAdsLeadConversion } from "@/lib/analytics";
+import {
+  normalizeEmailForAnalytics,
+  normalizePhoneForAnalytics,
+  trackCtaClick,
+  trackEvent,
+  trackGoogleAdsLeadConversion,
+} from "@/lib/analytics";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import type { Doctor, Faq, Location } from "@/sanity/lib/types";
 
@@ -48,37 +65,65 @@ const INITIAL_FORM: FormState = {
 const experienceCards = [
   {
     title: "Knee pain while walking",
-    description: "Persistent pain can make everyday movement feel exhausting, even on short walks or around the home.",
+    description:
+      "Persistent pain can make everyday movement feel exhausting, even on short walks or around the home.",
     icon: "HeartPulse",
     imageUrl: "/images/pain.jpeg",
   },
   {
     title: "Difficulty climbing stairs",
-    description: "Pain and instability can make stairs feel difficult and increase your fear of falling.",
+    description:
+      "Pain and instability can make stairs feel difficult and increase your fear of falling.",
     icon: "Bone",
     imageUrl: "/images/stairs.jpg",
   },
   {
     title: "Morning stiffness",
-    description: "Stiffness after rest can make getting moving feel slow and uncomfortable each day.",
+    description:
+      "Stiffness after rest can make getting moving feel slow and uncomfortable each day.",
     icon: "Activity",
     imageUrl: "/images/morning.jpg",
   },
   {
     title: "Swelling and inflammation",
-    description: "Joint swelling can limit comfort, movement, and your ability to stay active throughout the day.",
+    description:
+      "Joint swelling can limit comfort, movement, and your ability to stay active throughout the day.",
     icon: "Footprints",
     imageUrl: "/images/swell.webp",
   },
 ];
 
 const benefits = [
-  { title: "Personalized treatment plans", description: "Every plan is tailored to your age, mobility, lifestyle, and surgical needs." },
-  { title: "Advanced surgical techniques", description: "Precision-based orthopedic care designed for better joint function and comfort." },
-  { title: "Robotic knee replacement", description: "Advanced robotics support can improve alignment and support faster recovery." },
-  { title: "Faster recovery protocols", description: "Structured rehabilitation and post-op guidance to help you regain mobility sooner." },
-  { title: "Comprehensive rehabilitation support", description: "From surgery planning to recovery, you receive coordinated care every step of the way." },
-  { title: "Patient-first approach", description: "Clear communication, honest guidance, and compassionate support from consultation to recovery." },
+  {
+    title: "Personalized treatment plans",
+    description:
+      "Every plan is tailored to your age, mobility, lifestyle, and surgical needs.",
+  },
+  {
+    title: "Advanced surgical techniques",
+    description:
+      "Precision-based orthopedic care designed for better joint function and comfort.",
+  },
+  {
+    title: "Robotic knee replacement",
+    description:
+      "Advanced robotics support can improve alignment and support faster recovery.",
+  },
+  {
+    title: "Faster recovery protocols",
+    description:
+      "Structured rehabilitation and post-op guidance to help you regain mobility sooner.",
+  },
+  {
+    title: "Comprehensive rehabilitation support",
+    description:
+      "From surgery planning to recovery, you receive coordinated care every step of the way.",
+  },
+  {
+    title: "Patient-first approach",
+    description:
+      "Clear communication, honest guidance, and compassionate support from consultation to recovery.",
+  },
 ];
 
 const timeline = [
@@ -105,37 +150,43 @@ const reviewSamples = [
     name: "Ritu S.",
     location: "Noida",
     rating: 5,
-    quote: "The care from consultation to rehabilitation was exceptional. I regained confidence walking again.",
+    quote:
+      "The care from consultation to rehabilitation was exceptional. I regained confidence walking again.",
   },
   {
     name: "Amit K.",
     location: "Delhi NCR",
     rating: 5,
-    quote: "Dr. Gautam explained every step clearly and made the entire joint replacement journey comfortable.",
+    quote:
+      "Dr. Gautam explained every step clearly and made the entire joint replacement journey comfortable.",
   },
   {
     name: "Neha M.",
     location: "Greater Noida",
     rating: 5,
-    quote: "Professional, kind, and highly experienced. I would recommend him for knee care without hesitation.",
+    quote:
+      "Professional, kind, and highly experienced. I would recommend him for knee care without hesitation.",
   },
   {
     name: "Vikram P.",
     location: "Noida",
     rating: 5,
-    quote: "The recovery roadmap was realistic and supportive. I was back to daily walking much sooner than expected.",
+    quote:
+      "The recovery roadmap was realistic and supportive. I was back to daily walking much sooner than expected.",
   },
   {
     name: "Pooja D.",
     location: "Delhi",
     rating: 5,
-    quote: "The surgical guidance and aftercare were outstanding. I felt informed and reassured throughout.",
+    quote:
+      "The surgical guidance and aftercare were outstanding. I felt informed and reassured throughout.",
   },
   {
     name: "Sanjay G.",
     location: "Noida",
     rating: 5,
-    quote: "From the first consultation to the final follow-up, the experience was smooth and reassuring.",
+    quote:
+      "From the first consultation to the final follow-up, the experience was smooth and reassuring.",
   },
 ];
 
@@ -192,17 +243,32 @@ function Counter({ value, label }: { value: number; label: string }) {
 
   return (
     <div className="rounded-2xl border border-white/20 bg-white/10 p-4 text-center backdrop-blur-sm">
-      <p className="font-heading text-2xl font-bold text-white">{display}{value >= 1000 ? "+" : ""}</p>
+      <p className="font-heading text-2xl font-bold text-white">
+        {display}
+        {value >= 1000 ? "+" : ""}
+      </p>
       <p className="mt-1 text-sm text-white/80">{label}</p>
     </div>
   );
 }
 
-function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMode = "api" }: { compact?: boolean; buttonLabel?: string; submitMode?: "api" | "whatsapp" }) {
+function LeadForm({
+  compact = false,
+  buttonLabel = "Book Consultation",
+  submitMode = "api",
+}: {
+  compact?: boolean;
+  buttonLabel?: string;
+  submitMode?: "api" | "whatsapp";
+}) {
   const router = useRouter();
   const [data, setData] = useState<FormState>(INITIAL_FORM);
-  const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof FormState, string>>
+  >({});
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -214,8 +280,10 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
     e.preventDefault();
     const nextErrors: Partial<Record<keyof FormState, string>> = {};
     if (!data.name.trim()) nextErrors.name = "Please enter your name.";
-    if (!isValidEmail(data.email)) nextErrors.email = "Please enter a valid email address.";
-    if (!isValidPhone(data.phone)) nextErrors.phone = "Please enter a valid phone number.";
+    if (!isValidEmail(data.email))
+      nextErrors.email = "Please enter a valid email address.";
+    if (!isValidPhone(data.phone))
+      nextErrors.phone = "Please enter a valid phone number.";
     if (!data.city.trim()) nextErrors.city = "Please share your city.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
@@ -231,7 +299,8 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
       message: data.message.trim() || undefined,
       company: data.company,
       source: "landing-page",
-      submissionAction: submitMode === "whatsapp" ? "whatsapp_redirect" : "callback_request",
+      submissionAction:
+        submitMode === "whatsapp" ? "whatsapp_redirect" : "callback_request",
       ...getLeadAttribution(),
     };
 
@@ -243,7 +312,10 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
       });
       const json = await res.json();
       if (!res.ok || !json.ok) {
-        setSubmitError(json.error ?? "Sorry, we could not submit your request. Please call us directly.");
+        setSubmitError(
+          json.error ??
+            "Sorry, we could not submit your request. Please call us directly.",
+        );
         setStatus("error");
         return;
       }
@@ -266,7 +338,11 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
         });
         markLeadSubmitted();
         trackGoogleAdsLeadConversion();
-        window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank", "noopener,noreferrer");
+        window.open(
+          `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`,
+          "_blank",
+          "noopener,noreferrer",
+        );
         setStatus("success");
         router.push(THANK_YOU_PATH);
         return;
@@ -283,48 +359,112 @@ function LeadForm({ compact = false, buttonLabel = "Book Consultation", submitMo
       setStatus("success");
       router.push(THANK_YOU_PATH);
     } catch {
-      setSubmitError("Sorry, we could not submit your request. Please call us directly.");
+      setSubmitError(
+        "Sorry, we could not submit your request. Please call us directly.",
+      );
       setStatus("error");
     }
   }
 
   if (status === "success") {
     return (
-      <div className={cn("rounded-2xl border border-medical-blue/20 bg-light-teal p-6 text-center", compact && "p-5")}> 
+      <div
+        className={cn(
+          "rounded-2xl border border-medical-blue/20 bg-light-teal p-6 text-center",
+          compact && "p-5",
+        )}
+      >
         <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-medical-blue" />
-        <h3 className="text-xl font-semibold text-dark-navy">Thank you — we&apos;ll contact you soon.</h3>
-        <p className="mt-2 text-sm text-dark-gray">One of our team members will call you about your knee consultation.</p>
+        <h3 className="text-xl font-semibold text-dark-navy">
+          Thank you — we&apos;ll contact you soon.
+        </h3>
+        <p className="mt-2 text-sm text-dark-gray">
+          One of our team members will call you about your knee consultation.
+        </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className={cn("space-y-3", compact ? "space-y-2" : "space-y-4")}> 
-      <TextInput label="Full Name" required value={data.name} onChange={(e) => update("name", e.target.value)} error={errors.name} />
-      <TextInput label="Email Address" type="email" required value={data.email} onChange={(e) => update("email", e.target.value)} error={errors.email} autoComplete="email" />
-      <TextInput label="Phone Number" type="tel" required value={data.phone} onChange={(e) => update("phone", e.target.value)} error={errors.phone} />
-      <TextInput label="City" required value={data.city} onChange={(e) => update("city", e.target.value)} error={errors.city} />
-      <Textarea label="Tell us about your knee pain" rows={3} value={data.message} onChange={(e) => update("message", e.target.value)} placeholder="Mention pain, stiffness, swelling, or walking difficulty." />
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className={cn("space-y-3", compact ? "space-y-2" : "space-y-4")}
+    >
+      <TextInput
+        label="Full Name"
+        required
+        value={data.name}
+        onChange={(e) => update("name", e.target.value)}
+        error={errors.name}
+      />
+      <TextInput
+        label="Email Address"
+        type="email"
+        required
+        value={data.email}
+        onChange={(e) => update("email", e.target.value)}
+        error={errors.email}
+        autoComplete="email"
+      />
+      <TextInput
+        label="Phone Number"
+        type="tel"
+        required
+        value={data.phone}
+        onChange={(e) => update("phone", e.target.value)}
+        error={errors.phone}
+      />
+      <TextInput
+        label="City"
+        required
+        value={data.city}
+        onChange={(e) => update("city", e.target.value)}
+        error={errors.city}
+      />
+      <Textarea
+        label="Tell us about your knee pain"
+        rows={3}
+        value={data.message}
+        onChange={(e) => update("message", e.target.value)}
+        placeholder="Mention pain, stiffness, swelling, or walking difficulty."
+      />
       <div className="hidden" aria-hidden="true">
         <label htmlFor="landing-company">Company</label>
-        <input id="landing-company" value={data.company} onChange={(e) => update("company", e.target.value)} />
+        <input
+          id="landing-company"
+          value={data.company}
+          onChange={(e) => update("company", e.target.value)}
+        />
       </div>
       {submitError && <p className="text-sm text-red-600">{submitError}</p>}
-      <Button type="submit" className="w-full" variant="primary" size={compact ? "regular" : "large"} disabled={status === "submitting"}>
+      <Button
+        type="submit"
+        className="w-full"
+        variant="primary"
+        size={compact ? "regular" : "large"}
+        disabled={status === "submitting"}
+      >
         {status === "submitting" ? "Submitting..." : buttonLabel}
       </Button>
     </form>
   );
 }
 
-export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingProps) {
+export function KneeReplacementLanding({
+  doctor,
+  faqs,
+}: KneeReplacementLandingProps) {
   const [isFloatingOpen, setIsFloatingOpen] = useState(false);
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
 
   useEffect(() => {
     if (hasAutoOpened) return;
     const handleScroll = () => {
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const maxScroll = Math.max(
+        0,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
       if (maxScroll > 0 && window.scrollY >= maxScroll * 0.5) {
         setHasAutoOpened(true);
         setIsFloatingOpen(true);
@@ -345,7 +485,14 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
 
   const doctorImage = useMemo(() => {
     if (doctor && hasImageAsset(doctor.photo)) {
-      return { url: urlForImage(doctor.photo).width(900).height(1100).fit("crop").url(), alt: doctor.name };
+      return {
+        url: urlForImage(doctor.photo)
+          .width(900)
+          .height(1100)
+          .fit("crop")
+          .url(),
+        alt: doctor.name,
+      };
     }
     return {
       url: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=900&q=80&auto=format&fit=crop",
@@ -366,18 +513,53 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
   ];
   const faqItems = useMemo(() => {
     const baseFaqs = [
-      { question: "How long does knee replacement recovery take?", answer: "Most patients begin walking with support within a day or two after surgery and continue progressive rehabilitation over several weeks. Full functional recovery varies by patient and procedure." },
-      { question: "Is robotic knee replacement better?", answer: "Robotic-assisted knee replacement can improve precision during surgery, support better implant alignment, and help many patients recover with more predictability." },
-      { question: "When should I consider surgery?", answer: "Surgery is often considered when pain, stiffness, and loss of mobility persist despite medication, physiotherapy, and other conservative treatments." },
-      { question: "What is the cost of knee replacement?", answer: "The total cost depends on the implant, hospital, and the complexity of the case. A consultation helps provide a realistic estimate and treatment plan." },
-      { question: "Is the procedure painful?", answer: "Pain is well managed with modern anesthesia and post-operative care protocols. Most patients report pain reducing steadily in the days and weeks after surgery." },
-      { question: "How long does the implant last?", answer: "Modern knee implants are designed to last many years, with durability depending on activity level, weight, and surgical technique." },
-      { question: "Can elderly patients undergo surgery?", answer: "Many older patients are suitable candidates, especially when they have significant pain, reduced mobility, and are medically evaluated for surgery." },
-      { question: "What are the risks and benefits?", answer: "Benefits include reduced pain and improved mobility. Risks are discussed in detail during consultation to help you make an informed decision." },
+      {
+        question: "How long does knee replacement recovery take?",
+        answer:
+          "Most patients begin walking with support within a day or two after surgery and continue progressive rehabilitation over several weeks. Full functional recovery varies by patient and procedure.",
+      },
+      {
+        question: "Is robotic knee replacement better?",
+        answer:
+          "Robotic-assisted knee replacement can improve precision during surgery, support better implant alignment, and help many patients recover with more predictability.",
+      },
+      {
+        question: "When should I consider surgery?",
+        answer:
+          "Surgery is often considered when pain, stiffness, and loss of mobility persist despite medication, physiotherapy, and other conservative treatments.",
+      },
+      {
+        question: "What is the cost of knee replacement?",
+        answer:
+          "The total cost depends on the implant, hospital, and the complexity of the case. A consultation helps provide a realistic estimate and treatment plan.",
+      },
+      {
+        question: "Is the procedure painful?",
+        answer:
+          "Pain is well managed with modern anesthesia and post-operative care protocols. Most patients report pain reducing steadily in the days and weeks after surgery.",
+      },
+      {
+        question: "How long does the implant last?",
+        answer:
+          "Modern knee implants are designed to last many years, with durability depending on activity level, weight, and surgical technique.",
+      },
+      {
+        question: "Can elderly patients undergo surgery?",
+        answer:
+          "Many older patients are suitable candidates, especially when they have significant pain, reduced mobility, and are medically evaluated for surgery.",
+      },
+      {
+        question: "What are the risks and benefits?",
+        answer:
+          "Benefits include reduced pain and improved mobility. Risks are discussed in detail during consultation to help you make an informed decision.",
+      },
     ];
 
     if (faqs.length) {
-      const mapped = faqs.map((item) => ({ question: item.question, answer: item.answer }));
+      const mapped = faqs.map((item) => ({
+        question: item.question,
+        answer: item.answer,
+      }));
       return mapped.slice(0, 8);
     }
 
@@ -387,16 +569,29 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
   return (
     <>
       <div className="sticky top-0 z-40 border-b border-light-grey bg-white/95 backdrop-blur">
-<div className="mx-auto flex flex-wrap items-center justify-between gap-4 lg:gap-16 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex flex-wrap items-center justify-between gap-4 lg:gap-16 px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
-            <Image src={siteConfig.logo} alt="Dr. Manu Gautam logo" width={100} height={100} className="h-auto w-auto object-contain" />
+            <Image
+              src={siteConfig.logo}
+              alt="Dr. Manu Gautam logo"
+              width={100}
+              height={100}
+              className="h-auto w-auto object-contain"
+            />
             <div className="min-w-0">
-              <p className="font-heading text-sm font-semibold text-medical-blue">Knee Replacement Specialist</p>
-              <p className="truncate text-sm text-dark-gray">Consult Dr. Manu Gautam</p>
+              <p className="font-heading text-sm font-semibold text-medical-blue">
+                Knee Replacement Specialist
+              </p>
+              <p className="truncate text-sm text-dark-gray">
+                Consult Dr. Manu Gautam
+              </p>
             </div>
           </div>
 
-          <nav aria-label="Knee landing navigation" className="order-3 min-w-0 flex flex-1 overflow-x-auto whitespace-nowrap px-1 text-sm sm:order-2 sm:px-0">
+          <nav
+            aria-label="Knee landing navigation"
+            className="order-3 min-w-0 flex flex-1 overflow-x-auto whitespace-nowrap px-1 text-sm sm:order-2 sm:px-0"
+          >
             <div className="flex items-center gap-6 text-sm md:gap-8">
               {sectionLinks.map((link) => (
                 <a
@@ -416,7 +611,10 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               variant="primary"
               size="small"
               onClick={() => {
-                trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "sticky_nav" });
+                trackEvent("phone_click", {
+                  phone_number: normalizePhoneForAnalytics(primaryPhone),
+                  location: "sticky_nav",
+                });
                 trackCtaClick("call_now", "sticky_nav");
                 recordLandingPageCallLead("sticky_nav", primaryPhone);
               }}
@@ -425,7 +623,13 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               Call Now
             </Button>
             <div className="hidden md:flex items-center gap-2">
-              <BookAppointmentButton size="small" variant="secondary" trackingLocation="sticky_nav">Book Appointment</BookAppointmentButton>
+              <BookAppointmentButton
+                size="small"
+                variant="secondary"
+                trackingLocation="sticky_nav"
+              >
+                Book Appointment
+              </BookAppointmentButton>
               <Button
                 href={whatsappUrl}
                 target="_blank"
@@ -456,27 +660,45 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
               Walk Pain-Free Again with Advanced Knee Replacement Surgery
             </h1>
             <p className="mt-4 max-w-2xl text-base text-dark-gray sm:text-lg">
-              Consult Dr. Manu Gautam for advanced robotic and minimally invasive knee replacement solutions that are designed to reduce pain, restore mobility, and improve quality of life.
+              Consult Dr. Manu Gautam for advanced robotic and minimally
+              invasive knee replacement solutions that are designed to reduce
+              pain, restore mobility, and improve quality of life.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <BookAppointmentButton size="large" trackingLocation="hero" className="min-w-0 whitespace-nowrap bg-cta-orange hover:bg-cta-orange/90 text-sm">
+              <BookAppointmentButton
+                size="large"
+                trackingLocation="hero"
+                className="min-w-0 whitespace-nowrap bg-cta-orange hover:bg-cta-orange/90 text-sm"
+              >
                 Book Consultation
               </BookAppointmentButton>
-              <Button href="#lead-form" variant="secondary" size="large" onClick={() => trackCtaClick("request_callback", "hero")} className="min-w-0 whitespace-nowrap text-sm">
+              <Button
+                href="#lead-form"
+                variant="secondary"
+                size="large"
+                onClick={() => trackCtaClick("request_callback", "hero")}
+                className="min-w-0 whitespace-nowrap text-sm"
+              >
                 Request Callback
               </Button>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-3 rounded-3xl border border-light-grey bg-white p-4 shadow-elevation-2">
               <div className="min-w-0 text-center sm:text-left">
-                <p className="font-heading text-xl font-bold text-dark-navy">15+ yrs</p>
+                <p className="font-heading text-xl font-bold text-dark-navy">
+                  15+ yrs
+                </p>
                 <p className="text-sm text-dark-gray">Experience</p>
               </div>
               <div className="min-w-0 text-center sm:text-left">
-                <p className="font-heading text-xl font-bold text-dark-navy">2,500+</p>
+                <p className="font-heading text-xl font-bold text-dark-navy">
+                  2,500+
+                </p>
                 <p className="text-sm text-dark-gray">Procedures</p>
               </div>
               <div className="min-w-0 text-center sm:text-left">
-                <p className="font-heading text-xl font-bold text-dark-navy">370+</p>
+                <p className="font-heading text-xl font-bold text-dark-navy">
+                  370+
+                </p>
                 <p className="text-sm text-dark-gray">Google Reviews</p>
               </div>
             </div>
@@ -485,30 +707,48 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
           <Reveal mode="onMount" delay={0.08} className="flex flex-col gap-4">
             <div className="overflow-hidden rounded-[32px] border border-light-grey bg-white p-3 shadow-elevation-3">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[24px]">
-                <Image src={doctorImage.url} alt={doctorImage.alt} fill sizes="(min-width: 1024px) 480px, 90vw" className="object-cover" />
+                <Image
+                  src={doctorImage.url}
+                  alt={doctorImage.alt}
+                  fill
+                  sizes="(min-width: 1024px) 480px, 90vw"
+                  className="object-cover"
+                />
               </div>
             </div>
             <div className="rounded-[24px] border border-light-grey bg-white p-5 shadow-elevation-2">
               <div className="flex items-center gap-2 text-medical-blue">
                 <ShieldCheck className="h-5 w-5" />
-                <span className="font-semibold">Trusted by patients across Noida & Delhi NCR</span>
+                <span className="font-semibold">
+                  Trusted by patients across Noida & Delhi NCR
+                </span>
               </div>
               <div className="mt-4 flex flex-wrap gap-2 text-sm text-dark-gray">
-                <span className="rounded-full bg-light-blue px-3 py-1">{doctorCredentials}</span>
-                <span className="rounded-full bg-light-blue px-3 py-1">Robotic Knee Replacement</span>
-                <span className="rounded-full bg-light-blue px-3 py-1">Joint Replacement Care</span>
+                <span className="rounded-full bg-light-blue px-3 py-1">
+                  {doctorCredentials}
+                </span>
+                <span className="rounded-full bg-light-blue px-3 py-1">
+                  Robotic Knee Replacement
+                </span>
+                <span className="rounded-full bg-light-blue px-3 py-1">
+                  Joint Replacement Care
+                </span>
               </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-
-    <Section background="light" id="recovery">
+      <Section background="light" id="recovery">
         <Reveal className="mb-8 text-center">
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Recovery Stories</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Recovery Stories
+          </p>
           <h2>Before & after recovery support</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-dark-gray">Patients often report improved walking, reduced pain, and greater independence after a structured joint replacement journey.</p>
+          <p className="mx-auto mt-3 max-w-2xl text-dark-gray">
+            Patients often report improved walking, reduced pain, and greater
+            independence after a structured joint replacement journey.
+          </p>
         </Reveal>
         <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-3xl border border-light-grey bg-white p-8 shadow-elevation-2">
@@ -517,8 +757,13 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
                 <Users className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-dark-navy">Recovery milestones</h3>
-                <p className="text-sm text-dark-gray">Focused on safe movement, reducing stiffness, and rebuilding confidence.</p>
+                <h3 className="text-xl font-semibold text-dark-navy">
+                  Recovery milestones
+                </h3>
+                <p className="text-sm text-dark-gray">
+                  Focused on safe movement, reducing stiffness, and rebuilding
+                  confidence.
+                </p>
               </div>
             </div>
             <div className="space-y-4">
@@ -528,7 +773,10 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
                 "Physical therapy and joint-strengthening guidance",
                 "Long-term care for pain-free routine mobility",
               ].map((item) => (
-                <div key={item} className="flex items-center gap-3 rounded-xl bg-light-blue px-4 py-3">
+                <div
+                  key={item}
+                  className="flex items-center gap-3 rounded-xl bg-light-blue px-4 py-3"
+                >
                   <CheckCircle2 className="h-5 w-5 text-medical-blue" />
                   <span className="text-sm text-dark-gray">{item}</span>
                 </div>
@@ -536,8 +784,12 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             </div>
           </div>
           <div className="rounded-3xl border border-light-grey bg-dark-navy p-8 text-white shadow-elevation-2">
-            <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-medical-blue">Outcome Metrics</p>
-            <h3 className="mt-3 text-2xl font-semibold">Improved mobility and confidence after focused treatment</h3>
+            <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-medical-blue">
+              Outcome Metrics
+            </p>
+            <h3 className="mt-3 text-2xl font-semibold">
+              Improved mobility and confidence after focused treatment
+            </h3>
             <div className="mt-2 grid grid-cols-2 gap-3">
               <Counter value={2500} label="Successful Procedures" />
               <Counter value={98} label="Happy Patients" />
@@ -546,17 +798,25 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             </div>
           </div>
         </div>
-    </Section>
+      </Section>
 
-    <Section background="white" id="testimonials">
+      <Section background="white" id="testimonials">
         <Reveal className="mb-8 text-center">
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Real Patient Experiences</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Real Patient Experiences
+          </p>
           <h2>Premium video testimonials from patients who chose knee care</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-dark-gray">Hear directly from patients who regained comfort, mobility, and confidence through expert orthopedic treatment.</p>
+          <p className="mx-auto mt-3 max-w-2xl text-dark-gray">
+            Hear directly from patients who regained comfort, mobility, and
+            confidence through expert orthopedic treatment.
+          </p>
         </Reveal>
         <div className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory md:grid md:grid-cols-2 md:overflow-visible xl:grid-cols-3">
           {testimonialReels.map((reel) => (
-            <div key={reel.id} className="min-w-[85vw] snap-center overflow-hidden rounded-3xl border border-light-grey bg-white p-3 shadow-elevation-1 md:min-w-0">
+            <div
+              key={reel.id}
+              className="min-w-[85vw] snap-center overflow-hidden rounded-3xl border border-light-grey bg-white p-3 shadow-elevation-1 md:min-w-0"
+            >
               <iframe
                 src={`https://www.instagram.com/reel/${reel.id}/embed`}
                 title={reel.title}
@@ -568,26 +828,40 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
             </div>
           ))}
         </div>
-    </Section>
+      </Section>
 
       <Section background="light">
         <Reveal className="mb-8 text-center">
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Follow Dr. Manu Gautam</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Follow Dr. Manu Gautam
+          </p>
           <h2>Instagram reels and updates from the practice</h2>
         </Reveal>
         <div className="rounded-[32px] border border-light-grey bg-white p-4 shadow-elevation-2 sm:p-6">
           <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <h3 className="text-xl font-semibold text-dark-navy">@maanuugautam</h3>
-              <p className="text-sm text-dark-gray">Patient education, treatment insights, and recovery guidance.</p>
+              <h3 className="text-xl font-semibold text-dark-navy">
+                @maanuugautam
+              </h3>
+              <p className="text-sm text-dark-gray">
+                Patient education, treatment insights, and recovery guidance.
+              </p>
             </div>
-            <Button href={siteConfig.social.instagram} target="_blank" rel="noreferrer" variant="secondary">
+            <Button
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noreferrer"
+              variant="secondary"
+            >
               Follow on Instagram
             </Button>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-3 md:grid md:grid-cols-2 md:overflow-visible xl:grid-cols-3">
             {testimonialReels.slice(0, 3).map((reel) => (
-              <div key={`profile-${reel.id}`} className="min-w-[80vw] snap-center overflow-hidden rounded-3xl border border-light-grey bg-light-blue p-3 md:min-w-0">
+              <div
+                key={`profile-${reel.id}`}
+                className="min-w-[80vw] snap-center overflow-hidden rounded-3xl border border-light-grey bg-light-blue p-3 md:min-w-0"
+              >
                 <iframe
                   src={`https://www.instagram.com/reel/${reel.id}/embed`}
                   title={`Instagram reel ${reel.id}`}
@@ -602,13 +876,15 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </div>
       </Section>
 
-
       <Section background="light" id="about">
         <Reveal className="mb-10 text-center">
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Start Here</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Start Here
+          </p>
           <h2 className="mb-3">What Are You Experiencing?</h2>
           <p className="mx-auto max-w-xl text-dark-gray leading-relaxed">
-            You don&rsquo;t need the medical term for it — tell us what you&rsquo;re feeling and we&rsquo;ll point you to the right care.
+            You don&rsquo;t need the medical term for it — tell us what
+            you&rsquo;re feeling and we&rsquo;ll point you to the right care.
           </p>
         </Reveal>
         <RevealGrid className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -627,162 +903,189 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
         </RevealGrid>
       </Section>
 
-
       <Section background="light" id="specializations" className="scroll-mt-24">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
           <Reveal className="rounded-[32px] border border-light-grey bg-white p-6 shadow-elevation-2 sm:p-8">
-            <p className="mb-3 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Doctor Profile</p>
-            <h2>Specialist in joint replacement, robotic knee care, and rehabilitation</h2>
-            <p className="mt-4 text-dark-gray">Dr. Manu Gautam brings extensive experience in orthopaedics, surgical planning, and compassionate recovery-oriented care.</p>
+            <p className="mb-3 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+              Doctor Profile
+            </p>
+            <h2>
+              Specialist in joint replacement, robotic knee care, and
+              rehabilitation
+            </h2>
+            <p className="mt-4 text-dark-gray">
+              Dr. Manu Gautam brings extensive experience in orthopaedics,
+              surgical planning, and compassionate recovery-oriented care.
+            </p>
             <div className="mt-6 space-y-3">
               <div className="flex items-start gap-3 rounded-2xl border border-light-grey bg-light-blue p-4">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-medical-blue" />
                 <div>
-                  <h3 className="text-base font-semibold text-dark-navy">Clinical Focus</h3>
-                  <p className="text-sm text-dark-gray">Knee replacement surgery, joint replacement care, robotic knee replacement, and post-op rehabilitation.</p>
+                  <h3 className="text-base font-semibold text-dark-navy">
+                    Clinical Focus
+                  </h3>
+                  <p className="text-sm text-dark-gray">
+                    Knee replacement surgery, joint replacement care, robotic
+                    knee replacement, and post-op rehabilitation.
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3 rounded-2xl border border-light-grey bg-light-blue p-4">
                 <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-medical-blue" />
                 <div>
-                  <h3 className="text-base font-semibold text-dark-navy">Experience</h3>
-                  <p className="text-sm text-dark-gray">Over {doctor?.yearsExperience ?? 15} years of orthopedic experience across Noida and Delhi NCR.</p>
+                  <h3 className="text-base font-semibold text-dark-navy">
+                    Experience
+                  </h3>
+                  <p className="text-sm text-dark-gray">
+                    Over {doctor?.yearsExperience ?? 15} years of orthopedic
+                    experience across Noida and Delhi NCR.
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3 rounded-2xl border border-light-grey bg-light-blue p-4">
                 <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-medical-blue" />
                 <div>
-                  <h3 className="text-base font-semibold text-dark-navy">Qualifications</h3>
+                  <h3 className="text-base font-semibold text-dark-navy">
+                    Qualifications
+                  </h3>
                   <p className="text-sm text-dark-gray">{doctorCredentials}</p>
                 </div>
               </div>
             </div>
           </Reveal>
-          <Reveal delay={0.04} className="rounded-[32px] border border-light-grey bg-white p-4 shadow-elevation-2">
+          <Reveal
+            delay={0.04}
+            className="rounded-[32px] border border-light-grey bg-white p-4 shadow-elevation-2"
+          >
             <div className="relative aspect-[4/5] overflow-hidden rounded-[24px]">
-              <Image src={doctorImage.url} alt={doctorImage.alt} fill sizes="(min-width: 1024px) 520px, 90vw" className="object-cover" />
+              <Image
+                src={doctorImage.url}
+                alt={doctorImage.alt}
+                fill
+                sizes="(min-width: 1024px) 520px, 90vw"
+                className="object-cover"
+              />
             </div>
           </Reveal>
         </div>
       </Section>
 
+      <section className="bg-dark-navy py-10 scroll-mt-24" id="contact">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid overflow-hidden rounded-3xl bg-white shadow-xl lg:grid-cols-[1.3fr_0.7fr]">
+            {/* Content */}
+            <div className="p-6 md:p-8">
+              <span className="inline-flex rounded-full bg-medical-blue/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-medical-blue">
+                Knee Replacement Specialist
+              </span>
 
+              <h2 className="mt-4 text-2xl font-bold leading-tight text-dark-navy md:text-3xl">
+                Still Living With Knee Pain?
+              </h2>
 
-<section className="bg-dark-navy py-10 scroll-mt-24" id="contact">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">
+                Consult Dr. Manu Gautam to understand whether your symptoms are
+                due to arthritis, cartilage damage, or advanced joint
+                degeneration.
+              </p>
 
-    <div className="grid overflow-hidden rounded-3xl bg-white shadow-xl lg:grid-cols-[1.3fr_0.7fr]">
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
+                  ✓ Arthritis Evaluation
+                </div>
 
-      {/* Content */}
-      <div className="p-6 md:p-8">
+                <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
+                  ✓ Knee Replacement Guidance
+                </div>
 
-        <span className="inline-flex rounded-full bg-medical-blue/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-medical-blue">
-          Knee Replacement Specialist
-        </span>
+                <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
+                  ✓ Personalized Treatment Plan
+                </div>
 
-        <h2 className="mt-4 text-2xl font-bold leading-tight text-dark-navy md:text-3xl">
-          Still Living With Knee Pain?
-        </h2>
+                <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
+                  ✓ Faster Recovery Focus
+                </div>
+              </div>
 
-        <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">
-          Consult Dr. Manu Gautam to understand whether your symptoms are due
-          to arthritis, cartilage damage, or advanced joint degeneration.
-        </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Button
+                  href={telHref(primaryPhone)}
+                  variant="primary"
+                  size="large"
+                  onClick={() => {
+                    trackEvent("phone_click", {
+                      phone_number: normalizePhoneForAnalytics(primaryPhone),
+                      location: "cta_section",
+                    });
+                    trackCtaClick("call_now", "cta_section");
+                    recordLandingPageCallLead("cta_section", primaryPhone);
+                  }}
+                  className="bg-cta-orange px-5 py-3 text-sm hover:bg-cta-orange/90"
+                >
+                  Call Now
+                </Button>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <Button
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="secondary"
+                  size="large"
+                  onClick={() => {
+                    trackEvent("whatsapp_click", { location: "cta_section" });
+                    trackCtaClick("whatsapp", "cta_section");
+                  }}
+                  className="px-5 py-3 text-sm"
+                >
+                  WhatsApp
+                </Button>
+              </div>
+            </div>
 
-          <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
-            ✓ Arthritis Evaluation
+            {/* Form */}
+            <div className="bg-slate-50 p-5 md:p-6">
+              <div className="rounded-2xl bg-white p-5 shadow-md">
+                <h3 className="mb-1 text-lg font-semibold text-dark-navy">
+                  Book Consultation
+                </h3>
+
+                <p className="mb-4 text-xs text-slate-500">
+                  Our team will call you shortly.
+                </p>
+
+                <LeadForm compact buttonLabel="Request Callback" />
+              </div>
+            </div>
           </div>
-
-          <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
-            ✓ Knee Replacement Guidance
-          </div>
-
-          <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
-            ✓ Personalized Treatment Plan
-          </div>
-
-          <div className="rounded-xl border border-slate-200 px-4 py-3 text-sm">
-            ✓ Faster Recovery Focus
-          </div>
-
         </div>
-
-        <div className="mt-5 flex flex-wrap gap-3">
-
-          <Button
-            href={telHref(primaryPhone)}
-            variant="primary"
-            size="large"
-            onClick={() => {
-              trackEvent("phone_click", { phone_number: normalizePhoneForAnalytics(primaryPhone), location: "cta_section" });
-              trackCtaClick("call_now", "cta_section");
-              recordLandingPageCallLead("cta_section", primaryPhone);
-            }}
-            className="bg-cta-orange px-5 py-3 text-sm hover:bg-cta-orange/90"
-          >
-            Call Now
-          </Button>
-
-          <Button
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            variant="secondary"
-            size="large"
-            onClick={() => {
-              trackEvent("whatsapp_click", { location: "cta_section" });
-              trackCtaClick("whatsapp", "cta_section");
-            }}
-            className="px-5 py-3 text-sm"
-          >
-            WhatsApp
-          </Button>
-
-        </div>
-
-      </div>
-
-      {/* Form */}
-      <div className="bg-slate-50 p-5 md:p-6">
-
-        <div className="rounded-2xl bg-white p-5 shadow-md">
-
-          <h3 className="mb-1 text-lg font-semibold text-dark-navy">
-            Book Consultation
-          </h3>
-
-          <p className="mb-4 text-xs text-slate-500">
-            Our team will call you shortly.
-          </p>
-
-          <LeadForm
-            compact
-            buttonLabel="Request Callback"
-          />
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-</section>
+      </section>
 
       <Section background="light">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
           <Reveal>
-            <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Why Patients Choose Dr. Manu Gautam</p>
-            <h2>Premium orthopedic care built around comfort, clarity, and recovery</h2>
-            <p className="mt-4 text-dark-gray">From diagnosis to post-op rehabilitation, the focus remains on reducing pain, restoring confidence, and supporting a smooth recovery.</p>
+            <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+              Why Patients Choose Dr. Manu Gautam
+            </p>
+            <h2>
+              Premium orthopedic care built around comfort, clarity, and
+              recovery
+            </h2>
+            <p className="mt-4 text-dark-gray">
+              From diagnosis to post-op rehabilitation, the focus remains on
+              reducing pain, restoring confidence, and supporting a smooth
+              recovery.
+            </p>
             <div className="mt-6 space-y-3">
               {benefits.slice(0, 3).map((item) => (
-                <div key={item.title} className="flex items-start gap-3 rounded-2xl border border-light-grey bg-white p-4">
+                <div
+                  key={item.title}
+                  className="flex items-start gap-3 rounded-2xl border border-light-grey bg-white p-4"
+                >
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-medical-blue" />
                   <div>
-                    <h3 className="text-base font-semibold text-dark-navy">{item.title}</h3>
+                    <h3 className="text-base font-semibold text-dark-navy">
+                      {item.title}
+                    </h3>
                     <p className="text-sm text-dark-gray">{item.description}</p>
                   </div>
                 </div>
@@ -791,12 +1094,19 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
           </Reveal>
           <Reveal delay={0.04} className="grid gap-4 md:grid-cols-2">
             {benefits.slice(3).map((item) => (
-              <div key={item.title} className="rounded-2xl border border-light-grey bg-white p-5 shadow-elevation-1">
+              <div
+                key={item.title}
+                className="rounded-2xl border border-light-grey bg-white p-5 shadow-elevation-1"
+              >
                 <div className="mb-3 inline-flex rounded-full bg-light-blue p-2 text-medical-blue">
                   <Stethoscope className="h-4 w-4" />
                 </div>
-                <h3 className="text-lg font-semibold text-dark-navy">{item.title}</h3>
-                <p className="mt-2 text-sm text-dark-gray">{item.description}</p>
+                <h3 className="text-lg font-semibold text-dark-navy">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm text-dark-gray">
+                  {item.description}
+                </p>
               </div>
             ))}
           </Reveal>
@@ -805,16 +1115,23 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
 
       <Section background="white" id="process" className="scroll-mt-24">
         <Reveal className="mb-8 text-center">
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Treatment Journey</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Treatment Journey
+          </p>
           <h2>Your path from pain to recovery</h2>
         </Reveal>
         <div className="grid gap-4 grid-cols-3 xl:grid-cols-6">
           {timeline.map((step, index) => (
-            <div key={step} className="rounded-2xl border border-light-grey bg-light-blue p-5 text-center overflow-hidden">
+            <div
+              key={step}
+              className="rounded-2xl border border-light-grey bg-light-blue p-5 text-center overflow-hidden"
+            >
               <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-medical-blue text-sm font-semibold text-white">
                 {index + 1}
               </div>
-              <h3 className="text-lg font-semibold text-dark-navy truncate">{step}</h3>
+              <h3 className="text-lg font-semibold text-dark-navy truncate">
+                {step}
+              </h3>
             </div>
           ))}
         </div>
@@ -822,14 +1139,24 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
 
       <Section background="white" id="results" className="scroll-mt-24">
         <Reveal className="mb-8 text-center">
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Patient Reviews</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Patient Reviews
+          </p>
           <h2>A premium Google review wall built for trust and conversion</h2>
         </Reveal>
         <div className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory md:grid md:grid-cols-2 xl:grid-cols-3 md:overflow-visible md:pb-0">
           {reviewSamples.map((review, index) => (
-            <div key={review.name} className={cn("snap-center min-w-[85vw] rounded-3xl border border-light-grey bg-white p-5 shadow-elevation-1 md:min-w-0", index % 2 === 1 ? "md:translate-y-4" : "") }>
+            <div
+              key={review.name}
+              className={cn(
+                "snap-center min-w-[85vw] rounded-3xl border border-light-grey bg-white p-5 shadow-elevation-1 md:min-w-0",
+                index % 2 === 1 ? "md:translate-y-4" : "",
+              )}
+            >
               <div className="mb-3 flex items-center gap-1 text-cta-orange">
-                {Array.from({ length: review.rating }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+                {Array.from({ length: review.rating }).map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-current" />
+                ))}
               </div>
               <p className="text-sm text-dark-gray">“{review.quote}”</p>
               <div className="mt-4 flex items-center justify-between">
@@ -837,7 +1164,9 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
                   <p className="font-semibold text-dark-navy">{review.name}</p>
                   <p className="text-sm text-dark-gray">{review.location}</p>
                 </div>
-                <div className="rounded-full bg-light-blue px-3 py-1 text-xs font-semibold text-medical-blue">Verified</div>
+                <div className="rounded-full bg-light-blue px-3 py-1 text-xs font-semibold text-medical-blue">
+                  Verified
+                </div>
               </div>
             </div>
           ))}
@@ -845,15 +1174,43 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
       </Section>
 
       <Section background="white" id="faq" className="scroll-mt-24">
+        <Reveal className="mx-auto mb-12 max-w-4xl rounded-3xl border border-light-grey bg-light-blue p-6 sm:p-8">
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Understanding the procedure
+          </p>
+          <h2 className="mb-4">Total and full knee replacement surgery</h2>
+          <div className="space-y-3 text-sm leading-relaxed text-dark-gray">
+            <p>
+              Knee replacement surgery—also called total knee replacement, full
+              knee replacement or TKR—is an operation that replaces damaged
+              joint surfaces when knee pain and stiffness are no longer
+              controlled by appropriate non-surgical treatment.
+            </p>
+            <p>
+              A consultation explains whether partial or complete knee
+              replacement is appropriate, how the knee operation is planned,
+              expected rehabilitation, and the factors that influence knee
+              replacement surgery cost. Treatment is recommended only after
+              examination, imaging review and discussion of alternatives.
+            </p>
+          </div>
+        </Reveal>
         <Reveal className="mb-8 text-center">
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">Frequently Asked Questions</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
+            Frequently Asked Questions
+          </p>
           <h2>Clear answers for patients exploring knee replacement</h2>
         </Reveal>
         <div className="mx-auto max-w-4xl rounded-[28px] border border-light-grey bg-white p-4 shadow-elevation-1 sm:p-6">
           <div className="space-y-3">
             {faqItems.map((item) => (
-              <details key={item.question} className="rounded-2xl border border-light-grey bg-light-blue px-4 py-3">
-                <summary className="cursor-pointer list-none font-semibold text-dark-navy">{item.question}</summary>
+              <details
+                key={item.question}
+                className="rounded-2xl border border-light-grey bg-light-blue px-4 py-3"
+              >
+                <summary className="cursor-pointer list-none font-semibold text-dark-navy">
+                  {item.question}
+                </summary>
                 <p className="mt-3 text-sm text-dark-gray">{item.answer}</p>
               </details>
             ))}
@@ -887,22 +1244,34 @@ export function KneeReplacementLanding({ doctor, faqs }: KneeReplacementLandingP
           >
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
-                <p id="floating-lead-title" className="font-heading text-lg font-semibold text-dark-navy">
+                <p
+                  id="floating-lead-title"
+                  className="font-heading text-lg font-semibold text-dark-navy"
+                >
                   Speak with Dr. Manu Gautam
                 </p>
                 <p className="mt-1 text-sm text-dark-gray">
-                  Share your details and we’ll connect you on WhatsApp with your knee consultation request.
+                  Share your details and we’ll connect you on WhatsApp with your
+                  knee consultation request.
                 </p>
               </div>
-              <button type="button" onClick={() => setIsFloatingOpen(false)} className="rounded-full p-2 text-dark-gray hover:bg-light-blue hover:text-dark-navy" aria-label="Close lead form">
+              <button
+                type="button"
+                onClick={() => setIsFloatingOpen(false)}
+                className="rounded-full p-2 text-dark-gray hover:bg-light-blue hover:text-dark-navy"
+                aria-label="Close lead form"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <LeadForm compact submitMode="whatsapp" buttonLabel="Send to WhatsApp" />
+            <LeadForm
+              compact
+              submitMode="whatsapp"
+              buttonLabel="Send to WhatsApp"
+            />
           </div>
         </div>
       )}
-
     </>
   );
 }

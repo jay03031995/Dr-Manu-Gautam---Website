@@ -7,13 +7,16 @@ interface PageMetaOptions {
   path?: string;
   image?: string;
   noIndex?: boolean;
+  keywords?: string[];
 }
 
 export function normalizePath(path = "") {
   if (!path || path === "/") return "/";
   const withLeadingSlash = path.startsWith("/") ? path : `/${path}`;
   if (/\.[a-z0-9]{2,5}$/i.test(withLeadingSlash)) return withLeadingSlash;
-  return withLeadingSlash.endsWith("/") ? withLeadingSlash : `${withLeadingSlash}/`;
+  return withLeadingSlash.endsWith("/")
+    ? withLeadingSlash
+    : `${withLeadingSlash}/`;
 }
 
 export function absoluteUrl(pathOrUrl = "") {
@@ -22,7 +25,14 @@ export function absoluteUrl(pathOrUrl = "") {
 }
 
 /** Builds a Next.js Metadata object with sensible OG/Twitter defaults for a page. */
-export function buildPageMetadata({ title, description, path = "", image, noIndex = false }: PageMetaOptions): Metadata {
+export function buildPageMetadata({
+  title,
+  description,
+  path = "",
+  image,
+  noIndex = false,
+  keywords = [],
+}: PageMetaOptions): Metadata {
   const url = absoluteUrl(path);
   const ogImage = absoluteUrl(image ?? siteConfig.ogImage);
 
@@ -37,6 +47,7 @@ export function buildPageMetadata({ title, description, path = "", image, noInde
       "robotic knee replacement Noida",
       "sports injury specialist",
       "spine care Noida",
+      ...keywords,
     ],
     alternates: { canonical: url },
     robots: {
@@ -131,7 +142,10 @@ export function buildLocalBusinessSchema() {
       postalCode: siteConfig.address.postalCode,
       addressCountry: siteConfig.address.country,
     },
-    areaServed: siteConfig.serviceAreas.map((name) => ({ "@type": "City", name })),
+    areaServed: siteConfig.serviceAreas.map((name) => ({
+      "@type": "City",
+      name,
+    })),
     medicalSpecialty: "Orthopedic",
     priceRange: "$$",
     openingHoursSpecification: siteConfig.openingHours.map((hours) => ({
@@ -152,7 +166,11 @@ interface PhysicianSchemaOptions {
   memberships?: string[];
 }
 
-export function buildPhysicianSchema(name: string, image?: string, options?: PhysicianSchemaOptions) {
+export function buildPhysicianSchema(
+  name: string,
+  image?: string,
+  options?: PhysicianSchemaOptions,
+) {
   return {
     "@context": "https://schema.org",
     "@type": "Physician",
@@ -176,8 +194,14 @@ export function buildPhysicianSchema(name: string, image?: string, options?: Phy
       url: siteConfig.url,
       "@id": `${siteConfig.url}/#medical-practice`,
     },
-    alumniOf: options?.education?.map((school) => ({ "@type": "EducationalOrganization", name: school })),
-    memberOf: options?.memberships?.map((org) => ({ "@type": "Organization", name: org })),
+    alumniOf: options?.education?.map((school) => ({
+      "@type": "EducationalOrganization",
+      name: school,
+    })),
+    memberOf: options?.memberships?.map((org) => ({
+      "@type": "Organization",
+      name: org,
+    })),
   };
 }
 
@@ -212,7 +236,9 @@ export function buildMedicalProcedureSchema(options: MedicalProcedureOptions) {
     description: options.description,
     url: absoluteUrl(options.url),
     procedureType: "https://schema.org/SurgicalProcedure",
-    ...(options.bodyLocation?.length ? { bodyLocation: options.bodyLocation } : {}),
+    ...(options.bodyLocation?.length
+      ? { bodyLocation: options.bodyLocation }
+      : {}),
     relevantSpecialty: {
       "@type": "MedicalSpecialty",
       name: "Orthopedic",
@@ -244,8 +270,12 @@ export function buildMedicalClinicSchema(options: MedicalClinicOptions) {
     ...(options.telephone ? { telephone: options.telephone } : {}),
     address: {
       "@type": "PostalAddress",
-      ...(options.streetAddress ? { streetAddress: options.streetAddress } : {}),
-      ...(options.addressLocality ? { addressLocality: options.addressLocality } : {}),
+      ...(options.streetAddress
+        ? { streetAddress: options.streetAddress }
+        : {}),
+      ...(options.addressLocality
+        ? { addressLocality: options.addressLocality }
+        : {}),
       ...(options.postalCode ? { postalCode: options.postalCode } : {}),
       addressCountry: siteConfig.address.country,
     },
@@ -262,7 +292,11 @@ export function buildMedicalClinicSchema(options: MedicalClinicOptions) {
   };
 }
 
-export function buildWebPageSchema(options: { name: string; description: string; url: string }) {
+export function buildWebPageSchema(options: {
+  name: string;
+  description: string;
+  url: string;
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -301,7 +335,9 @@ export function buildArticleSchema(options: ArticleOptions) {
     headline: options.headline,
     description: options.description,
     url: absoluteUrl(options.url),
-    image: options.image ? absoluteUrl(options.image) : absoluteUrl(siteConfig.ogImage),
+    image: options.image
+      ? absoluteUrl(options.image)
+      : absoluteUrl(siteConfig.ogImage),
     datePublished: options.datePublished,
     dateModified: options.dateModified ?? options.datePublished,
     author: {
