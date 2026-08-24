@@ -6,6 +6,8 @@ interface PageMetaOptions {
   description: string;
   path?: string;
   image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
   noIndex?: boolean;
   keywords?: string[];
 }
@@ -30,6 +32,8 @@ export function buildPageMetadata({
   description,
   path = "",
   image,
+  imageAlt,
+  type = "website",
   noIndex = false,
   keywords = [],
 }: PageMetaOptions): Metadata {
@@ -70,13 +74,12 @@ export function buildPageMetadata({
         {
           url: ogImage,
           width: 1200,
-          height: 630,
-          alt: `${siteConfig.shortName} - Orthopedic care in Noida and Delhi NCR`,
-          type: "image/png",
+          height: image ? 675 : 630,
+          alt: imageAlt ?? `${siteConfig.shortName} - Orthopedic care in Noida and Delhi NCR`,
         },
       ],
       locale: siteConfig.locale,
-      type: "website",
+      type,
     },
     twitter: {
       card: "summary_large_image",

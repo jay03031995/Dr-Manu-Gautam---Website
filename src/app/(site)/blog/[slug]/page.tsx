@@ -36,10 +36,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = await getBlogPostBySlug(params.slug);
   if (!post) return {};
 
+  const coverImage = hasImageAsset(post.coverImage)
+    ? urlForImage(post.coverImage).width(1200).height(675).fit("crop").quality(90).url()
+    : undefined;
+
   return buildPageMetadata({
     title: post.seo?.metaTitle || post.title,
     description: post.seo?.metaDescription || post.excerpt,
     path: `/blog/${params.slug}`,
+    image: coverImage,
+    imageAlt: post.title,
+    type: "article",
     noIndex: post.seo?.noIndex,
   });
 }
@@ -63,7 +70,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const toc = extractToc(post.body);
   const pageUrl = `${siteConfig.url}/blog/${params.slug}`;
-  const coverUrl = hasImageAsset(post.coverImage) ? urlForImage(post.coverImage).width(1200).url() : undefined;
+  const coverUrl = hasImageAsset(post.coverImage)
+    ? urlForImage(post.coverImage).width(1200).height(675).fit("crop").quality(90).url()
+    : undefined;
 
   const breadcrumbItems = [
     { name: "Home", url: "/" },
