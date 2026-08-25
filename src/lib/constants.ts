@@ -17,7 +17,7 @@ export const siteConfig = {
     postalCode: "201301",
     country: "IN",
   },
-  serviceAreas: ["Noida", "New Delhi", "Greater Noida", "Ghaziabad", "Delhi NCR"],
+  serviceAreas: ["Noida", "Delhi", "New Delhi", "Greater Noida", "Ghaziabad", "Delhi NCR"],
   social: {
     facebook: "https://facebook.com/people/DrManu-Gautam/100084198227670/",
     instagram: "https://www.instagram.com/drmanugautam/",
@@ -99,6 +99,7 @@ export const footerLinks = {
     { label: "Doctor Profile", href: "/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/" },
     { label: "Locations", href: "/locations" },
     { label: "Ghaziabad Patients", href: "/orthopaedic-surgeon/ghaziabad/" },
+    { label: "Sector 104 Patients", href: "/orthopaedic-surgeon/sector-104-noida/" },
     { label: "Blog", href: "/blog" },
   ],
   support: [

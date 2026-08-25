@@ -73,18 +73,26 @@ export default async function LocationsPage() {
 
       <Section background="white">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="mb-3">Also Serving Ghaziabad</h2>
+          <h2 className="mb-3">Also Serving Ghaziabad &amp; Sector 104, Noida</h2>
           <p className="mb-4 text-dark-gray">
-            No clinic inside Ghaziabad itself, but both locations above are a
-            short drive away and regularly see patients from Ghaziabad,
-            Vaishali and Indirapuram.
+            No clinic inside Ghaziabad or Sector 104 itself, but both
+            locations above are a short drive away and regularly see
+            patients from these areas.
           </p>
-          <Link
-            href="/orthopaedic-surgeon/ghaziabad/"
-            className="inline-flex items-center gap-1 text-sm font-medium text-medical-blue hover:underline"
-          >
-            View the Ghaziabad patient guide
-          </Link>
+          <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-6">
+            <Link
+              href="/orthopaedic-surgeon/ghaziabad/"
+              className="inline-flex items-center gap-1 text-sm font-medium text-medical-blue hover:underline"
+            >
+              View the Ghaziabad patient guide
+            </Link>
+            <Link
+              href="/orthopaedic-surgeon/sector-104-noida/"
+              className="inline-flex items-center gap-1 text-sm font-medium text-medical-blue hover:underline"
+            >
+              View the Sector 104 patient guide
+            </Link>
+          </div>
         </Reveal>
       </Section>
     </>
