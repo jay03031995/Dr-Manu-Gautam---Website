@@ -106,6 +106,18 @@ export function buildWebsiteSchema() {
       url: siteConfig.url,
       logo: absoluteUrl(siteConfig.logo),
     },
+    // Sitelinks Search Box in Google SERPs. The site has no internal search
+    // page, so this uses Google's own documented fallback — a site-scoped
+    // Google search — rather than pointing at a page that doesn't exist.
+    // https://developers.google.com/search/docs/appearance/structured-data/sitelinks-searchbox
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `https://www.google.com/search?q=site:${new URL(siteConfig.url).hostname}+{search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
