@@ -17,7 +17,7 @@ export const siteConfig = {
     postalCode: "201301",
     country: "IN",
   },
-  serviceAreas: ["Noida", "New Delhi", "Greater Noida", "Delhi NCR"],
+  serviceAreas: ["Noida", "New Delhi", "Greater Noida", "Ghaziabad", "Delhi NCR"],
   social: {
     facebook: "https://facebook.com/people/DrManu-Gautam/100084198227670/",
     instagram: "https://www.instagram.com/drmanugautam/",
