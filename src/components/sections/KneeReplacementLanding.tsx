@@ -222,12 +222,16 @@ function recordLandingPageCallLead(ctaLocation: string, phone: string) {
 }
 
 function Counter({ value, label }: { value: number; label: string }) {
-  const [display, setDisplay] = useState(0);
+  // Initialize to the real value, not 0: this is what search engines and any
+  // pre-hydration/no-JS view of the page see. The animation below only
+  // re-plays the count-up for browsers that actually mount and run it.
+  const [display, setDisplay] = useState(value);
 
   useEffect(() => {
     let frame: number;
     const duration = 1200;
     const start = performance.now();
+    setDisplay(0);
 
     const step = (now: number) => {
       const progress = Math.min((now - start) / duration, 1);
