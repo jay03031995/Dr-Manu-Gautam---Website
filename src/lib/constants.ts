@@ -99,6 +99,7 @@ export const footerLinks = {
     { label: "Doctor Profile", href: "/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/" },
     { label: "Locations", href: "/locations" },
     { label: "Ghaziabad Patients", href: "/orthopaedic-surgeon/ghaziabad/" },
+    { label: "Sector 20 Patients", href: "/orthopaedic-surgeon/sector-20-noida/" },
     { label: "Sector 104 Patients", href: "/orthopaedic-surgeon/sector-104-noida/" },
     { label: "Blog", href: "/blog" },
   ],

@@ -86,6 +86,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.85,
     },
     {
+      url: `${siteConfig.url}/orthopaedic-surgeon/sector-20-noida/`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
       url: `${siteConfig.url}/orthopaedic-surgeon/sector-104-noida/`,
       lastModified,
       changeFrequency: "monthly",
