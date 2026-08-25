@@ -79,6 +79,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.85,
     },
+    {
+      url: `${siteConfig.url}/orthopaedic-surgeon/ghaziabad/`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
   ];
 
   const blogRoutes: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({

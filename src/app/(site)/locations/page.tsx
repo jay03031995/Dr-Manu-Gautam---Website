@@ -70,6 +70,23 @@ export default async function LocationsPage() {
           ))}
         </RevealGrid>
       </Section>
+
+      <Section background="white">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <h2 className="mb-3">Also Serving Ghaziabad</h2>
+          <p className="mb-4 text-dark-gray">
+            No clinic inside Ghaziabad itself, but both locations above are a
+            short drive away and regularly see patients from Ghaziabad,
+            Vaishali and Indirapuram.
+          </p>
+          <Link
+            href="/orthopaedic-surgeon/ghaziabad/"
+            className="inline-flex items-center gap-1 text-sm font-medium text-medical-blue hover:underline"
+          >
+            View the Ghaziabad patient guide
+          </Link>
+        </Reveal>
+      </Section>
     </>
   );
 }
