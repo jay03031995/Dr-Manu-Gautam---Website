@@ -29,7 +29,9 @@ import {
   buildBreadcrumbSchema,
   buildMedicalClinicSchema,
   buildFaqSchema,
+  buildWebPageSchema,
 } from "@/lib/seo";
+import { getGooglePlaceReviews } from "@/lib/googlePlaces";
 import { siteConfig } from "@/lib/constants";
 import { treatmentPath, locationPath } from "@/lib/utils";
 
@@ -67,10 +69,11 @@ export async function generateMetadata({
 }
 
 export default async function LocationPage({ params }: PageProps) {
-  const [location, treatments, allFaqs] = await Promise.all([
+  const [location, treatments, allFaqs, reviews] = await Promise.all([
     getLocationBySlug(params.location),
     getFeaturedServices(),
     getFaqs(),
+    getGooglePlaceReviews(),
   ]);
   if (!location) notFound();
 
@@ -87,26 +90,37 @@ export default async function LocationPage({ params }: PageProps) {
     { name: location.city, url: locationPath(params.location) },
   ];
   const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const clinicSchema = buildMedicalClinicSchema({
-    name: location.name,
-    url: `${siteConfig.url}${locationPath(params.location)}`,
-    telephone:
-      location.phone && !/x/i.test(location.phone) ? location.phone : undefined,
-    streetAddress: location.addressLine,
-    addressLocality: location.city,
-    postalCode: location.postalCode,
-    openingHours: location.hours,
+  const ratingValue = reviews?.rating ?? siteConfig.googleReviewsSnapshot.rating;
+  const reviewCount = reviews?.totalReviews ?? siteConfig.googleReviewsSnapshot.totalReviews;
+  const clinicSchema = buildMedicalClinicSchema(
+    {
+      name: location.name,
+      url: `${siteConfig.url}${locationPath(params.location)}`,
+      telephone:
+        location.phone && !/x/i.test(location.phone) ? location.phone : undefined,
+      streetAddress: location.addressLine,
+      addressLocality: location.city,
+      postalCode: location.postalCode,
+      openingHours: location.hours,
+    },
+    { ratingValue, reviewCount },
+  );
+  const webPageSchema = buildWebPageSchema({
+    name: `Orthopedic Surgeon in ${location.city}`,
+    description: `Consult ${siteConfig.shortName} in ${location.city} for joint, bone, sports injury and musculoskeletal care.`,
+    url: locationPath(params.location),
   });
   const faqSchema = faqs.length ? buildFaqSchema(faqs) : null;
 
   return (
     <>
       <JsonLd
-        data={
-          faqSchema
-            ? [breadcrumbSchema, clinicSchema, faqSchema]
-            : [breadcrumbSchema, clinicSchema]
-        }
+        data={[
+          breadcrumbSchema,
+          clinicSchema,
+          webPageSchema,
+          ...(faqSchema ? [faqSchema] : []),
+        ]}
       />
 
       <Container className="pt-6">

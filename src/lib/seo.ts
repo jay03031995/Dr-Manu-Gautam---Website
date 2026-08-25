@@ -110,7 +110,7 @@ export function buildWebsiteSchema() {
 }
 
 /** schema.org MedicalOrganization + LocalBusiness markup for Noida/Delhi NCR local SEO. */
-export function buildLocalBusinessSchema() {
+export function buildLocalBusinessSchema(rating?: AggregateRatingInput) {
   return {
     "@context": "https://schema.org",
     "@type": ["MedicalOrganization", "LocalBusiness"],
@@ -159,6 +159,7 @@ export function buildLocalBusinessSchema() {
     })),
     hasMap: siteConfig.googleMapsUrl,
     sameAs: Object.values(siteConfig.social),
+    ...aggregateRatingBlock(rating),
   };
 }
 
@@ -173,6 +174,7 @@ export function buildPhysicianSchema(
   name: string,
   image?: string,
   options?: PhysicianSchemaOptions,
+  rating?: AggregateRatingInput,
 ) {
   return {
     "@context": "https://schema.org",
@@ -205,6 +207,7 @@ export function buildPhysicianSchema(
       "@type": "Organization",
       name: org,
     })),
+    ...aggregateRatingBlock(rating),
   };
 }
 
@@ -263,7 +266,10 @@ interface MedicalClinicOptions {
   openingHours?: { days: string; time: string }[];
 }
 
-export function buildMedicalClinicSchema(options: MedicalClinicOptions) {
+export function buildMedicalClinicSchema(
+  options: MedicalClinicOptions,
+  rating?: AggregateRatingInput,
+) {
   return {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
@@ -292,6 +298,7 @@ export function buildMedicalClinicSchema(options: MedicalClinicOptions) {
         }
       : {}),
     medicalSpecialty: "Orthopedic",
+    ...aggregateRatingBlock(rating),
   };
 }
 
@@ -366,5 +373,23 @@ export function buildFaqSchema(items: { question: string; answer: string }[]) {
         text: item.answer,
       },
     })),
+  };
+}
+
+interface AggregateRatingInput {
+  ratingValue: number;
+  reviewCount: number;
+}
+
+function aggregateRatingBlock(rating?: AggregateRatingInput) {
+  if (!rating || !rating.reviewCount || !rating.ratingValue) return {};
+  return {
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: rating.ratingValue,
+      reviewCount: rating.reviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    },
   };
 }
