@@ -36,7 +36,46 @@ function cleanAttribution(value?: string, maxLength = 240) {
   return value?.trim().slice(0, maxLength) || undefined;
 }
 
+// Best-effort rate limiting: an in-memory sliding window keyed by IP. This
+// resets on cold start and isn't shared across serverless instances, so it
+// won't stop a determined/distributed attacker — but it does stop the common
+// case of a single bot or script hammering this endpoint, at zero added
+// infrastructure. For stronger protection, move this to Vercel's Edge
+// Config/KV or a dedicated rate-limiting service.
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 5;
+const requestLog = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const timestamps = (requestLog.get(ip) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS,
+  );
+  timestamps.push(now);
+  requestLog.set(ip, timestamps);
+
+  // Prevent unbounded memory growth from many distinct IPs over the process
+  // lifetime — drop the oldest tracked IP once we're holding too many.
+  if (requestLog.size > 5000) {
+    const oldestKey = requestLog.keys().next().value;
+    if (oldestKey) requestLog.delete(oldestKey);
+  }
+
+  return timestamps.length > RATE_LIMIT_MAX_REQUESTS;
+}
+
 export async function POST(request: Request) {
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown";
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { ok: false, error: "Too many requests. Please try again in a minute." },
+      { status: 429 },
+    );
+  }
+
   let body: LeadPayload;
   try {
     body = await request.json();
