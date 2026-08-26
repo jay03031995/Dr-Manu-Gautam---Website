@@ -30,6 +30,9 @@ export const metadata: Metadata = buildPageMetadata({
     "knee surgery",
     "best knee replacement surgeon in Greater Noida",
     "best knee replacement surgeon in India",
+    "top knee replacement surgeon in Delhi NCR",
+    "best knee replacement surgeon in Noida",
+    "best knee replacement surgeon in Meerut",
   ],
 });
 
