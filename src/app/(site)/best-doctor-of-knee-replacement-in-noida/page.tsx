@@ -28,6 +28,8 @@ export const metadata: Metadata = buildPageMetadata({
     "total knee replacement",
     "tkr knee replacement",
     "knee surgery",
+    "best knee replacement surgeon in Greater Noida",
+    "best knee replacement surgeon in India",
   ],
 });
 

@@ -44,6 +44,7 @@ export const metadata: Metadata = buildPageMetadata({
     "orthopedist near me",
     "knee specialist Ghaziabad",
     "bone doctor Ghaziabad",
+    "best knee replacement surgeon in Ghaziabad",
   ],
 });
 
@@ -111,11 +112,11 @@ export default async function GhaziabadServiceAreaPage() {
           <h1 className="mb-4">Orthopedic Surgeon for Ghaziabad Patients</h1>
           <p className="mb-6 text-lg text-dark-gray leading-relaxed">
             {siteConfig.shortName} regularly consults patients travelling from
-            Ghaziabad and nearby areas for joint pain, sports injuries,
-            fractures and spine conditions. There is no clinic inside
-            Ghaziabad itself — the nearest consultation locations are the
-            Sector 20, Noida clinic (a short drive from most of Ghaziabad) and
-            Dharamshila Narayana Hospital in East Delhi.
+            Ghaziabad and nearby areas for knee replacement, joint pain,
+            sports injuries, fractures and spine conditions. There is no
+            clinic inside Ghaziabad itself — the nearest consultation
+            locations are the Sector 20, Noida clinic (a short drive from most
+            of Ghaziabad) and Dharamshila Narayana Hospital in East Delhi.
           </p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <BookAppointmentButton size="large">

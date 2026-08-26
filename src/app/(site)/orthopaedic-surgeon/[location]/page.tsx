@@ -64,6 +64,8 @@ export async function generateMetadata({
     keywords: [
       "best orthopedic surgeon in Delhi",
       "best orthopedic surgeon in Noida",
+      "top orthopedic doctor in Noida",
+      "best knee replacement surgeon in Delhi",
       "orthopedic near me",
       "orthopedist near me",
       "orthopedic surgeon near me",
