@@ -132,7 +132,7 @@ const siteSettings = {
   email: "info.drmanugautam@gmail.com",
   social: {
     facebook: "https://facebook.com/people/DrManu-Gautam/100084198227670/",
-    instagram: "https://www.instagram.com/drmanugautam/",
+    instagram: "https://www.instagram.com/maanuugautam/",
     youtube: "https://www.youtube.com/@DrManuGautam/videos",
   },
 };
