@@ -142,6 +142,7 @@ export default function RootLayout({
             })(window,document,'script','dataLayer','GTM-PT92KW4B');
           `}
         </Script>
+        <meta name="google-site-verification" content="QyW8c8SGhRlQd7cCZoIe2JeV03HUaK89R-LCpU-rejk" />
       </head>
       <body className="antialiased">
         <noscript>
