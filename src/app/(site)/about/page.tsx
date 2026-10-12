@@ -14,7 +14,8 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { getDoctorBySlug, getHomePage, getFeaturedTestimonials } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
-import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { DOCTOR_PROFILE_PATH } from "@/lib/utils";
 
@@ -63,11 +64,21 @@ export default async function AboutPage() {
     { name: "Home", url: "/" },
     { name: "About Us", url: "/about" },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "AboutPage",
+      path: "/about",
+      name: "About Dr. Manu Gautam - Our Approach to Orthopaedic Care",
+      description: metadata.description as string,
+      about: schemaIds.organization,
+      mainEntity: schemaIds.person,
+    }),
+    buildBreadcrumbNode("/about", breadcrumbItems),
+  ]);
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

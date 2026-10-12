@@ -18,13 +18,14 @@ import {
   getFaqs,
 } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
+import { buildPageMetadata } from "@/lib/seo";
 import {
-  buildPageMetadata,
-  buildBreadcrumbSchema,
-  buildWebPageSchema,
-  buildFaqSchema,
-  buildMedicalClinicSchema,
-} from "@/lib/seo";
+  schemaGraph,
+  buildWebPageNode,
+  buildBreadcrumbNode,
+  buildFaqNode,
+  schemaIds,
+} from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { treatmentPath, locationPath } from "@/lib/utils";
 
@@ -63,38 +64,22 @@ export default async function Sector20Page() {
     { name: "Locations", url: "/locations" },
     { name: "Sector 20, Noida", url: PATH },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const webPageSchema = buildWebPageSchema({
-    name: "Orthopedic Surgeon in Sector 20, Noida",
-    description: metadata.description as string,
-    url: PATH,
-  });
-  const clinicSchema = location
-    ? buildMedicalClinicSchema({
-        name: location.name,
-        url: `${siteConfig.url}${PATH}`,
-        telephone:
-          location.phone && !/x/i.test(location.phone)
-            ? location.phone
-            : undefined,
-        streetAddress: location.addressLine,
-        addressLocality: location.city,
-        postalCode: location.postalCode,
-        openingHours: location.hours,
-      })
-    : null;
-  const faqSchema = faqs.length ? buildFaqSchema(faqs) : null;
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      path: PATH,
+      name: "Orthopedic Surgeon in Sector 20, Noida",
+      description: metadata.description as string,
+      about: schemaIds.clinic,
+      mainEntity: schemaIds.clinic,
+      contentLocation: "Sector 20, Noida",
+    }),
+    buildBreadcrumbNode(PATH, breadcrumbItems),
+    buildFaqNode(PATH, faqs),
+  ]);
 
   return (
     <>
-      <JsonLd
-        data={[
-          breadcrumbSchema,
-          webPageSchema,
-          ...(clinicSchema ? [clinicSchema] : []),
-          ...(faqSchema ? [faqSchema] : []),
-        ]}
-      />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

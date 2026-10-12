@@ -5,7 +5,8 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { buildBreadcrumbSchema, buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { THANK_YOU_PATH, telHref } from "@/lib/utils";
 
@@ -21,11 +22,19 @@ export default function ThankYouPage() {
     { name: "Home", url: "/" },
     { name: "Thank You", url: THANK_YOU_PATH },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      path: THANK_YOU_PATH,
+      name: "Thank You",
+      description: metadata.description as string,
+      isUtility: true,
+    }),
+    buildBreadcrumbNode(THANK_YOU_PATH, breadcrumbItems),
+  ]);
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

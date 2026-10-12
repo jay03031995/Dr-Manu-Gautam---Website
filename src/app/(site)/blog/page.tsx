@@ -7,7 +7,8 @@ import { BlogListingClient } from "@/components/sections/BlogListingClient";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { client } from "@/sanity/lib/client";
 import { getBlogPosts } from "@/sanity/lib/fetch";
-import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildItemListNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 
 export const revalidate = 60;
@@ -27,14 +28,29 @@ export default async function BlogPage() {
     ),
   ]);
 
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Blog", url: "/blog" },
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "CollectionPage",
+      path: "/blog",
+      name: "Orthopedic Health Journal - Dr. Manu Gautam",
+      description: metadata.description as string,
+      about: schemaIds.physician,
+      mainEntity: `${siteConfig.url}/blog/#itemlist`,
+    }),
+    buildBreadcrumbNode("/blog", [
+      { name: "Home", url: "/" },
+      { name: "Blog", url: "/blog" },
+    ]),
+    buildItemListNode(
+      "/blog",
+      "Orthopedic Health Journal articles",
+      posts.map((p) => ({ name: p.title, url: `/blog/${p.slug.current}` })),
+    ),
   ]);
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

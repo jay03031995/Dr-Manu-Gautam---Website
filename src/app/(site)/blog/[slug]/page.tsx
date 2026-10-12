@@ -17,7 +17,8 @@ import { estimateReadingTime, extractToc } from "@/lib/blog";
 import { getBlogPosts, getBlogPostBySlug } from "@/sanity/lib/fetch";
 import { client } from "@/sanity/lib/client";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
-import { buildPageMetadata, buildBreadcrumbSchema, buildArticleSchema, buildFaqSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildFaqNode, buildBlogPostingNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { telHref, treatmentPath } from "@/lib/utils";
 
@@ -79,21 +80,36 @@ export default async function BlogPostPage({ params }: PageProps) {
     { name: "Blog", url: "/blog" },
     { name: post.title, url: `/blog/${params.slug}` },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const articleSchema = buildArticleSchema({
-    headline: post.title,
-    description: post.excerpt,
-    url: pageUrl,
-    image: coverUrl,
-    datePublished: post.publishedAt,
-    dateModified: post.updatedAt,
-    authorName: post.author?.name,
-  });
-  const faqSchema = post.faqs?.length ? buildFaqSchema(post.faqs) : null;
+  const postPath = `/blog/${params.slug}`;
+  const dateModified = post.updatedAt ?? post._updatedAt ?? post.publishedAt;
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "MedicalWebPage",
+      path: postPath,
+      name: post.seo?.metaTitle || post.title,
+      description: post.seo?.metaDescription || post.excerpt,
+      about: schemaIds.physician,
+      mainEntity: `${pageUrl}/#article`,
+      image: coverUrl,
+      datePublished: post.publishedAt,
+      dateModified,
+    }),
+    buildBreadcrumbNode(postPath, breadcrumbItems),
+    buildBlogPostingNode({
+      path: postPath,
+      headline: post.title,
+      description: post.seo?.metaDescription || post.excerpt,
+      image: coverUrl ? { url: coverUrl, width: 1200, height: 675 } : undefined,
+      datePublished: post.publishedAt,
+      dateModified,
+      sections: post.categories?.map((c) => c.title),
+    }),
+    buildFaqNode(postPath, post.faqs ?? []),
+  ]);
 
   return (
     <>
-      <JsonLd data={faqSchema ? [breadcrumbSchema, articleSchema, faqSchema] : [breadcrumbSchema, articleSchema]} />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb" className="overflow-x-auto">

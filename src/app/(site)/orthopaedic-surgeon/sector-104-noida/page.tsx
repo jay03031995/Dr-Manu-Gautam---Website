@@ -18,13 +18,14 @@ import {
   getFaqs,
 } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
+import { buildPageMetadata } from "@/lib/seo";
 import {
-  buildPageMetadata,
-  buildBreadcrumbSchema,
-  buildWebPageSchema,
-  buildFaqSchema,
-  buildLocalBusinessSchema,
-} from "@/lib/seo";
+  schemaGraph,
+  buildWebPageNode,
+  buildBreadcrumbNode,
+  buildFaqNode,
+  schemaIds,
+} from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { treatmentPath, locationPath } from "@/lib/utils";
 
@@ -64,24 +65,22 @@ export default async function Sector104ServiceAreaPage() {
     { name: "Locations", url: "/locations" },
     { name: "Sector 104, Noida", url: PATH },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const webPageSchema = buildWebPageSchema({
-    name: "Orthopedic Surgeon Near Sector 104, Noida",
-    description: metadata.description as string,
-    url: PATH,
-  });
-  const localBusinessSchema = buildLocalBusinessSchema();
-  const faqSchema = faqs.length ? buildFaqSchema(faqs) : null;
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      path: PATH,
+      name: "Orthopedic Surgeon Near Sector 104, Noida",
+      description: metadata.description as string,
+      about: schemaIds.physician,
+      mainEntity: schemaIds.physician,
+      contentLocation: "Sector 104, Noida",
+    }),
+    buildBreadcrumbNode(PATH, breadcrumbItems),
+    buildFaqNode(PATH, faqs),
+  ]);
 
   return (
     <>
-      <JsonLd
-        data={
-          faqSchema
-            ? [breadcrumbSchema, webPageSchema, localBusinessSchema, faqSchema]
-            : [breadcrumbSchema, webPageSchema, localBusinessSchema]
-        }
-      />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

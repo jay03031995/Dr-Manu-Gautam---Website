@@ -7,7 +7,8 @@ import { Reveal } from "@/components/motion/Reveal";
 import { AppointmentForm } from "@/components/forms/AppointmentForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getFeaturedServices, getLocations } from "@/sanity/lib/fetch";
-import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { telHref } from "@/lib/utils";
 
@@ -27,11 +28,19 @@ export default async function AppointmentPage() {
     { name: "Home", url: "/" },
     { name: "Book an Appointment", url: "/appointment" },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      path: "/appointment",
+      name: "Book an Appointment with Dr. Manu Gautam",
+      description: metadata.description as string,
+      about: schemaIds.physician,
+    }),
+    buildBreadcrumbNode("/appointment", breadcrumbItems),
+  ]);
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

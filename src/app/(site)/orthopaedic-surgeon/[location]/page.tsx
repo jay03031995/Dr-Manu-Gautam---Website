@@ -24,14 +24,14 @@ import {
   getFaqs,
 } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
+import { buildPageMetadata } from "@/lib/seo";
 import {
-  buildPageMetadata,
-  buildBreadcrumbSchema,
-  buildMedicalClinicSchema,
-  buildFaqSchema,
-  buildWebPageSchema,
-} from "@/lib/seo";
-import { getGooglePlaceReviews } from "@/lib/googlePlaces";
+  schemaGraph,
+  buildWebPageNode,
+  buildBreadcrumbNode,
+  buildFaqNode,
+  locationEntityId,
+} from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { treatmentPath, locationPath } from "@/lib/utils";
 
@@ -78,11 +78,10 @@ export async function generateMetadata({
 }
 
 export default async function LocationPage({ params }: PageProps) {
-  const [location, treatments, allFaqs, reviews] = await Promise.all([
+  const [location, treatments, allFaqs] = await Promise.all([
     getLocationBySlug(params.location),
     getFeaturedServices(),
     getFaqs(),
-    getGooglePlaceReviews(),
   ]);
   if (!location) notFound();
 
@@ -101,39 +100,24 @@ export default async function LocationPage({ params }: PageProps) {
     { name: "Locations", url: "/locations" },
     { name: location.city, url: locationPath(params.location) },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const ratingValue = reviews?.rating ?? siteConfig.googleReviewsSnapshot.rating;
-  const reviewCount = reviews?.totalReviews ?? siteConfig.googleReviewsSnapshot.totalReviews;
-  const clinicSchema = buildMedicalClinicSchema(
-    {
-      name: location.name,
-      url: `${siteConfig.url}${locationPath(params.location)}`,
-      telephone:
-        location.phone && !/x/i.test(location.phone) ? location.phone : undefined,
-      streetAddress: location.addressLine,
-      addressLocality: location.city,
-      postalCode: location.postalCode,
-      openingHours: location.hours,
-    },
-    { ratingValue, reviewCount },
-  );
-  const webPageSchema = buildWebPageSchema({
-    name: `Best Orthopedic Surgeon in ${searchCity}`,
-    description: `Consult ${siteConfig.shortName} in ${location.city} for joint, bone, sports injury and musculoskeletal care.`,
-    url: locationPath(params.location),
-  });
-  const faqSchema = faqs.length ? buildFaqSchema(faqs) : null;
+  const path = locationPath(params.location);
+  const entityId = locationEntityId(params.location);
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      path,
+      name: `Best Orthopedic Surgeon in ${searchCity} - ${location.name}`,
+      description: `Consult ${siteConfig.shortName} in ${location.city} for joint, bone, sports injury and musculoskeletal care.`,
+      about: entityId,
+      mainEntity: entityId,
+      contentLocation: location.city,
+    }),
+    buildBreadcrumbNode(path, breadcrumbItems),
+    buildFaqNode(path, faqs),
+  ]);
 
   return (
     <>
-      <JsonLd
-        data={[
-          breadcrumbSchema,
-          clinicSchema,
-          webPageSchema,
-          ...(faqSchema ? [faqSchema] : []),
-        ]}
-      />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

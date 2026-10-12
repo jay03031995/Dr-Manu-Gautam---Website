@@ -14,8 +14,8 @@ import { GoogleReviewsSection } from "@/components/sections/GoogleReviewsSection
 import { FeaturedBlogSection } from "@/components/sections/FeaturedBlogSection";
 import { GoogleReviewsSkeleton } from "@/components/sections/GoogleReviewsSkeleton";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { buildPageMetadata, buildWebsiteSchema, buildLocalBusinessSchema, buildFaqSchema } from "@/lib/seo";
-import { getGooglePlaceReviews } from "@/lib/googlePlaces";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildFaqNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
@@ -64,27 +64,29 @@ const FALLBACK_FINAL_CTA_IMAGE =
   "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1600&q=70&auto=format&fit=crop";
 
 export default async function Home() {
-  const [faqs, featuredServices, concerns, homePage, doctor, reviews] = await Promise.all([
+  const [faqs, featuredServices, concerns, homePage, doctor] = await Promise.all([
     getFaqs(),
     getFeaturedServices(),
     getConcerns(),
     getHomePage(),
     getDoctorBySlug("dr-manu-gautam"),
-    getGooglePlaceReviews(),
   ]);
   // getFaqs() returns every FAQ in the CMS, including the ~113 treatment-specific
   // ones meant for their own treatment pages — the homepage should only show a
   // short, general teaser, not every FAQ on the site.
   const homeFaqs = faqs.filter((f) => f.category !== "treatments").slice(0, 6);
-  // Same rating/count GoogleReviewsSection below actually renders: live Places
-  // API data when configured, otherwise the manually-checked snapshot.
-  const ratingValue = reviews?.rating ?? siteConfig.googleReviewsSnapshot.rating;
-  const reviewCount = reviews?.totalReviews ?? siteConfig.googleReviewsSnapshot.totalReviews;
-  const schemas = [
-    buildWebsiteSchema(),
-    buildLocalBusinessSchema({ ratingValue, reviewCount }),
-    ...(homeFaqs.length ? [buildFaqSchema(homeFaqs)] : []),
-  ];
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      path: "/",
+      name: "Dr. Manu Gautam - Orthopaedic Surgeon in Noida & Delhi NCR",
+      description: siteConfig.description,
+      about: schemaIds.physician,
+      mainEntity: schemaIds.physician,
+      image: siteConfig.ogImage,
+      breadcrumb: false,
+    }),
+    buildFaqNode("/", homeFaqs),
+  ]);
 
   const whyChooseHeading = homePage?.whyChooseHeading || `Why Choose ${siteConfig.shortName}`;
   const whyChooseDescription =

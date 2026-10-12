@@ -199,6 +199,8 @@ export interface BlogPostSummary {
   coverImage?: Image;
   publishedAt: string;
   updatedAt?: string;
+  /** Sanity system timestamp of the last edit. */
+  _updatedAt?: string;
   featured?: boolean;
   body?: PortableTextBlock[];
   author?: { name: string; type: string };

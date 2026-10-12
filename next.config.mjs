@@ -23,12 +23,12 @@ const nextConfig = {
       },
       {
         source: "/about-dr-manu-gautam/",
-        destination: "/about",
+        destination: "/about/",
         permanent: true,
       },
       {
         source: "/contact-us/",
-        destination: "/contact",
+        destination: "/contact/",
         permanent: true,
       },
       {
@@ -38,6 +38,11 @@ const nextConfig = {
       },
       {
         source: "/knee-replacement/",
+        destination: "/best-doctor-of-knee-replacement-in-noida/",
+        permanent: true,
+      },
+      {
+        source: "/knee-replacement-therapy/",
         destination: "/best-doctor-of-knee-replacement-in-noida/",
         permanent: true,
       },
@@ -83,17 +88,17 @@ const nextConfig = {
       },
       {
         source: "/hip-replacement/",
-        destination: "/treatments",
+        destination: "/treatments/",
         permanent: true,
       },
       {
         source: "/hip-replacement-surgery-in-ghaziabad/",
-        destination: "/treatments",
+        destination: "/treatments/",
         permanent: true,
       },
       {
         source: "/hip-replacement-surgery-in-noida/",
-        destination: "/treatments",
+        destination: "/treatments/",
         permanent: true,
       },
       {
@@ -113,12 +118,12 @@ const nextConfig = {
       },
       {
         source: "/shoulder-replacement/",
-        destination: "/treatments",
+        destination: "/treatments/",
         permanent: true,
       },
       {
         source: "/elbow-replacement/",
-        destination: "/treatments",
+        destination: "/treatments/",
         permanent: true,
       },
     ];

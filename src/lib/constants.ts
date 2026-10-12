@@ -25,6 +25,29 @@ export const siteConfig = {
   },
   youtubeChannelId: "UCK-nHyg1cxQMziniY81YbJA",
   googleMapsUrl: "https://maps.app.goo.gl/pAApdhFc9P1gd5oY6",
+  // Google Business Profile listing for the Noida clinic (confirmed CID).
+  googleBusinessProfileUrl: "https://www.google.com/maps?cid=15622916972718693117",
+  // Clinic pin, taken from the Google Business Profile listing (Google Places).
+  geo: { latitude: 28.5812465, longitude: 77.3327391 },
+  // Third-party profiles verified to be this doctor (same MBBS / D-Ortho / DNB
+  // qualifications). Used as schema.org sameAs to tie the entity together.
+  directoryProfiles: [
+    "https://www.narayanahealth.org/c/delhi/orthopaedics-joint-replacement/dr-manu-gautam",
+    "https://www.hexahealth.com/delhi/doctor/dr-manu-gautam-orthopedic-doctor",
+    "https://www.practo.com/noida/doctor/dr-manu-gautam-orthopedist",
+  ],
+  // Relative price indicator for LocalBusiness markup (no fee amounts claimed).
+  priceRange: "₹₹",
+  hospital: {
+    name: "Dharamshila Narayana Superspeciality Hospital",
+    streetAddress: "Dharamshila Road, Vasundhara Enclave",
+    locality: "New Delhi",
+    region: "Delhi",
+    postalCode: "110096",
+    country: "IN",
+    // Hospital pin from Google Places.
+    geo: { latitude: 28.6026423, longitude: 77.3143141 },
+  },
   openingHours: [
     { days: "Monday", opens: "10:00", closes: "20:00" },
     { days: "Tuesday", opens: "10:00", closes: "20:00" },

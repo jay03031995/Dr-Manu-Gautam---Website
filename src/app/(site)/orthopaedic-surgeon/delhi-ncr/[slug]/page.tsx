@@ -27,15 +27,14 @@ import { ServiceIcon } from "@/lib/serviceIcons";
 import { getServiceBySlug } from "@/sanity/lib/fetch";
 import { client } from "@/sanity/lib/client";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
+import { buildPageMetadata } from "@/lib/seo";
 import {
-  buildPageMetadata,
-  buildFaqSchema,
-  buildBreadcrumbSchema,
-  buildPhysicianSchema,
-  buildMedicalProcedureSchema,
-  buildMedicalClinicSchema,
-  buildWebPageSchema,
-} from "@/lib/seo";
+  schemaGraph,
+  buildWebPageNode,
+  buildBreadcrumbNode,
+  buildFaqNode,
+  buildTreatmentNodes,
+} from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { telHref, treatmentPath, locationPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 import type { PortableTextBlock } from "@portabletext/react";
@@ -261,58 +260,36 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   if (!service) notFound();
 
   const doctorName = service.doctor?.name ?? siteConfig.shortName;
-  const pageUrl = `${siteConfig.url}${treatmentPath(params.slug)}`;
   const whatsappNumber = siteConfig.phone.replace(/[^\d]/g, "");
 
-  const faqSchema = service.faqs?.length ? buildFaqSchema(service.faqs) : null;
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Treatments", url: "/treatments" },
     { name: service.title, url: treatmentPath(params.slug) },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const webPageSchema = buildWebPageSchema({
-    name: service.seo?.metaTitle || service.title,
-    description: service.seo?.metaDescription || service.shortDescription,
-    url: pageUrl,
-  });
-  // bodyLocation should list anatomical sites, not conditions — derive from the
-  // treatment-type titles (e.g. "Knee Replacement Surgery" -> "Knee") when present.
-  const bodyLocations = service.treatmentTypes?.length
-    ? service.treatmentTypes.map((t) => t.title.split(" ")[0])
-    : undefined;
-  const procedureSchema = buildMedicalProcedureSchema({
+  const path = treatmentPath(params.slug);
+  const description = service.seo?.metaDescription || service.shortDescription;
+  const treatmentNodes = buildTreatmentNodes({
+    slug: params.slug,
+    path,
     name: service.title,
     description: service.shortDescription,
-    url: pageUrl,
-    bodyLocation: bodyLocations,
   });
-  const physicianSchema = service.doctor
-    ? buildPhysicianSchema(service.doctor.name, hasImageAsset(service.doctor.photo) ? urlForImage(service.doctor.photo).url() : undefined)
-    : null;
-  // Don't publish obviously-placeholder phone numbers (e.g. "+91-XXXXXXXXXX") in
-  // public structured data.
-  const isRealPhone = (phone?: string) => !!phone && !/x/i.test(phone);
-  const clinicSchemas = (service.locations ?? []).map((loc) =>
-    buildMedicalClinicSchema({
-      name: loc.name,
-      url: pageUrl,
-      telephone: isRealPhone(loc.phone) ? loc.phone : undefined,
-      streetAddress: loc.addressLine,
-      addressLocality: loc.city,
-      postalCode: loc.postalCode,
-      openingHours: loc.hours,
-    })
-  );
-
-  const schemas = [
-    breadcrumbSchema,
-    webPageSchema,
-    procedureSchema,
-    ...(physicianSchema ? [physicianSchema] : []),
-    ...clinicSchemas,
-    ...(faqSchema ? [faqSchema] : []),
-  ];
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "MedicalWebPage",
+      path,
+      name: service.seo?.metaTitle || service.title,
+      description,
+      about: treatmentNodes[0]["@id"] as string,
+      image: hasImageAsset(service.heroImage)
+        ? urlForImage(service.heroImage).width(1200).height(675).fit("crop").url()
+        : undefined,
+    }),
+    buildBreadcrumbNode(path, breadcrumbItems),
+    ...treatmentNodes,
+    buildFaqNode(path, service.faqs ?? []),
+  ]);
 
   return (
     <>
