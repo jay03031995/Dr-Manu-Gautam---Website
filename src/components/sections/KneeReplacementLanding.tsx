@@ -661,7 +661,7 @@ export function KneeReplacementLanding({
               Advanced Knee Care for Pain-Free Movement
             </div>
             <h1 className="max-w-3xl text-balance text-[30px] leading-[1.08] sm:text-[40px] lg:text-[48px]">
-              Walk Pain-Free Again with Advanced Knee Replacement Surgery
+              Knee Replacement Surgery in Noida: Walk Pain-Free Again
             </h1>
             <p className="mt-4 max-w-2xl text-base text-dark-gray sm:text-lg">
               Consult Dr. Manu Gautam for advanced robotic and minimally

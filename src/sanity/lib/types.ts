@@ -135,6 +135,7 @@ export interface Service {
   videos?: { title: string; slug: Slug; youtubeUrl: string; thumbnail?: Image; duration?: string }[];
   relatedTreatments?: { title: string; slug: Slug; shortDescription: string; icon?: string; heroImage?: Image }[];
   relatedConditions?: { title: string; slug: Slug; shortDescription: string }[];
+  relatedPosts?: { _id: string; title: string; slug: Slug; excerpt?: string }[];
   faqs?: { question: string; answer: string }[];
   medicalReviewer?: { name: string; credentials?: string };
   reviewDate?: string;

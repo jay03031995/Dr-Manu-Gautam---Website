@@ -23,8 +23,9 @@ import { treatmentPath } from "@/lib/utils";
 import { getFaqs, getFeaturedServices, getConcerns, getHomePage, getDoctorBySlug } from "@/sanity/lib/fetch";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Expert Orthopedic Care in Noida & Delhi NCR",
-  description: siteConfig.description,
+  title: "Orthopedic Doctor & Surgeon in Noida, Sector 20",
+  description:
+    "Dr. Manu Gautam, orthopedic doctor in Sector 20, Noida: robotic knee & hip replacement, GFC knee injection, sports injury and fracture care. Book a visit.",
   path: "/",
 });
 

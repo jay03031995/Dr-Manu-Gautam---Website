@@ -28,7 +28,7 @@ export const revalidate = 60;
 export const metadata: Metadata = buildPageMetadata({
   title: "Orthopaedic Surgeon in Noida & Delhi NCR - Doctor Profile",
   description:
-    "Dr. Manu Gautam is an orthopaedic surgeon with 15+ years of experience in joint replacement, robotic knee surgery, spine care, and sports injury management across Noida and Delhi NCR.",
+    "Dr. Manu Gautam (MBBS, D-Ortho, DNB Ortho), orthopaedic & joint replacement surgeon in Noida and at Dharamshila Narayana Hospital, Delhi.",
   path: DOCTOR_PROFILE_PATH,
 });
 

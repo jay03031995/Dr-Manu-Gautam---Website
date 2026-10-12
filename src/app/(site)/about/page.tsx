@@ -24,7 +24,7 @@ export const revalidate = 60;
 export const metadata: Metadata = buildPageMetadata({
   title: "Our Approach to Orthopaedic Care",
   description:
-    "How Dr. Manu Gautam and the team in Noida & Delhi NCR approach orthopaedic care — combining advanced technology with patient-first attention at every stage of treatment and recovery.",
+    "How Dr. Manu Gautam approaches orthopaedic care in Noida & Delhi NCR: advanced joint replacement technology with patient-first attention through recovery.",
   path: "/about",
 });
 

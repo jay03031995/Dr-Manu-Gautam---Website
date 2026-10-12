@@ -36,7 +36,7 @@ const PATH = "/orthopaedic-surgeon/sector-20-noida/";
 export const metadata: Metadata = buildPageMetadata({
   title: "Orthopedic Surgeon in Sector 20, Noida",
   description:
-    "Dr. Manu Gautam's orthopaedic clinic is located at D-8, D Block, Sector 20, Noida — serving Sector 18, 15, 16, 22, 27 and surrounding areas for joint, bone, knee and sports injury care.",
+    "Orthopaedic clinic at D-8, Sector 20, Noida, near Sectors 18, 15, 16, 22 and 27: knee, joint, bone and sports injury care with Dr. Manu Gautam.",
   path: PATH,
   keywords: [
     "orthopedic surgeon Sector 20 Noida",

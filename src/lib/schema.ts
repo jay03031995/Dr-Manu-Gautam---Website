@@ -560,6 +560,16 @@ const TREATMENT_MODELS: Record<string, TreatmentModel> = {
     bodyLocation: ["Knee"],
     serviceType: "Growth Factor Concentrate (GFC) knee injection",
   },
+  "hip-replacement": {
+    procedureType: "SurgicalProcedure",
+    bodyLocation: ["Hip"],
+    serviceType: "Hip replacement surgery",
+  },
+  "shoulder-replacement": {
+    procedureType: "SurgicalProcedure",
+    bodyLocation: ["Shoulder"],
+    serviceType: "Shoulder replacement surgery",
+  },
   rehabilitation: {
     procedureType: "PhysicalTherapy",
     serviceType: "Orthopaedic rehabilitation",

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
-import { Badge } from "@/components/ui/Badge";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { getSiteSettings, getHomePage } from "@/sanity/lib/fetch";
@@ -22,7 +21,6 @@ export async function HomeHero() {
     ? urlForImage(settings.heroPosterImage).width(1600).height(1000).fit("crop").url()
     : FALLBACK_POSTER;
 
-  const badge = homePage?.heroBadge || "Advanced Orthopedic Care · Noida";
   const headingLine1 = homePage?.heroHeadingLine1 || "Where Expertise Restores";
   const headingLine2 = homePage?.heroHeadingLine2 || "Movement & Confidence.";
   const subtext =
@@ -56,13 +54,15 @@ export async function HomeHero() {
 
       <Container className="relative py-20 md:py-28">
         <Reveal mode="onMount" className="mx-auto max-w-2xl text-center sm:mx-0 sm:text-left">
-          <Badge variant="service" className="mb-4 bg-white/10 text-white">
-            {badge}
-          </Badge>
-          <h1 className="mb-4 font-serif text-white">
+          {/* The H1 carries the page's search intent (who + what + where); the
+              slogan below keeps the original look as a styled paragraph. */}
+          <h1 className="mb-4 inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 font-sans text-xs font-medium leading-normal tracking-normal text-white sm:text-sm">
+            {`${siteConfig.shortName} · Orthopaedic Surgeon in Noida`}
+          </h1>
+          <p className="mb-4 font-serif text-[34px] leading-[1.1] tracking-tight text-white md:text-[48px] lg:text-[56px]">
             <span className="block font-bold not-italic">{headingLine1}</span>
             <span className="mt-1 block font-medium italic">{headingLine2}</span>
-          </h1>
+          </p>
           <p className="mx-auto mb-6 max-w-xl text-lg text-white/85 leading-relaxed sm:mx-0">{subtext}</p>
           <div className="mb-4 flex flex-col items-center gap-3 sm:flex-row sm:items-center">
             <BookAppointmentButton size="large" className="w-full sm:w-auto">

@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Dr. Manu Gautam - Orthopedic Surgery",
   shortName: "Dr. Manu Gautam",
   description:
-    "Expert orthopedic care in Noida & Delhi NCR. Advanced treatments, compassionate care, and personalized solutions for joint replacement, spine care, sports injuries, and rehabilitation.",
+    "Orthopaedic surgeon in Sector 20, Noida: knee & hip replacement, robotic knee surgery, GFC knee injections, sports injury and fracture care in Delhi NCR.",
   url: "https://drmanugautam.com",
   ogImage: "/images/og-image.png",
   logo: "/images/logo.png",

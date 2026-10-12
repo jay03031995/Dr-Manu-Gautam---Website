@@ -327,7 +327,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-medical-blue text-white">
               <ServiceIcon name={service.icon} className="h-7 w-7" />
             </span>
-            <h1 className="mb-4">{service.title}</h1>
+            <h1 className="mb-4">
+              {/noida/i.test(service.title) ? service.title : `${service.title} in Noida`}
+            </h1>
             <p className="mb-6 text-lg text-dark-gray leading-relaxed">
               {service.introduction || service.shortDescription}
             </p>
@@ -674,6 +676,30 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <Reveal delay={0.1} className="mx-auto max-w-3xl">
             <Accordion items={service.faqs} />
           </Reveal>
+        </Section>
+      )}
+
+      {/* Patient guides on this treatment (blog posts that reference it) */}
+      {service.relatedPosts && service.relatedPosts.length > 0 && (
+        <Section background="white">
+          <Reveal className="mb-10 text-center">
+            <h2>{service.title} Guides for Patients</h2>
+          </Reveal>
+          <ul className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
+            {service.relatedPosts.map((post) => (
+              <li key={post._id} className="rounded-2xl border border-light-grey bg-white p-6">
+                <Link
+                  href={`/blog/${post.slug.current}/`}
+                  className="font-heading text-lg font-semibold text-dark-navy hover:text-medical-blue"
+                >
+                  {post.title}
+                </Link>
+                {post.excerpt && (
+                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-dark-gray">{post.excerpt}</p>
+                )}
+              </li>
+            ))}
+          </ul>
         </Section>
       )}
 

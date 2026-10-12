@@ -19,7 +19,7 @@ export const revalidate = 60;
 export const metadata: Metadata = buildPageMetadata({
   title: "Treatments & Services",
   description:
-    "Comprehensive orthopedic treatments including joint replacement, spine care, sports injury management, trauma care, rehabilitation, and pediatric orthopedics in Noida & Delhi NCR.",
+    "Orthopaedic treatments in Noida: knee, hip & shoulder replacement, robotic knee surgery, GFC injection, sports injuries, spine, trauma care and rehab.",
   path: "/treatments",
 });
 

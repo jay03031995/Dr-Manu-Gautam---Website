@@ -34,7 +34,7 @@ export const revalidate = 60;
 const PATH = "/orthopaedic-surgeon/ghaziabad/";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Orthopedic Surgeon for Ghaziabad Patients | Dr. Manu Gautam",
+  title: "Orthopedic & Knee Replacement Surgeon for Ghaziabad",
   description:
     "Dr. Manu Gautam consults patients from Ghaziabad at his Noida clinic (Sector 20) and Dharamshila Narayana Hospital, Delhi. Joint, knee, sports injury and bone care.",
   path: PATH,

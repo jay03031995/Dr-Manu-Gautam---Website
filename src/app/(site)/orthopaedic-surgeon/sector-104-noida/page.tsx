@@ -36,7 +36,7 @@ const PATH = "/orthopaedic-surgeon/sector-104-noida/";
 export const metadata: Metadata = buildPageMetadata({
   title: "Orthopedic Surgeon Near Sector 104, Noida",
   description:
-    "Dr. Manu Gautam consults patients from Sector 104 and the Noida Expressway sectors at his Sector 20 clinic and Dharamshila Narayana Hospital, Delhi. Joint, knee, sports injury and bone care.",
+    "Patients from Sector 104 and the Noida Expressway see Dr. Manu Gautam at his Sector 20 clinic for knee, joint, sports injury and bone care.",
   path: PATH,
   keywords: [
     "orthopedic surgeon Sector 104 Noida",

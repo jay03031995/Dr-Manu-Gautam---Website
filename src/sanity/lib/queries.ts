@@ -94,6 +94,14 @@ export const serviceBySlugQuery = groq`*[_type == "service" && slug.current == $
   "faqs": faqs[]->{question, answer},
   "medicalReviewer": medicalReviewer->{name, credentials},
   reviewDate,
+  // Blog posts that list this treatment as related: links the treatment page
+  // to its supporting guides (the other half of the topic cluster).
+  "relatedPosts": *[_type == "blogPost" && references(^._id) && defined(slug.current)] | order(publishedAt desc)[0...6]{
+    _id,
+    title,
+    slug,
+    excerpt
+  },
   seo
 }`;
 
