@@ -125,6 +125,9 @@ export function SiteHeader({ logoUrl, treatments, locations }: SiteHeaderProps) 
             <a href={siteConfig.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-medical-blue">
               <InstagramIcon className="h-4 w-4" aria-hidden="true" />
             </a>
+            <a href={siteConfig.social.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="hover:text-medical-blue">
+              <YoutubeIcon className="h-4 w-4" aria-hidden="true" />
+            </a>
           </div>
           <button
             type="button"
