@@ -14,7 +14,7 @@ import { siteConfig } from "@/lib/constants";
 import { getDoctorBySlug, getFaqs, getLocations } from "@/sanity/lib/fetch";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Best Doctor for Knee Replacement in Noida | Dr. Manu Gautam",
+  title: "Best Doctor for Knee Replacement in Noida",
   description:
     "Consult Dr. Manu Gautam for advanced knee replacement surgery, robotic knee replacement, knee pain treatment, and joint replacement care in Noida & Delhi NCR.",
   path: "/best-doctor-of-knee-replacement-in-noida/",
@@ -28,6 +28,11 @@ export const metadata: Metadata = buildPageMetadata({
     "total knee replacement",
     "tkr knee replacement",
     "knee surgery",
+    "best knee replacement surgeon in Greater Noida",
+    "best knee replacement surgeon in India",
+    "top knee replacement surgeon in Delhi NCR",
+    "best knee replacement surgeon in Noida",
+    "best knee replacement surgeon in Meerut",
   ],
 });
 

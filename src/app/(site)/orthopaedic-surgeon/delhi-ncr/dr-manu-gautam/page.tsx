@@ -19,6 +19,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getDoctorBySlug, getFeaturedServices, getVideos } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
 import { buildPageMetadata, buildPhysicianSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { getGooglePlaceReviews } from "@/lib/googlePlaces";
 import { treatmentPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 import { siteConfig } from "@/lib/constants";
 
@@ -32,13 +33,16 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function DoctorProfilePage() {
-  const [doctor, services, videos] = await Promise.all([
+  const [doctor, services, videos, reviews] = await Promise.all([
     getDoctorBySlug("dr-manu-gautam"),
     getFeaturedServices(),
     getVideos(),
+    getGooglePlaceReviews(),
   ]);
 
   const photoUrl = hasImageAsset(doctor?.photo) ? urlForImage(doctor.photo).width(1200).url() : undefined;
+  const ratingValue = reviews?.rating ?? siteConfig.googleReviewsSnapshot.rating;
+  const reviewCount = reviews?.totalReviews ?? siteConfig.googleReviewsSnapshot.totalReviews;
 
   const breadcrumbItems = [
     { name: "Home", url: "/" },
@@ -48,12 +52,17 @@ export default async function DoctorProfilePage() {
     buildBreadcrumbSchema(breadcrumbItems),
     ...(doctor
       ? [
-          buildPhysicianSchema(doctor.name, photoUrl, {
-            credentials: doctor.credentials,
-            url: `${siteConfig.url}${DOCTOR_PROFILE_PATH}`,
-            education: doctor.education,
-            memberships: doctor.memberships,
-          }),
+          buildPhysicianSchema(
+            doctor.name,
+            photoUrl,
+            {
+              credentials: doctor.credentials,
+              url: `${siteConfig.url}${DOCTOR_PROFILE_PATH}`,
+              education: doctor.education,
+              memberships: doctor.memberships,
+            },
+            { ratingValue, reviewCount },
+          ),
         ]
       : []),
   ];

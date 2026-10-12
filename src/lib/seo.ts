@@ -106,11 +106,23 @@ export function buildWebsiteSchema() {
       url: siteConfig.url,
       logo: absoluteUrl(siteConfig.logo),
     },
+    // Sitelinks Search Box in Google SERPs. The site has no internal search
+    // page, so this uses Google's own documented fallback — a site-scoped
+    // Google search — rather than pointing at a page that doesn't exist.
+    // https://developers.google.com/search/docs/appearance/structured-data/sitelinks-searchbox
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `https://www.google.com/search?q=site:${new URL(siteConfig.url).hostname}+{search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
 /** schema.org MedicalOrganization + LocalBusiness markup for Noida/Delhi NCR local SEO. */
-export function buildLocalBusinessSchema() {
+export function buildLocalBusinessSchema(rating?: AggregateRatingInput) {
   return {
     "@context": "https://schema.org",
     "@type": ["MedicalOrganization", "LocalBusiness"],
@@ -159,6 +171,7 @@ export function buildLocalBusinessSchema() {
     })),
     hasMap: siteConfig.googleMapsUrl,
     sameAs: Object.values(siteConfig.social),
+    ...aggregateRatingBlock(rating),
   };
 }
 
@@ -173,6 +186,7 @@ export function buildPhysicianSchema(
   name: string,
   image?: string,
   options?: PhysicianSchemaOptions,
+  rating?: AggregateRatingInput,
 ) {
   return {
     "@context": "https://schema.org",
@@ -205,6 +219,7 @@ export function buildPhysicianSchema(
       "@type": "Organization",
       name: org,
     })),
+    ...aggregateRatingBlock(rating),
   };
 }
 
@@ -263,7 +278,10 @@ interface MedicalClinicOptions {
   openingHours?: { days: string; time: string }[];
 }
 
-export function buildMedicalClinicSchema(options: MedicalClinicOptions) {
+export function buildMedicalClinicSchema(
+  options: MedicalClinicOptions,
+  rating?: AggregateRatingInput,
+) {
   return {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
@@ -292,6 +310,7 @@ export function buildMedicalClinicSchema(options: MedicalClinicOptions) {
         }
       : {}),
     medicalSpecialty: "Orthopedic",
+    ...aggregateRatingBlock(rating),
   };
 }
 
@@ -366,5 +385,23 @@ export function buildFaqSchema(items: { question: string; answer: string }[]) {
         text: item.answer,
       },
     })),
+  };
+}
+
+interface AggregateRatingInput {
+  ratingValue: number;
+  reviewCount: number;
+}
+
+function aggregateRatingBlock(rating?: AggregateRatingInput) {
+  if (!rating || !rating.reviewCount || !rating.ratingValue) return {};
+  return {
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: rating.ratingValue,
+      reviewCount: rating.reviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    },
   };
 }

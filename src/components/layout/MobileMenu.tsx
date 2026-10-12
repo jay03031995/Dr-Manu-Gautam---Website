@@ -43,7 +43,6 @@ export function MobileMenu({ id, open, onClose, treatments, locations }: MobileM
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
   const toggle = (key: AccordionKey) => setOpenAccordion((current) => (current === key ? null : key));
-  const isKneeLanding = Boolean(pathname && (pathname.includes("knee") && pathname.includes("replacement"))) || pathname === "/best-doctor-of-knee-replacement-in-noida";
 
   return (
     <nav
@@ -66,7 +65,7 @@ export function MobileMenu({ id, open, onClose, treatments, locations }: MobileM
               <li key={link.href}>
                 <div className="flex items-center justify-between rounded-sm">
                   <Link
-                    href={isKneeLanding && link.href.startsWith("/") ? "#" : link.href}
+                    href={link.href}
                     onClick={onClose}
                     aria-current={isActive(link.href) ? "page" : undefined}
                     className={cn(
@@ -105,7 +104,7 @@ export function MobileMenu({ id, open, onClose, treatments, locations }: MobileM
                         treatments.map((t) => (
                           <li key={t._id}>
                             <Link
-                                href={isKneeLanding ? "#" : treatmentPath(t.slug.current)}
+                                href={treatmentPath(t.slug.current)}
                                 onClick={onClose}
                                 className="flex items-center gap-2.5 rounded-sm px-3 py-2.5 text-sm text-dark-gray hover:bg-light-blue hover:text-medical-blue"
                               >
@@ -117,7 +116,7 @@ export function MobileMenu({ id, open, onClose, treatments, locations }: MobileM
                       {isSpecialties && (
                         <li>
                           <Link
-                            href={isKneeLanding ? "#" : "/treatments"}
+                            href="/treatments"
                             onClick={onClose}
                             className="block rounded-sm px-3 py-2.5 text-sm font-medium text-medical-blue hover:bg-light-blue"
                           >
@@ -129,7 +128,7 @@ export function MobileMenu({ id, open, onClose, treatments, locations }: MobileM
                         locations.map((loc) => (
                           <li key={loc._id}>
                             <Link
-                              href={isKneeLanding ? "#" : locationPath(loc.slug.current)}
+                              href={locationPath(loc.slug.current)}
                               onClick={onClose}
                               className="block rounded-sm px-3 py-2.5 text-sm text-dark-gray hover:bg-light-blue hover:text-medical-blue"
                             >
@@ -160,7 +159,7 @@ export function MobileMenu({ id, open, onClose, treatments, locations }: MobileM
                       {isClinics && (
                         <li>
                           <Link
-                            href={isKneeLanding ? "#" : "/locations"}
+                            href="/locations"
                             onClick={onClose}
                             className="block rounded-sm px-3 py-2.5 text-sm font-medium text-medical-blue hover:bg-light-blue"
                           >
