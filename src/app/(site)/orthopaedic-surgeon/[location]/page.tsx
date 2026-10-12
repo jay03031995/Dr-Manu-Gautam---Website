@@ -24,12 +24,14 @@ import {
   getFaqs,
 } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
+import { buildPageMetadata } from "@/lib/seo";
 import {
-  buildPageMetadata,
-  buildBreadcrumbSchema,
-  buildMedicalClinicSchema,
-  buildFaqSchema,
-} from "@/lib/seo";
+  schemaGraph,
+  buildWebPageNode,
+  buildBreadcrumbNode,
+  buildFaqNode,
+  locationEntityId,
+} from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { treatmentPath, locationPath } from "@/lib/utils";
 
@@ -50,11 +52,20 @@ export async function generateMetadata({
   const location = await getLocationBySlug(params.location);
   if (!location) return {};
 
+  // "Delhi" is the exact phrase patients search ("best orthopedic surgeon in
+  // Delhi") — used here for title/description only. Postal address, schema
+  // and body copy keep the accurate "New Delhi".
+  const searchCity = location.city === "New Delhi" ? "Delhi" : location.city;
+
   return buildPageMetadata({
-    title: `Orthopedic Surgeon in ${location.city} | Dr. Manu Gautam`,
-    description: `Looking for an orthopedic surgeon or orthopedist near ${location.city}? Consult Dr. Manu Gautam for bone, joint, knee and sports injury care.`,
+    title: `Best Orthopedic Surgeon in ${searchCity}`,
+    description: `Looking for the best orthopedic surgeon in ${searchCity}? Consult Dr. Manu Gautam for bone, joint, knee and sports injury care.`,
     path: locationPath(params.location),
     keywords: [
+      "best orthopedic surgeon in Delhi",
+      "best orthopedic surgeon in Noida",
+      "top orthopedic doctor in Noida",
+      "best knee replacement surgeon in Delhi",
       "orthopedic near me",
       "orthopedist near me",
       "orthopedic surgeon near me",
@@ -80,34 +91,33 @@ export default async function LocationPage({ params }: PageProps) {
   const nearbyAreas = siteConfig.serviceAreas.filter(
     (area) => area.toLowerCase() !== location.city.toLowerCase(),
   );
+  // Same title/description mapping as generateMetadata: "Delhi" is the exact
+  // phrase searched, "New Delhi" stays in the address/schema.
+  const searchCity = location.city === "New Delhi" ? "Delhi" : location.city;
 
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Locations", url: "/locations" },
     { name: location.city, url: locationPath(params.location) },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const clinicSchema = buildMedicalClinicSchema({
-    name: location.name,
-    url: `${siteConfig.url}${locationPath(params.location)}`,
-    telephone:
-      location.phone && !/x/i.test(location.phone) ? location.phone : undefined,
-    streetAddress: location.addressLine,
-    addressLocality: location.city,
-    postalCode: location.postalCode,
-    openingHours: location.hours,
-  });
-  const faqSchema = faqs.length ? buildFaqSchema(faqs) : null;
+  const path = locationPath(params.location);
+  const entityId = locationEntityId(params.location);
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      path,
+      name: `Best Orthopedic Surgeon in ${searchCity} - ${location.name}`,
+      description: `Consult ${siteConfig.shortName} in ${location.city} for joint, bone, sports injury and musculoskeletal care.`,
+      about: entityId,
+      mainEntity: entityId,
+      contentLocation: location.city,
+    }),
+    buildBreadcrumbNode(path, breadcrumbItems),
+    buildFaqNode(path, faqs),
+  ]);
 
   return (
     <>
-      <JsonLd
-        data={
-          faqSchema
-            ? [breadcrumbSchema, clinicSchema, faqSchema]
-            : [breadcrumbSchema, clinicSchema]
-        }
-      />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">
@@ -135,9 +145,10 @@ export default async function LocationPage({ params }: PageProps) {
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
             {location.city}
           </span>
-          <h1 className="mb-4">Orthopedic Surgeon in {location.city}</h1>
+          <h1 className="mb-4">Best Orthopedic Surgeon in {searchCity}</h1>
           <p className="mb-6 text-lg text-dark-gray leading-relaxed">
-            Consult {siteConfig.shortName} in {location.city} for personalised
+            Consult {siteConfig.shortName} in {location.city}
+            {location.city === "Noida" ? ", Sector 20," : ""} for personalised
             diagnosis and treatment of joint, bone, sports injury and
             musculoskeletal conditions. Every consultation begins with a
             detailed evaluation to understand your symptoms and the treatment
@@ -145,7 +156,7 @@ export default async function LocationPage({ params }: PageProps) {
           </p>
           <p className="mx-auto mb-6 max-w-2xl text-sm text-dark-gray">
             If you are searching for an orthopedist near you, a bone doctor, or
-            an orthopedic surgeon near {location.city}, the clinic provides
+            an orthopedic surgeon near {searchCity}, the clinic provides
             assessment-led care with clear guidance on non-surgical and surgical
             options.
           </p>

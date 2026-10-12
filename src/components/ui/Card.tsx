@@ -52,7 +52,7 @@ export function ServiceCard({ icon, title, description, href, imageUrl, classNam
         {imageUrl ? (
           <Image
             src={imageUrl}
-            alt=""
+            alt={title}
             fill
             sizes="(min-width: 1024px) 25vw, 45vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"

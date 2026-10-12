@@ -9,15 +9,17 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { getFeaturedServices } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
-import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildItemListNode, schemaIds } from "@/lib/schema";
 import { treatmentPath } from "@/lib/utils";
+import { siteConfig } from "@/lib/constants";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Treatments & Services",
   description:
-    "Comprehensive orthopedic treatments including joint replacement, spine care, sports injury management, trauma care, rehabilitation, and pediatric orthopedics in Noida & Delhi NCR.",
+    "Orthopaedic treatments in Noida: knee, hip & shoulder replacement, robotic knee surgery, GFC injection, sports injuries, spine, trauma care and rehab.",
   path: "/treatments",
 });
 
@@ -28,11 +30,26 @@ export default async function TreatmentsPage() {
     { name: "Home", url: "/" },
     { name: "Treatments", url: "/treatments" },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "CollectionPage",
+      path: "/treatments",
+      name: "Orthopaedic Treatments & Services in Noida",
+      description: metadata.description as string,
+      about: schemaIds.physician,
+      mainEntity: `${siteConfig.url}/treatments/#itemlist`,
+    }),
+    buildBreadcrumbNode("/treatments", breadcrumbItems),
+    buildItemListNode(
+      "/treatments",
+      "Orthopaedic treatments",
+      services.map((s) => ({ name: s.title, url: treatmentPath(s.slug.current) })),
+    ),
+  ]);
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

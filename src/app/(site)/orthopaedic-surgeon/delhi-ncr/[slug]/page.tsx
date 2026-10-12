@@ -27,15 +27,14 @@ import { ServiceIcon } from "@/lib/serviceIcons";
 import { getServiceBySlug } from "@/sanity/lib/fetch";
 import { client } from "@/sanity/lib/client";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
+import { buildPageMetadata } from "@/lib/seo";
 import {
-  buildPageMetadata,
-  buildFaqSchema,
-  buildBreadcrumbSchema,
-  buildPhysicianSchema,
-  buildMedicalProcedureSchema,
-  buildMedicalClinicSchema,
-  buildWebPageSchema,
-} from "@/lib/seo";
+  schemaGraph,
+  buildWebPageNode,
+  buildBreadcrumbNode,
+  buildFaqNode,
+  buildTreatmentNodes,
+} from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { telHref, treatmentPath, locationPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 import type { PortableTextBlock } from "@portabletext/react";
@@ -261,58 +260,36 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   if (!service) notFound();
 
   const doctorName = service.doctor?.name ?? siteConfig.shortName;
-  const pageUrl = `${siteConfig.url}${treatmentPath(params.slug)}`;
   const whatsappNumber = siteConfig.phone.replace(/[^\d]/g, "");
 
-  const faqSchema = service.faqs?.length ? buildFaqSchema(service.faqs) : null;
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Treatments", url: "/treatments" },
     { name: service.title, url: treatmentPath(params.slug) },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const webPageSchema = buildWebPageSchema({
-    name: service.seo?.metaTitle || service.title,
-    description: service.seo?.metaDescription || service.shortDescription,
-    url: pageUrl,
-  });
-  // bodyLocation should list anatomical sites, not conditions — derive from the
-  // treatment-type titles (e.g. "Knee Replacement Surgery" -> "Knee") when present.
-  const bodyLocations = service.treatmentTypes?.length
-    ? service.treatmentTypes.map((t) => t.title.split(" ")[0])
-    : undefined;
-  const procedureSchema = buildMedicalProcedureSchema({
+  const path = treatmentPath(params.slug);
+  const description = service.seo?.metaDescription || service.shortDescription;
+  const treatmentNodes = buildTreatmentNodes({
+    slug: params.slug,
+    path,
     name: service.title,
     description: service.shortDescription,
-    url: pageUrl,
-    bodyLocation: bodyLocations,
   });
-  const physicianSchema = service.doctor
-    ? buildPhysicianSchema(service.doctor.name, hasImageAsset(service.doctor.photo) ? urlForImage(service.doctor.photo).url() : undefined)
-    : null;
-  // Don't publish obviously-placeholder phone numbers (e.g. "+91-XXXXXXXXXX") in
-  // public structured data.
-  const isRealPhone = (phone?: string) => !!phone && !/x/i.test(phone);
-  const clinicSchemas = (service.locations ?? []).map((loc) =>
-    buildMedicalClinicSchema({
-      name: loc.name,
-      url: pageUrl,
-      telephone: isRealPhone(loc.phone) ? loc.phone : undefined,
-      streetAddress: loc.addressLine,
-      addressLocality: loc.city,
-      postalCode: loc.postalCode,
-      openingHours: loc.hours,
-    })
-  );
-
-  const schemas = [
-    breadcrumbSchema,
-    webPageSchema,
-    procedureSchema,
-    ...(physicianSchema ? [physicianSchema] : []),
-    ...clinicSchemas,
-    ...(faqSchema ? [faqSchema] : []),
-  ];
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "MedicalWebPage",
+      path,
+      name: service.seo?.metaTitle || service.title,
+      description,
+      about: treatmentNodes[0]["@id"] as string,
+      image: hasImageAsset(service.heroImage)
+        ? urlForImage(service.heroImage).width(1200).height(675).fit("crop").url()
+        : undefined,
+    }),
+    buildBreadcrumbNode(path, breadcrumbItems),
+    ...treatmentNodes,
+    buildFaqNode(path, service.faqs ?? []),
+  ]);
 
   return (
     <>
@@ -350,7 +327,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-medical-blue text-white">
               <ServiceIcon name={service.icon} className="h-7 w-7" />
             </span>
-            <h1 className="mb-4">{service.title}</h1>
+            <h1 className="mb-4">
+              {/noida/i.test(service.title) ? service.title : `${service.title} in Noida`}
+            </h1>
             <p className="mb-6 text-lg text-dark-gray leading-relaxed">
               {service.introduction || service.shortDescription}
             </p>
@@ -697,6 +676,30 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <Reveal delay={0.1} className="mx-auto max-w-3xl">
             <Accordion items={service.faqs} />
           </Reveal>
+        </Section>
+      )}
+
+      {/* Patient guides on this treatment (blog posts that reference it) */}
+      {service.relatedPosts && service.relatedPosts.length > 0 && (
+        <Section background="white">
+          <Reveal className="mb-10 text-center">
+            <h2>{service.title} Guides for Patients</h2>
+          </Reveal>
+          <ul className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
+            {service.relatedPosts.map((post) => (
+              <li key={post._id} className="rounded-2xl border border-light-grey bg-white p-6">
+                <Link
+                  href={`/blog/${post.slug.current}/`}
+                  className="font-heading text-lg font-semibold text-dark-navy hover:text-medical-blue"
+                >
+                  {post.title}
+                </Link>
+                {post.excerpt && (
+                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-dark-gray">{post.excerpt}</p>
+                )}
+              </li>
+            ))}
+          </ul>
         </Section>
       )}
 

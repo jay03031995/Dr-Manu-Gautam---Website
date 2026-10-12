@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import { KneeReplacementLanding } from "@/components/sections/KneeReplacementLanding";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { buildPageMetadata } from "@/lib/seo";
 import {
-  buildBreadcrumbSchema,
-  buildFaqSchema,
-  buildLocalBusinessSchema,
-  buildMedicalProcedureSchema,
-  buildPageMetadata,
-  buildPhysicianSchema,
-  buildWebPageSchema,
-} from "@/lib/seo";
-import { siteConfig } from "@/lib/constants";
+  schemaGraph,
+  buildWebPageNode,
+  buildBreadcrumbNode,
+  buildFaqNode,
+  buildTreatmentNodes,
+} from "@/lib/schema";
 import { getDoctorBySlug, getFaqs, getLocations } from "@/sanity/lib/fetch";
 
+const PATH = "/best-doctor-of-knee-replacement-in-noida/";
+
 export const metadata: Metadata = buildPageMetadata({
-  title: "Best Doctor for Knee Replacement in Noida | Dr. Manu Gautam",
+  title: "Best Knee Replacement Surgeon in Noida",
   description:
     "Consult Dr. Manu Gautam for advanced knee replacement surgery, robotic knee replacement, knee pain treatment, and joint replacement care in Noida & Delhi NCR.",
   path: "/best-doctor-of-knee-replacement-in-noida/",
@@ -28,6 +28,11 @@ export const metadata: Metadata = buildPageMetadata({
     "total knee replacement",
     "tkr knee replacement",
     "knee surgery",
+    "best knee replacement surgeon in Greater Noida",
+    "best knee replacement surgeon in India",
+    "top knee replacement surgeon in Delhi NCR",
+    "best knee replacement surgeon in Noida",
+    "best knee replacement surgeon in Meerut",
   ],
 });
 
@@ -38,41 +43,33 @@ export default async function BestDoctorOfKneeReplacementPage() {
     getFaqs(),
   ]);
   const pageFaqs = faqs.slice(0, 8);
-  const schemas = [
-    buildBreadcrumbSchema([
-      { name: "Home", url: "/" },
-      {
-        name: "Best Doctor for Knee Replacement in Noida",
-        url: "/best-doctor-of-knee-replacement-in-noida/",
-      },
-    ]),
-    buildWebPageSchema({
+  const treatmentNodes = buildTreatmentNodes({
+    slug: "knee-replacement",
+    path: PATH,
+    name: "Knee Replacement Surgery in Noida",
+    description:
+      "Knee replacement and robotic knee replacement consultation for patients with knee pain, stiffness, arthritis and mobility limitations in Noida and Delhi NCR.",
+    model: {
+      procedureType: "SurgicalProcedure",
+      bodyLocation: ["Knee"],
+      serviceType: "Knee replacement surgery",
+    },
+  });
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "MedicalWebPage",
+      path: PATH,
       name: "Best Doctor for Knee Replacement in Noida",
       description: metadata.description as string,
-      url: "/best-doctor-of-knee-replacement-in-noida/",
+      about: treatmentNodes[0]["@id"] as string,
     }),
-    buildMedicalProcedureSchema({
-      name: "Knee Replacement Surgery in Noida",
-      description:
-        "Advanced knee replacement and robotic knee replacement consultation for patients with knee pain, stiffness, arthritis, and mobility limitations in Noida and Delhi NCR.",
-      url: "/best-doctor-of-knee-replacement-in-noida/",
-      bodyLocation: ["Knee", "Joint"],
-      howPerformed:
-        "Dr. Manu Gautam evaluates knee pain, imaging, mobility, and patient goals before recommending non-surgical care, robotic knee replacement, or joint replacement surgery when appropriate.",
-      preparation:
-        "Consultation, diagnosis, imaging review, surgical planning, and pre-operative assessment when surgery is advised.",
-      followup:
-        "Post-operative review, physiotherapy guidance, rehabilitation support, and mobility follow-up.",
-    }),
-    buildPhysicianSchema(doctor?.name ?? siteConfig.shortName, undefined, {
-      credentials: doctor?.credentials,
-      education: doctor?.education,
-      memberships: doctor?.memberships,
-      url: "/best-doctor-of-knee-replacement-in-noida/",
-    }),
-    buildLocalBusinessSchema(),
-    ...(pageFaqs.length ? [buildFaqSchema(pageFaqs)] : []),
-  ];
+    buildBreadcrumbNode(PATH, [
+      { name: "Home", url: "/" },
+      { name: "Best Doctor for Knee Replacement in Noida", url: PATH },
+    ]),
+    ...treatmentNodes,
+    buildFaqNode(PATH, pageFaqs),
+  ]);
 
   return (
     <>

@@ -222,12 +222,16 @@ function recordLandingPageCallLead(ctaLocation: string, phone: string) {
 }
 
 function Counter({ value, label }: { value: number; label: string }) {
-  const [display, setDisplay] = useState(0);
+  // Initialize to the real value, not 0: this is what search engines and any
+  // pre-hydration/no-JS view of the page see. The animation below only
+  // re-plays the count-up for browsers that actually mount and run it.
+  const [display, setDisplay] = useState(value);
 
   useEffect(() => {
     let frame: number;
     const duration = 1200;
     const start = performance.now();
+    setDisplay(0);
 
     const step = (now: number) => {
       const progress = Math.min((now - start) / duration, 1);
@@ -657,7 +661,7 @@ export function KneeReplacementLanding({
               Advanced Knee Care for Pain-Free Movement
             </div>
             <h1 className="max-w-3xl text-balance text-[30px] leading-[1.08] sm:text-[40px] lg:text-[48px]">
-              Walk Pain-Free Again with Advanced Knee Replacement Surgery
+              Knee Replacement Surgery in Noida: Walk Pain-Free Again
             </h1>
             <p className="mt-4 max-w-2xl text-base text-dark-gray sm:text-lg">
               Consult Dr. Manu Gautam for advanced robotic and minimally

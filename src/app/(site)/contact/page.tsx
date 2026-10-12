@@ -10,7 +10,8 @@ import { LocationCard } from "@/components/sections/LocationCard";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getLocations, getFaqs } from "@/sanity/lib/fetch";
-import { buildPageMetadata, buildBreadcrumbSchema, buildFaqSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildFaqNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { telHref } from "@/lib/utils";
 
@@ -31,12 +32,21 @@ export default async function ContactPage() {
     { name: "Home", url: "/" },
     { name: "Contact", url: "/contact" },
   ];
-  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
-  const faqSchema = faqs.length ? buildFaqSchema(faqs) : null;
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "ContactPage",
+      path: "/contact",
+      name: "Contact Dr. Manu Gautam - Noida & Delhi NCR Clinics",
+      description: metadata.description as string,
+      about: schemaIds.organization,
+    }),
+    buildBreadcrumbNode("/contact", breadcrumbItems),
+    buildFaqNode("/contact", faqs),
+  ]);
 
   return (
     <>
-      <JsonLd data={faqSchema ? [breadcrumbSchema, faqSchema] : breadcrumbSchema} />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">

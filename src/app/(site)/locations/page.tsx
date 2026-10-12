@@ -7,7 +7,8 @@ import { RevealGrid } from "@/components/motion/RevealGrid";
 import { LocationCard } from "@/components/sections/LocationCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getLocations } from "@/sanity/lib/fetch";
-import { buildPageMetadata, buildBreadcrumbSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildItemListNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { locationPath } from "@/lib/utils";
 
@@ -22,14 +23,29 @@ export const metadata: Metadata = buildPageMetadata({
 export default async function LocationsPage() {
   const locations = await getLocations();
 
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Locations", url: "/locations" },
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "CollectionPage",
+      path: "/locations",
+      name: `${siteConfig.shortName} - Consultation Locations in Noida & Delhi`,
+      description: metadata.description as string,
+      about: schemaIds.physician,
+      mainEntity: `${siteConfig.url}/locations/#itemlist`,
+    }),
+    buildBreadcrumbNode("/locations", [
+      { name: "Home", url: "/" },
+      { name: "Locations", url: "/locations" },
+    ]),
+    buildItemListNode(
+      "/locations",
+      "Consultation locations",
+      locations.map((l) => ({ name: l.name, url: locationPath(l.slug.current) })),
+    ),
   ]);
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={schemas} />
 
       <Container className="pt-6">
         <nav aria-label="Breadcrumb">
@@ -69,6 +85,31 @@ export default async function LocationsPage() {
             </div>
           ))}
         </RevealGrid>
+      </Section>
+
+      <Section background="white">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <h2 className="mb-3">Also Serving Ghaziabad &amp; Sector 104, Noida</h2>
+          <p className="mb-4 text-dark-gray">
+            No clinic inside Ghaziabad or Sector 104 itself, but both
+            locations above are a short drive away and regularly see
+            patients from these areas.
+          </p>
+          <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-6">
+            <Link
+              href="/orthopaedic-surgeon/ghaziabad/"
+              className="inline-flex items-center gap-1 text-sm font-medium text-medical-blue hover:underline"
+            >
+              View the Ghaziabad patient guide
+            </Link>
+            <Link
+              href="/orthopaedic-surgeon/sector-104-noida/"
+              className="inline-flex items-center gap-1 text-sm font-medium text-medical-blue hover:underline"
+            >
+              View the Sector 104 patient guide
+            </Link>
+          </div>
+        </Reveal>
       </Section>
     </>
   );

@@ -360,7 +360,19 @@ function Header({
     </header>
   )
 }
-function Filters(p: any) {
+interface FiltersProps {
+  search: string
+  setSearch: (value: string) => void
+  utmSearch: string
+  setUtmSearch: (value: string) => void
+  status: string
+  setStatus: (value: string) => void
+  source: string
+  setSource: (value: string) => void
+  appointment: string
+  setAppointment: (value: string) => void
+}
+function Filters(p: FiltersProps) {
   return (
     <div className="ad-filter-row">
       <input
@@ -960,7 +972,11 @@ function LeadRow({
           onChange={(e) =>
             setSelected((c) => {
               const n = new Set(c)
-              e.currentTarget.checked ? n.add(l._id) : n.delete(l._id)
+              if (e.currentTarget.checked) {
+                n.add(l._id)
+              } else {
+                n.delete(l._id)
+              }
               return n
             })
           }

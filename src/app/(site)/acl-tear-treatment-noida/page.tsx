@@ -5,11 +5,16 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { BookAppointmentButton } from "@/components/forms/BookAppointmentButton";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { buildPageMetadata } from "@/lib/seo";
 import {
-  buildBreadcrumbSchema,
-  buildMedicalProcedureSchema,
-  buildPageMetadata,
-} from "@/lib/seo";
+  schemaGraph,
+  buildWebPageNode,
+  buildBreadcrumbNode,
+  buildTreatmentNodes,
+} from "@/lib/schema";
+
+
+const PATH = "/acl-tear-treatment-noida/";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "ACL Tear Treatment in Noida | Orthopedic Surgeon",
@@ -45,27 +50,32 @@ const steps = [
 ];
 
 export default function AclTearTreatmentPage() {
-  const schemas = [
-    buildBreadcrumbSchema([
-      { name: "Home", url: "/" },
-      {
-        name: "ACL Tear Treatment in Noida",
-        url: "/acl-tear-treatment-noida/",
-      },
-    ]),
-    buildMedicalProcedureSchema({
-      name: "ACL Tear Treatment",
-      description:
-        "Diagnosis, rehabilitation and surgical consultation for anterior cruciate ligament injuries in Noida.",
-      url: "/acl-tear-treatment-noida/",
+  const treatmentNodes = buildTreatmentNodes({
+    slug: "acl-tear-treatment",
+    path: PATH,
+    name: "ACL Tear Treatment in Noida",
+    description:
+      "Diagnosis, rehabilitation and surgical consultation for anterior cruciate ligament (ACL) injuries in Noida.",
+    model: {
+      procedureType: "MedicalProcedure",
       bodyLocation: ["Knee", "Anterior cruciate ligament"],
-      howPerformed:
-        "Treatment is selected after clinical examination and imaging review, and may include rehabilitation or ACL reconstruction when indicated.",
-      preparation: "Clinical consultation, examination and imaging review.",
-      followup:
-        "Progressive physiotherapy, strength assessment and return-to-activity guidance.",
+      serviceType: "ACL tear treatment",
+    },
+  });
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "MedicalWebPage",
+      path: PATH,
+      name: "ACL Tear Treatment in Noida",
+      description: metadata.description as string,
+      about: treatmentNodes[0]["@id"] as string,
     }),
-  ];
+    buildBreadcrumbNode(PATH, [
+      { name: "Home", url: "/" },
+      { name: "ACL Tear Treatment in Noida", url: PATH },
+    ]),
+    ...treatmentNodes,
+  ]);
 
   return (
     <>

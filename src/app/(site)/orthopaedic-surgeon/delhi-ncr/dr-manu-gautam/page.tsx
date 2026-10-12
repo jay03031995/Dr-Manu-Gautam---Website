@@ -18,7 +18,8 @@ import { VideoCarousel } from "@/components/sections/VideoCarousel";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getDoctorBySlug, getFeaturedServices, getVideos } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
-import { buildPageMetadata, buildPhysicianSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, schemaIds } from "@/lib/schema";
 import { treatmentPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 import { siteConfig } from "@/lib/constants";
 
@@ -27,7 +28,7 @@ export const revalidate = 60;
 export const metadata: Metadata = buildPageMetadata({
   title: "Orthopaedic Surgeon in Noida & Delhi NCR - Doctor Profile",
   description:
-    "Dr. Manu Gautam is an orthopaedic surgeon with 15+ years of experience in joint replacement, robotic knee surgery, spine care, and sports injury management across Noida and Delhi NCR.",
+    "Dr. Manu Gautam (MBBS, D-Ortho, DNB Ortho), orthopaedic & joint replacement surgeon in Noida and at Dharamshila Narayana Hospital, Delhi.",
   path: DOCTOR_PROFILE_PATH,
 });
 
@@ -44,19 +45,18 @@ export default async function DoctorProfilePage() {
     { name: "Home", url: "/" },
     { name: "Doctor Profile", url: DOCTOR_PROFILE_PATH },
   ];
-  const schemas = [
-    buildBreadcrumbSchema(breadcrumbItems),
-    ...(doctor
-      ? [
-          buildPhysicianSchema(doctor.name, photoUrl, {
-            credentials: doctor.credentials,
-            url: `${siteConfig.url}${DOCTOR_PROFILE_PATH}`,
-            education: doctor.education,
-            memberships: doctor.memberships,
-          }),
-        ]
-      : []),
-  ];
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      type: "ProfilePage",
+      path: DOCTOR_PROFILE_PATH,
+      name: `${doctor?.name ?? siteConfig.shortName} - Orthopaedic Surgeon in Noida & Delhi NCR`,
+      description: metadata.description as string,
+      about: schemaIds.person,
+      mainEntity: schemaIds.person,
+      image: photoUrl,
+    }),
+    buildBreadcrumbNode(DOCTOR_PROFILE_PATH, breadcrumbItems),
+  ]);
 
   // Match the doctor's specialties to their real treatment pages by title —
   // only links to pages that actually exist, no fabricated sub-pages.

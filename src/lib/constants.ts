@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Dr. Manu Gautam - Orthopedic Surgery",
   shortName: "Dr. Manu Gautam",
   description:
-    "Expert orthopedic care in Noida & Delhi NCR. Advanced treatments, compassionate care, and personalized solutions for joint replacement, spine care, sports injuries, and rehabilitation.",
+    "Orthopaedic surgeon in Sector 20, Noida: knee & hip replacement, robotic knee surgery, GFC knee injections, sports injury and fracture care in Delhi NCR.",
   url: "https://drmanugautam.com",
   ogImage: "/images/og-image.png",
   logo: "/images/logo.png",
@@ -17,7 +17,7 @@ export const siteConfig = {
     postalCode: "201301",
     country: "IN",
   },
-  serviceAreas: ["Noida", "New Delhi", "Greater Noida", "Delhi NCR"],
+  serviceAreas: ["Noida", "Delhi", "New Delhi", "Greater Noida", "Ghaziabad", "Delhi NCR"],
   social: {
     facebook: "https://facebook.com/people/DrManu-Gautam/100084198227670/",
     instagram: "https://www.instagram.com/maanuugautam/",
@@ -25,6 +25,29 @@ export const siteConfig = {
   },
   youtubeChannelId: "UCK-nHyg1cxQMziniY81YbJA",
   googleMapsUrl: "https://maps.app.goo.gl/pAApdhFc9P1gd5oY6",
+  // Google Business Profile listing for the Noida clinic (confirmed CID).
+  googleBusinessProfileUrl: "https://www.google.com/maps?cid=15622916972718693117",
+  // Clinic pin, taken from the Google Business Profile listing (Google Places).
+  geo: { latitude: 28.5812465, longitude: 77.3327391 },
+  // Third-party profiles verified to be this doctor (same MBBS / D-Ortho / DNB
+  // qualifications). Used as schema.org sameAs to tie the entity together.
+  directoryProfiles: [
+    "https://www.narayanahealth.org/c/delhi/orthopaedics-joint-replacement/dr-manu-gautam",
+    "https://www.hexahealth.com/delhi/doctor/dr-manu-gautam-orthopedic-doctor",
+    "https://www.practo.com/noida/doctor/dr-manu-gautam-orthopedist",
+  ],
+  // Relative price indicator for LocalBusiness markup (no fee amounts claimed).
+  priceRange: "₹₹",
+  hospital: {
+    name: "Dharamshila Narayana Superspeciality Hospital",
+    streetAddress: "Dharamshila Road, Vasundhara Enclave",
+    locality: "New Delhi",
+    region: "Delhi",
+    postalCode: "110096",
+    country: "IN",
+    // Hospital pin from Google Places.
+    geo: { latitude: 28.6026423, longitude: 77.3143141 },
+  },
   openingHours: [
     { days: "Monday", opens: "10:00", closes: "20:00" },
     { days: "Tuesday", opens: "10:00", closes: "20:00" },
@@ -86,8 +109,11 @@ export const mainNavLinks = [
 
 export const footerLinks = {
   treatments: [
-    { label: "Joint Replacement", href: "/orthopaedic-surgeon/delhi-ncr/joint-replacement/" },
+    { label: "Knee Replacement in Noida", href: "/best-doctor-of-knee-replacement-in-noida/" },
     { label: "Robotic Knee Replacement", href: "/orthopaedic-surgeon/delhi-ncr/robotic-knee-replacement/" },
+    { label: "GFC Injection for Knee", href: "/orthopaedic-surgeon/delhi-ncr/gfc-injection/" },
+    { label: "Joint Replacement", href: "/orthopaedic-surgeon/delhi-ncr/joint-replacement/" },
+    { label: "ACL Tear Treatment", href: "/acl-tear-treatment-noida/" },
     { label: "Spine Care", href: "/orthopaedic-surgeon/delhi-ncr/spine-care/" },
     { label: "Sports Injuries", href: "/orthopaedic-surgeon/delhi-ncr/sports-injuries/" },
     { label: "Trauma Care", href: "/orthopaedic-surgeon/delhi-ncr/trauma-care/" },
@@ -97,13 +123,17 @@ export const footerLinks = {
   practice: [
     { label: "About Dr. Manu Gautam", href: "/about" },
     { label: "Doctor Profile", href: "/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/" },
-    { label: "Locations", href: "/locations" },
+    { label: "Noida Clinic (Sector 20)", href: "/orthopaedic-surgeon/noida/" },
+    { label: "Dharamshila Narayana, Delhi", href: "/orthopaedic-surgeon/delhi/" },
+    { label: "Ghaziabad Patients", href: "/orthopaedic-surgeon/ghaziabad/" },
+    { label: "Sector 20 Patients", href: "/orthopaedic-surgeon/sector-20-noida/" },
+    { label: "Sector 104 Patients", href: "/orthopaedic-surgeon/sector-104-noida/" },
     { label: "Blog", href: "/blog" },
+    { label: "Contact Us", href: "/contact" },
+    { label: "Book an Appointment", href: "/appointment" },
   ],
   support: [
     { label: "Contact Us", href: "/contact" },
     { label: "Book an Appointment", href: "/appointment" },
-    { label: "Insurance", href: "/insurance" },
-    { label: "FAQs", href: "/faq" },
   ],
 } as const;

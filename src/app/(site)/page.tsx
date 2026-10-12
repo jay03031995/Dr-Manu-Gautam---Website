@@ -14,7 +14,8 @@ import { GoogleReviewsSection } from "@/components/sections/GoogleReviewsSection
 import { FeaturedBlogSection } from "@/components/sections/FeaturedBlogSection";
 import { GoogleReviewsSkeleton } from "@/components/sections/GoogleReviewsSkeleton";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { buildPageMetadata, buildWebsiteSchema, buildLocalBusinessSchema, buildFaqSchema } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { schemaGraph, buildWebPageNode, buildFaqNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 import { ServiceIcon } from "@/lib/serviceIcons";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
@@ -22,8 +23,9 @@ import { treatmentPath } from "@/lib/utils";
 import { getFaqs, getFeaturedServices, getConcerns, getHomePage, getDoctorBySlug } from "@/sanity/lib/fetch";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Expert Orthopedic Care in Noida & Delhi NCR",
-  description: siteConfig.description,
+  title: "Orthopedic Doctor & Surgeon in Noida, Sector 20",
+  description:
+    "Dr. Manu Gautam, orthopedic doctor in Sector 20, Noida: robotic knee & hip replacement, GFC knee injection, sports injury and fracture care. Book a visit.",
   path: "/",
 });
 
@@ -74,9 +76,18 @@ export default async function Home() {
   // ones meant for their own treatment pages — the homepage should only show a
   // short, general teaser, not every FAQ on the site.
   const homeFaqs = faqs.filter((f) => f.category !== "treatments").slice(0, 6);
-  const schemas = homeFaqs.length
-    ? [buildWebsiteSchema(), buildLocalBusinessSchema(), buildFaqSchema(homeFaqs)]
-    : [buildWebsiteSchema(), buildLocalBusinessSchema()];
+  const schemas = schemaGraph([
+    buildWebPageNode({
+      path: "/",
+      name: "Dr. Manu Gautam - Orthopaedic Surgeon in Noida & Delhi NCR",
+      description: siteConfig.description,
+      about: schemaIds.physician,
+      mainEntity: schemaIds.physician,
+      image: siteConfig.ogImage,
+      breadcrumb: false,
+    }),
+    buildFaqNode("/", homeFaqs),
+  ]);
 
   const whyChooseHeading = homePage?.whyChooseHeading || `Why Choose ${siteConfig.shortName}`;
   const whyChooseDescription =
