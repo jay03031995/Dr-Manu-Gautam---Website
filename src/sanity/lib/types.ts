@@ -166,6 +166,7 @@ export interface Testimonial {
 
 export interface Location {
   _id: string;
+  seo?: Seo;
   name: string;
   slug: Slug;
   city: string;
