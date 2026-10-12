@@ -88,17 +88,17 @@ const nextConfig = {
       },
       {
         source: "/hip-replacement/",
-        destination: "/treatments/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/hip-replacement/",
         permanent: true,
       },
       {
         source: "/hip-replacement-surgery-in-ghaziabad/",
-        destination: "/treatments/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/hip-replacement/",
         permanent: true,
       },
       {
         source: "/hip-replacement-surgery-in-noida/",
-        destination: "/treatments/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/hip-replacement/",
         permanent: true,
       },
       {
@@ -118,7 +118,7 @@ const nextConfig = {
       },
       {
         source: "/shoulder-replacement/",
-        destination: "/treatments/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/shoulder-replacement/",
         permanent: true,
       },
       {

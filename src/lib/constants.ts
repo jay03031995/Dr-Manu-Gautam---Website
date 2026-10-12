@@ -113,6 +113,8 @@ export const footerLinks = {
     { label: "Robotic Knee Replacement", href: "/orthopaedic-surgeon/delhi-ncr/robotic-knee-replacement/" },
     { label: "GFC Injection for Knee", href: "/orthopaedic-surgeon/delhi-ncr/gfc-injection/" },
     { label: "Joint Replacement", href: "/orthopaedic-surgeon/delhi-ncr/joint-replacement/" },
+    { label: "Hip Replacement", href: "/orthopaedic-surgeon/delhi-ncr/hip-replacement/" },
+    { label: "Shoulder Replacement", href: "/orthopaedic-surgeon/delhi-ncr/shoulder-replacement/" },
     { label: "ACL Tear Treatment", href: "/acl-tear-treatment-noida/" },
     { label: "Spine Care", href: "/orthopaedic-surgeon/delhi-ncr/spine-care/" },
     { label: "Sports Injuries", href: "/orthopaedic-surgeon/delhi-ncr/sports-injuries/" },
