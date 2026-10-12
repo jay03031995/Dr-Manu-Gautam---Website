@@ -56,19 +56,29 @@ export function ClinicsMegaMenu({ locations }: ClinicsMegaMenuProps) {
 
   return (
     <div ref={rootRef} className="relative" onMouseEnter={openNow} onMouseLeave={closeSoon} onFocus={openNow}>
-      <button
-        type="button"
-        className={cn(
-          "flex items-center gap-1 text-sm font-medium hover:text-medical-blue",
-          activeLocations ? "text-medical-blue" : "text-charcoal"
-        )}
-        aria-haspopup="true"
-        aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
-      >
-        Clinics
-        <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} aria-hidden="true" />
-      </button>
+      {/* The label is a real link so crawlers (and Google's sitelinks) see the
+          hub page in the server HTML; the chevron toggles the menu. */}
+      <div className="flex items-center gap-1">
+        <Link
+          href="/locations/"
+          className={cn(
+            "text-sm font-medium hover:text-medical-blue",
+            activeLocations ? "text-medical-blue" : "text-charcoal"
+          )}
+        >
+          Clinics
+        </Link>
+        <button
+          type="button"
+          className={cn("hover:text-medical-blue", activeLocations ? "text-medical-blue" : "text-charcoal")}
+          aria-haspopup="true"
+          aria-expanded={open}
+          aria-label="Show clinics menu"
+          onClick={() => setOpen((v) => !v)}
+        >
+          <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} aria-hidden="true" />
+        </button>
+      </div>
 
       {open && <div className="absolute left-1/2 top-full h-3 w-[420px] -translate-x-1/2" aria-hidden="true" />}
 

@@ -17,7 +17,7 @@ export const revalidate = 60;
 export const metadata: Metadata = buildPageMetadata({
   title: "Book an Appointment",
   description:
-    "Request an appointment with Dr. Manu Gautam in three simple steps. Share your details and consultation needs, and our team will confirm a time that works for you.",
+    "Request an appointment with Dr. Manu Gautam in three simple steps. Share your details and our team will confirm a consultation time in Noida or Delhi.",
   path: "/appointment",
 });
 

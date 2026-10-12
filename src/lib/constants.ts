@@ -109,8 +109,11 @@ export const mainNavLinks = [
 
 export const footerLinks = {
   treatments: [
-    { label: "Joint Replacement", href: "/orthopaedic-surgeon/delhi-ncr/joint-replacement/" },
+    { label: "Knee Replacement in Noida", href: "/best-doctor-of-knee-replacement-in-noida/" },
     { label: "Robotic Knee Replacement", href: "/orthopaedic-surgeon/delhi-ncr/robotic-knee-replacement/" },
+    { label: "GFC Injection for Knee", href: "/orthopaedic-surgeon/delhi-ncr/gfc-injection/" },
+    { label: "Joint Replacement", href: "/orthopaedic-surgeon/delhi-ncr/joint-replacement/" },
+    { label: "ACL Tear Treatment", href: "/acl-tear-treatment-noida/" },
     { label: "Spine Care", href: "/orthopaedic-surgeon/delhi-ncr/spine-care/" },
     { label: "Sports Injuries", href: "/orthopaedic-surgeon/delhi-ncr/sports-injuries/" },
     { label: "Trauma Care", href: "/orthopaedic-surgeon/delhi-ncr/trauma-care/" },
@@ -120,16 +123,17 @@ export const footerLinks = {
   practice: [
     { label: "About Dr. Manu Gautam", href: "/about" },
     { label: "Doctor Profile", href: "/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/" },
-    { label: "Locations", href: "/locations" },
+    { label: "Noida Clinic (Sector 20)", href: "/orthopaedic-surgeon/noida/" },
+    { label: "Dharamshila Narayana, Delhi", href: "/orthopaedic-surgeon/delhi/" },
     { label: "Ghaziabad Patients", href: "/orthopaedic-surgeon/ghaziabad/" },
     { label: "Sector 20 Patients", href: "/orthopaedic-surgeon/sector-20-noida/" },
     { label: "Sector 104 Patients", href: "/orthopaedic-surgeon/sector-104-noida/" },
     { label: "Blog", href: "/blog" },
+    { label: "Contact Us", href: "/contact" },
+    { label: "Book an Appointment", href: "/appointment" },
   ],
   support: [
     { label: "Contact Us", href: "/contact" },
     { label: "Book an Appointment", href: "/appointment" },
-    { label: "Insurance", href: "/insurance" },
-    { label: "FAQs", href: "/faq" },
   ],
 } as const;

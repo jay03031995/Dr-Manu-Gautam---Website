@@ -157,6 +157,17 @@ function socialProfiles() {
 // Site entity graph (layout)
 // ---------------------------------------------------------------------------
 
+const SITELINK_TARGETS = [
+  { name: "Knee Replacement", path: "/best-doctor-of-knee-replacement-in-noida/", description: "Knee and robotic knee replacement surgery in Noida" },
+  { name: "GFC Injection for Knee", path: "/orthopaedic-surgeon/delhi-ncr/gfc-injection/", description: "Non-surgical GFC knee injection: cost, side effects, PRP vs GFC" },
+  { name: "Treatments", path: "/treatments/", description: "Joint replacement, sports injuries, spine, trauma care and rehabilitation" },
+  { name: "Noida Clinic", path: "/orthopaedic-surgeon/noida/", description: "D-8, Sector 20, Noida: timings, directions and appointments" },
+  { name: "Doctor Profile", path: DOCTOR_PROFILE_PATH, description: "Dr. Manu Gautam: qualifications, experience and specialties" },
+  { name: "Book an Appointment", path: "/appointment/", description: "Request a consultation in Noida or East Delhi" },
+  { name: "Contact", path: "/contact/", description: "Phone, address and clinic timings" },
+  { name: "Blog", path: "/blog/", description: "Patient guides on knee, hip, shoulder and sports injuries" },
+];
+
 export interface SiteGraphDoctor {
   name: string;
   credentials?: string;
@@ -391,8 +402,25 @@ export function buildSiteGraph({
     medicalSpecialty: ORTHOPAEDIC_SPECIALTY,
   };
 
+  // The pages we want Google to pick as sitelinks. Sitelinks are chosen
+  // algorithmically (no markup forces them); this states the intended set
+  // alongside the crawlable header/footer links that actually drive them.
+  const navigation: Node = {
+    "@type": "ItemList",
+    "@id": `${SITE}/#navigation`,
+    name: "Main navigation",
+    itemListElement: SITELINK_TARGETS.map((item, i) => ({
+      "@type": "SiteNavigationElement",
+      position: i + 1,
+      name: item.name,
+      description: item.description,
+      url: pageUrl(item.path),
+    })),
+  };
+
   return schemaGraph([
     website,
+    navigation,
     organization,
     logo,
     physician,
