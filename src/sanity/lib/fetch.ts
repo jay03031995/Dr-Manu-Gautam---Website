@@ -40,7 +40,9 @@ const canonicalLocations = clinicLocations.map((location) => ({
 
 function normalizeLocation(location: Location): Location {
   const key = location.slug.current === "ghaziabad" ? "delhi" : location.slug.current;
-  const canonical = canonicalLocations.find((item) => item.slug.current === key || item._id === location._id);
+  // Match the public slug first: legacy Sanity IDs are inverted (Delhi uses location-noida).
+  // Matching by _id wrongly turns Delhi into a second Noida listing.
+  const canonical = canonicalLocations.find((item) => item.slug.current === key);
 
   if (!canonical) return location;
 

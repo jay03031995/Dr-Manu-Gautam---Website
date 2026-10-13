@@ -58,8 +58,8 @@ export async function generateMetadata({
   const searchCity = location.city === "New Delhi" ? "Delhi" : location.city;
 
   return buildPageMetadata({
-    title: `Best Orthopedic Surgeon in ${searchCity}`,
-    description: `Looking for the best orthopedic surgeon in ${searchCity}? Consult Dr. Manu Gautam for bone, joint, knee and sports injury care.`,
+    title: location.seo?.metaTitle || `Orthopaedic Surgeon in ${searchCity} | Dr. Manu Gautam`,
+    description: location.seo?.metaDescription || `Consult Dr. Manu Gautam in ${searchCity} for orthopaedic evaluation, knee and joint care, and sports injuries.`,
     path: locationPath(params.location),
     keywords: [
       "best orthopedic surgeon in Delhi",

@@ -151,7 +151,8 @@ export const locationsQuery = groq`*[_type == "location"] | order(city asc){
   email,
   hours,
   coordinates,
-  image
+  image,
+  seo
 }`;
 
 export const locationBySlugQuery = groq`*[_type == "location" && slug.current == $slug][0]{
@@ -212,7 +213,12 @@ export const blogPostBySlugQuery = groq`*[_type == "blogPost" && slug.current ==
   "categories": categories[]->{title, slug},
   "faqs": faqs[]->{question, answer},
   references,
-  "relatedTreatments": relatedTreatments[]->{title, slug, shortDescription, icon, heroImage},
+  "relatedTreatments": select(
+    count(relatedTreatments) > 0 => relatedTreatments[]->{title, slug, shortDescription, icon, heroImage},
+    count(services) > 0 => services[]->{title, slug, shortDescription, icon, heroImage},
+    defined(service._ref) => [service->{title, slug, shortDescription, icon, heroImage}],
+    []
+  ),
   seo
 }`;
 
