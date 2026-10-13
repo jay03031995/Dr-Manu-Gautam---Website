@@ -1,3 +1,5 @@
+import { legacySearchRedirects } from "./legacy-search-redirects.mjs";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Required so /orthopaedic-surgeon/delhi-ncr/{slug}/ URLs are served with
@@ -188,6 +190,7 @@ const nextConfig = {
         destination: "/treatments/",
         permanent: true,
       },
+      ...legacySearchRedirects,
     ];
   },
   images: {
