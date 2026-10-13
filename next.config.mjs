@@ -8,6 +8,10 @@ const nextConfig = {
   trailingSlash: true,
   async redirects() {
     return [
+      // Retired WordPress sitemap endpoints: point crawlers to the canonical
+      // current XML sitemap. Remove these older submissions from GSC as well.
+      { source: "/page-sitemap.xml", destination: "/sitemap.xml", permanent: true },
+      { source: "/sitemap_index.xml", destination: "/sitemap.xml", permanent: true },
       {
         // Old treatment detail URLs -> new /orthopaedic-surgeon/delhi-ncr/ structure.
         // The /treatments listing page itself (no slug) is untouched. Matches the
