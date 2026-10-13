@@ -274,7 +274,6 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     path,
     name: service.title,
     description: service.shortDescription,
-    citations: service.references,
   });
   const schemas = schemaGraph([
     buildWebPageNode({
@@ -282,6 +281,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
       path,
       name: service.seo?.metaTitle || service.title,
       description,
+      citations: service.references,
       about: treatmentNodes[0]["@id"] as string,
       image: hasImageAsset(service.heroImage)
         ? urlForImage(service.heroImage).width(1200).height(675).fit("crop").url()
