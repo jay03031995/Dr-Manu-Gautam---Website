@@ -103,6 +103,8 @@ export default async function BlogPostPage({ params }: PageProps) {
       datePublished: post.publishedAt,
       dateModified,
       sections: post.categories?.map((c) => c.title),
+      author: post.author ? { name: post.author.name, type: post.author.type === "doctor" ? "Person" : "Organization", url: post.author.type === "doctor" ? `${siteConfig.url}/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/` : undefined } : undefined,
+      reviewer: post.medicalReviewer ? { name: post.medicalReviewer.name, url: `${siteConfig.url}/orthopaedic-surgeon/delhi-ncr/dr-manu-gautam/` } : undefined,
     }),
     buildFaqNode(postPath, post.faqs ?? []),
   ]);
