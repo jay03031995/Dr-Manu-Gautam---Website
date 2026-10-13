@@ -42,6 +42,7 @@ export const schemaIds = {
   person: `${SITE}/#dr-manu-gautam`,
   personImage: `${SITE}/#dr-manu-gautam-photo`,
   clinic: `${SITE}/#clinic-noida`,
+  delhiConsultation: `${SITE}/#consultation-east-delhi`,
   hospital: `${SITE}/#hospital-dharamshila`,
 } as const;
 
@@ -271,7 +272,7 @@ export function buildSiteGraph({
     medicalSpecialty: ORTHOPAEDIC_SPECIALTY,
     founder: ref(schemaIds.person),
     employee: ref(schemaIds.person),
-    location: [ref(schemaIds.clinic), ref(schemaIds.hospital)],
+    location: [ref(schemaIds.clinic), ref(schemaIds.delhiConsultation)],
     areaServed: areaServed(),
     sameAs: [...socialProfiles(), siteConfig.googleBusinessProfileUrl],
   });
@@ -298,7 +299,7 @@ export function buildSiteGraph({
     hospitalAffiliation: ref(schemaIds.hospital),
     employee: ref(schemaIds.person),
     parentOrganization: ref(schemaIds.organization),
-    location: [ref(schemaIds.clinic), ref(schemaIds.hospital)],
+    location: [ref(schemaIds.clinic), ref(schemaIds.delhiConsultation)],
     areaServed: areaServed(),
     availableService: services.map((s) => ({
       "@type": "MedicalProcedure",
@@ -329,7 +330,7 @@ export function buildSiteGraph({
         { "@type": "City", name: "New Delhi" },
       ],
     },
-    worksFor: [ref(schemaIds.organization), ref(schemaIds.hospital)],
+    worksFor: ref(schemaIds.organization),
     affiliation: ref(schemaIds.hospital),
     alumniOf: education
       .filter((e) => e.institution)
@@ -360,7 +361,7 @@ export function buildSiteGraph({
     "@id": schemaIds.clinic,
     name: clinic.name,
     url: pageUrl(locationPath("noida")),
-    image: doctorImageRef,
+    image: ref(schemaIds.logo),
     telephone: siteConfig.phone,
     email: siteConfig.email,
     address: clinicAddress(),
@@ -402,6 +403,32 @@ export function buildSiteGraph({
     medicalSpecialty: ORTHOPAEDIC_SPECIALTY,
   };
 
+  // A consultation at an independently operated hospital is not another
+  // branch owned by Dr. Manu Gautam. Model the consultation as a Place
+  // contained within the hospital, with no invented doctor OPD hours.
+  const delhiConsultationNode: Node = {
+    "@type": "Place",
+    "@id": schemaIds.delhiConsultation,
+    name: `${doctorName} consultation at ${hospital.name}`,
+    url: pageUrl(locationPath("delhi")),
+    description: `Orthopaedic consultation with ${doctorName} at ${hospital.name}, Vasundhara Enclave, New Delhi.`,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: hospital.streetAddress,
+      addressLocality: hospital.locality,
+      addressRegion: hospital.region,
+      postalCode: hospital.postalCode,
+      addressCountry: hospital.country,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: hospital.geo.latitude,
+      longitude: hospital.geo.longitude,
+    },
+    containedInPlace: ref(schemaIds.hospital),
+    subjectOf: ref(`${pageUrl(locationPath("delhi"))}#webpage`),
+  };
+
   // The pages we want Google to pick as sitelinks. Sitelinks are chosen
   // algorithmically (no markup forces them); this states the intended set
   // alongside the crawlable header/footer links that actually drive them.
@@ -428,6 +455,7 @@ export function buildSiteGraph({
     personImage,
     clinicNode,
     hospitalNode,
+    delhiConsultationNode,
   ]);
 }
 
@@ -529,6 +557,8 @@ export interface BlogPostingOptions {
   datePublished: string;
   dateModified?: string;
   sections?: string[];
+  author?: { name: string; type?: "Person" | "Organization"; url?: string };
+  reviewer?: { name: string; url?: string };
 }
 
 export function buildBlogPostingNode(o: BlogPostingOptions): Node {
@@ -545,12 +575,24 @@ export function buildBlogPostingNode(o: BlogPostingOptions): Node {
       : ref(schemaIds.logo),
     datePublished: o.datePublished,
     dateModified: o.dateModified ?? o.datePublished,
-    author: {
-      "@type": "Person",
-      "@id": schemaIds.person,
-      name: siteConfig.shortName,
-      url: pageUrl(DOCTOR_PROFILE_PATH),
-    },
+    author: o.author
+      ? compact({
+          "@type": o.author.type ?? "Person",
+          "@id": o.author.name === siteConfig.shortName && o.author.type !== "Organization"
+            ? schemaIds.person
+            : undefined,
+          name: o.author.name,
+          url: o.author.url,
+        })
+      : ref(schemaIds.person),
+    reviewedBy: o.reviewer
+      ? compact({
+          "@type": "Person",
+          "@id": o.reviewer.name === siteConfig.shortName ? schemaIds.person : undefined,
+          name: o.reviewer.name,
+          url: o.reviewer.url,
+        })
+      : undefined,
     publisher: ref(schemaIds.organization),
     isPartOf: ref(`${url}#webpage`),
     mainEntityOfPage: ref(`${url}#webpage`),
@@ -682,5 +724,5 @@ export function buildItemListNode(path: string, name: string, items: { name: str
 
 /** Maps a /orthopaedic-surgeon/{slug}/ location page to its entity @id. */
 export function locationEntityId(slug: string) {
-  return slug === "delhi" ? schemaIds.hospital : schemaIds.clinic;
+  return slug === "delhi" ? schemaIds.delhiConsultation : schemaIds.clinic;
 }
