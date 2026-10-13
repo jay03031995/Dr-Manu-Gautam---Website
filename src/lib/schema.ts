@@ -248,7 +248,14 @@ export function buildSiteGraph({
     alternateName: siteConfig.shortName,
     url: `${SITE}/`,
     description: siteConfig.description,
-    logo: ref(schemaIds.logo),
+    // Inline the primary organization's real logo details while retaining the
+    // shared @id ImageObject so Google's validators can identify the asset.
+    logo: {
+      "@type": "ImageObject",
+      "@id": schemaIds.logo,
+      url: absoluteUrl(siteConfig.logo),
+      contentUrl: absoluteUrl(siteConfig.logo),
+    },
     image: ref(schemaIds.logo),
     email: siteConfig.email,
     telephone: siteConfig.phone,
@@ -509,15 +516,18 @@ export function buildWebPageNode(o: WebPageOptions): Node {
 }
 
 export function buildBreadcrumbNode(path: string, items: { name: string; url: string }[]): Node {
-  const url = pageUrl(path);
+  const canonical = pageUrl(path);
+  const trail = items.filter((item) => item.name?.trim() && item.url?.trim());
+  // A breadcrumb is a navigation hierarchy, not a copy of the URL segments.
+  // The final ListItem must describe this page's self-canonical destination.
   return {
     "@type": "BreadcrumbList",
-    "@id": `${url}#breadcrumb`,
-    itemListElement: items.map((item, i) => ({
+    "@id": `${canonical}#breadcrumb`,
+    itemListElement: trail.map((item, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      name: item.name,
-      item: absoluteUrl(item.url),
+      name: item.name.trim(),
+      item: i === trail.length - 1 ? canonical : absoluteUrl(item.url),
     })),
   };
 }

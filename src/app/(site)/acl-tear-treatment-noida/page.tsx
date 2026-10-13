@@ -72,6 +72,7 @@ export default function AclTearTreatmentPage() {
     }),
     buildBreadcrumbNode(PATH, [
       { name: "Home", url: "/" },
+      { name: "Treatments", url: "/treatments/" },
       { name: "ACL Tear Treatment in Noida", url: PATH },
     ]),
     ...treatmentNodes,
@@ -82,10 +83,11 @@ export default function AclTearTreatmentPage() {
       <JsonLd data={schemas} />
       <Container className="pt-6">
         <nav aria-label="Breadcrumb" className="text-sm text-dark-gray">
-          <Link href="/" className="hover:text-medical-blue">
-            Home
-          </Link>{" "}
-          / ACL Tear Treatment
+          <Link href="/" className="hover:text-medical-blue">Home</Link>
+          {" / "}
+          <Link href="/treatments/" className="hover:text-medical-blue">Treatments</Link>
+          {" / "}
+          <span aria-current="page" className="text-charcoal">ACL Tear Treatment in Noida</span>
         </nav>
       </Container>
       <Section background="light" className="pt-8">

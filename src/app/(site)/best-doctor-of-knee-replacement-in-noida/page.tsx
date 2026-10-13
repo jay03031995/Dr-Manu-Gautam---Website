@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { KneeReplacementLanding } from "@/components/sections/KneeReplacementLanding";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildPageMetadata } from "@/lib/seo";
@@ -65,7 +66,8 @@ export default async function BestDoctorOfKneeReplacementPage() {
     }),
     buildBreadcrumbNode(PATH, [
       { name: "Home", url: "/" },
-      { name: "Best Doctor for Knee Replacement in Noida", url: PATH },
+      { name: "Treatments", url: "/treatments/" },
+      { name: "Knee Replacement Surgery in Noida", url: PATH },
     ]),
     ...treatmentNodes,
     buildFaqNode(PATH, pageFaqs),
@@ -74,6 +76,15 @@ export default async function BestDoctorOfKneeReplacementPage() {
   return (
     <>
       <JsonLd data={schemas} />
+      <nav aria-label="Breadcrumb" className="mx-auto max-w-7xl px-4 py-3 text-sm text-dark-gray sm:px-6 lg:px-8">
+        <ol className="flex flex-wrap items-center gap-2">
+          <li><Link href="/" className="hover:text-medical-blue">Home</Link></li>
+          <li aria-hidden="true">/</li>
+          <li><Link href="/treatments/" className="hover:text-medical-blue">Treatments</Link></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="text-charcoal">Knee Replacement Surgery in Noida</li>
+        </ol>
+      </nav>
       <KneeReplacementLanding
         doctor={doctor}
         locations={locations}
