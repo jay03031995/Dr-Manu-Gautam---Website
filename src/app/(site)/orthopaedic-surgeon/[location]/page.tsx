@@ -105,8 +105,8 @@ export default async function LocationPage({ params }: PageProps) {
   const schemas = schemaGraph([
     buildWebPageNode({
       path,
-      name: `Best Orthopedic Surgeon in ${searchCity} - ${location.name}`,
-      description: `Consult ${siteConfig.shortName} in ${location.city} for joint, bone, sports injury and musculoskeletal care.`,
+      name: location.seo?.metaTitle || `Orthopaedic consultation in ${searchCity} - ${location.name}`,
+      description: location.seo?.metaDescription || `Consult ${siteConfig.shortName} in ${location.city} for joint, bone, sports injury and musculoskeletal care.`,
       about: entityId,
       mainEntity: entityId,
       contentLocation: location.city,
