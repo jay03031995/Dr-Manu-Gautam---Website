@@ -274,6 +274,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     path,
     name: service.title,
     description: service.shortDescription,
+    citations: service.references,
   });
   const schemas = schemaGraph([
     buildWebPageNode({
