@@ -46,6 +46,68 @@ const nextConfig = {
         destination: "/best-doctor-of-knee-replacement-in-noida/",
         permanent: true,
       },
+      // Legacy WordPress URLs still held in search/AI indexes (found Oct 2026);
+      // previously 404. Each goes to the closest current page.
+      {
+        source: "/top-orthopedic-doctor-in-ghaziabad-comprehensive-care-for-your-bones-and-joints/",
+        destination: "/orthopaedic-surgeon/ghaziabad/",
+        permanent: true,
+      },
+      {
+        source: "/expert-orthopedic-surgeon-in-ghaziabad/",
+        destination: "/orthopaedic-surgeon/ghaziabad/",
+        permanent: true,
+      },
+      {
+        source: "/orthopedic-surgeon-near-ghaziabad/",
+        destination: "/orthopaedic-surgeon/ghaziabad/",
+        permanent: true,
+      },
+      {
+        source: "/orthopedic-surgeon-in-ghaziabad-comprehensive-care-for-your-musculoskeletal-health/",
+        destination: "/orthopaedic-surgeon/ghaziabad/",
+        permanent: true,
+      },
+      {
+        source: "/best-orthopedic-doctor-in-ghaziabad/",
+        destination: "/orthopaedic-surgeon/ghaziabad/",
+        permanent: true,
+      },
+      {
+        source: "/best-ortho-surgeon-in-ghaziabad/",
+        destination: "/orthopaedic-surgeon/ghaziabad/",
+        permanent: true,
+      },
+      {
+        source: "/shoulder-replacement-surgery-in-ghaziabad/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/shoulder-replacement/",
+        permanent: true,
+      },
+      {
+        source: "/robotic-knee-replacement-specialist-in-indirapuram/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/robotic-knee-replacement/",
+        permanent: true,
+      },
+      {
+        source: "/robotic-knee-replacement-specialist-in-indirapuram-2/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/robotic-knee-replacement/",
+        permanent: true,
+      },
+      {
+        source: "/best-orthopedic-surgery-center-in-noida/",
+        destination: "/orthopaedic-surgeon/noida/",
+        permanent: true,
+      },
+      {
+        source: "/best-center-for-hip-and-knee-replacement-in-noida/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/joint-replacement/",
+        permanent: true,
+      },
+      {
+        source: "/replacement-surgeon-in-ghaziabad/",
+        destination: "/orthopaedic-surgeon/delhi-ncr/joint-replacement/",
+        permanent: true,
+      },
       {
         source: "/knee-replacement-in-ghaziabad/",
         destination: "/best-doctor-of-knee-replacement-in-noida/",
