@@ -477,6 +477,7 @@ export interface WebPageOptions {
   breadcrumb?: boolean;
   datePublished?: string;
   dateModified?: string;
+  citations?: { label?: string; url?: string }[];
   /** A place the page content describes, e.g. "Ghaziabad". */
   contentLocation?: string;
   /** Used on noindex pages to keep them out of the entity graph's focus. */
@@ -501,6 +502,7 @@ export function buildWebPageNode(o: WebPageOptions): Node {
     breadcrumb: o.breadcrumb === false ? undefined : ref(`${url}#breadcrumb`),
     datePublished: o.datePublished,
     dateModified: o.dateModified,
+    citation: o.citations?.filter((source) => source.url && /^https?:\/\//i.test(source.url)).map((source) => ({ "@type": "CreativeWork", name: source.label || source.url, url: source.url })),
     contentLocation: o.contentLocation ? { "@type": "Place", name: o.contentLocation } : undefined,
     publisher: ref(schemaIds.organization),
   });
@@ -652,7 +654,6 @@ export interface TreatmentOptions {
   description: string;
   /** Overrides the slug-based model (used by standalone landing pages). */
   model?: TreatmentModel;
-  citations?: { label?: string; url?: string }[];
 }
 
 /** MedicalProcedure (when the page is one procedure) + Service offered locally. */
@@ -694,7 +695,6 @@ export function buildTreatmentNodes(o: TreatmentOptions): Node[] {
         serviceLocation: [ref(schemaIds.clinic), ref(schemaIds.hospital)],
       },
       category: "Orthopaedic surgery",
-      citation: o.citations?.filter((source) => source.url && /^https?:\/\//i.test(source.url)).map((source) => ({ "@type": "CreativeWork", name: source.label || source.url, url: source.url })),
       mainEntityOfPage: ref(`${url}#webpage`),
     }),
   );
