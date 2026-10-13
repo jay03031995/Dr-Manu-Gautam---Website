@@ -394,13 +394,6 @@ export function buildSiteGraph({
       latitude: hospital.geo.latitude,
       longitude: hospital.geo.longitude,
     },
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: Object.values(DAY_URL),
-      opens: "00:00",
-      closes: "23:59",
-    },
-    medicalSpecialty: ORTHOPAEDIC_SPECIALTY,
   };
 
   // A consultation at an independently operated hospital is not another
