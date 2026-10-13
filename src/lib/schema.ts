@@ -552,6 +552,7 @@ export interface BlogPostingOptions {
   sections?: string[];
   author?: { name: string; type?: "Person" | "Organization"; url?: string };
   reviewer?: { name: string; url?: string };
+  citations?: { label?: string; url?: string }[];
 }
 
 export function buildBlogPostingNode(o: BlogPostingOptions): Node {
@@ -568,6 +569,7 @@ export function buildBlogPostingNode(o: BlogPostingOptions): Node {
       : ref(schemaIds.logo),
     datePublished: o.datePublished,
     dateModified: o.dateModified ?? o.datePublished,
+    citation: o.citations?.filter((source) => source.url && /^https?:\/\//i.test(source.url)).map((source) => ({ "@type": "CreativeWork", name: source.label || source.url, url: source.url })),
     author: o.author
       ? compact({
           "@type": o.author.type ?? "Person",
@@ -650,6 +652,7 @@ export interface TreatmentOptions {
   description: string;
   /** Overrides the slug-based model (used by standalone landing pages). */
   model?: TreatmentModel;
+  citations?: { label?: string; url?: string }[];
 }
 
 /** MedicalProcedure (when the page is one procedure) + Service offered locally. */
@@ -691,6 +694,7 @@ export function buildTreatmentNodes(o: TreatmentOptions): Node[] {
         serviceLocation: [ref(schemaIds.clinic), ref(schemaIds.hospital)],
       },
       category: "Orthopaedic surgery",
+      citation: o.citations?.filter((source) => source.url && /^https?:\/\//i.test(source.url)).map((source) => ({ "@type": "CreativeWork", name: source.label || source.url, url: source.url })),
       mainEntityOfPage: ref(`${url}#webpage`),
     }),
   );
