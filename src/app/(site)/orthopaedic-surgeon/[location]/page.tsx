@@ -207,7 +207,8 @@ export default async function LocationPage({ params }: PageProps) {
               <p className="mb-4 text-lg leading-relaxed text-dark-gray">
                 Consultations here are with <strong className="text-dark-navy">{doctor.name}</strong>
                 {doctor.credentials ? `, ${doctor.credentials}` : ""}, orthopaedic and joint replacement surgeon.
-                He is a Senior Consultant in Orthopaedic Surgery at {siteConfig.hospital.name}, New Delhi.
+                He operates at his own clinic in Sector 20, Noida, and is a visiting consultant at{" "}
+                {siteConfig.hospital.name}, New Delhi.
               </p>
               {doctor.education && doctor.education.length > 0 && (
                 <>
@@ -225,17 +226,15 @@ export default async function LocationPage({ params }: PageProps) {
               <h3 className="mb-2 mt-6 text-lg">Consultation and surgery</h3>
               {params.location === "delhi" ? (
                 <p className="mb-4 leading-relaxed text-dark-gray">
-                  At {siteConfig.hospital.name} you can be assessed in the outpatient department and, when surgery
-                  is recommended, operated on at the hospital. He also consults and operates at his own clinic at
-                  D-8, Sector 20, Noida, which has its own operation theatre, so patients can choose the location
-                  that suits them.
+                  Dr. Manu Gautam sees patients at {siteConfig.hospital.name} as a visiting consultant. All major
+                  surgery, including robotic-assisted knee replacement, is performed at his clinic in D-8,
+                  Sector 20, Noida, which has its own operation theatre.
                 </p>
               ) : (
                 <p className="mb-4 leading-relaxed text-dark-gray">
-                  The Sector 20 clinic has its own operation theatre, so Dr. Manu Gautam both consults and
-                  operates here in Noida, alongside diagnosis, non-surgical treatment such as GFC injections, and
-                  follow-up. He also operates at {siteConfig.hospital.name}, New Delhi; the team will advise which
-                  setting suits your procedure.
+                  The Sector 20 clinic has its own operation theatre. All major surgery, including
+                  robotic-assisted knee replacement, is performed here in Noida, alongside consultations,
+                  diagnosis, non-surgical treatment such as GFC injections, and follow-up.
                 </p>
               )}
               <Link href={DOCTOR_PROFILE_PATH} className="font-medium text-medical-blue hover:underline">
