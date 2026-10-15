@@ -222,19 +222,20 @@ export default async function LocationPage({ params }: PageProps) {
                   </ul>
                 </>
               )}
-              <h3 className="mb-2 mt-6 text-lg">Consultation and surgery: where each happens</h3>
+              <h3 className="mb-2 mt-6 text-lg">Consultation and surgery</h3>
               {params.location === "delhi" ? (
                 <p className="mb-4 leading-relaxed text-dark-gray">
-                  At {siteConfig.hospital.name} you can be assessed in the outpatient department, and this is also
-                  where surgery, including robotic-assisted knee replacement, is performed. Patients who prefer a
-                  clinic closer to Noida can see him at D-8, Sector 20, Noida for consultations and follow-up.
+                  At {siteConfig.hospital.name} you can be assessed in the outpatient department and, when surgery
+                  is recommended, operated on at the same hospital. He also consults at his clinic at D-8,
+                  Sector 20, Noida, and operates in Noida as well, so patients can choose the location that
+                  suits them.
                 </p>
               ) : (
                 <p className="mb-4 leading-relaxed text-dark-gray">
                   This Sector 20 clinic is for consultations, diagnosis, non-surgical treatment such as GFC
-                  injections, and follow-up after surgery. When surgery is recommended, including robotic-assisted
-                  knee replacement, it is performed at {siteConfig.hospital.name}, Vasundhara Enclave, New Delhi,
-                  where he operates.
+                  injections, and follow-up after surgery. When surgery is recommended, including
+                  robotic-assisted knee replacement, he operates both in Noida and at {siteConfig.hospital.name},
+                  New Delhi; the team will confirm the hospital that best suits your procedure and location.
                 </p>
               )}
               <Link href={DOCTOR_PROFILE_PATH} className="font-medium text-medical-blue hover:underline">
