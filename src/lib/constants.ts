@@ -64,11 +64,11 @@ export const siteConfig = {
   },
   // Manually-checked snapshot of the Google Business Profile totals, used only
   // as a fallback header when the live Places API isn't configured (the
-  // featured review cards below it are a curated sample, not all 370).
+  // featured review cards below it are a curated sample, not all of them).
   // Update this periodically to keep it roughly current.
   googleReviewsSnapshot: {
-    rating: 5.0,
-    totalReviews: 370,
+    rating: 4.9,
+    totalReviews: 191,
   },
 } as const;
 
