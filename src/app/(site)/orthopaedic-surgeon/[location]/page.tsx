@@ -226,16 +226,16 @@ export default async function LocationPage({ params }: PageProps) {
               {params.location === "delhi" ? (
                 <p className="mb-4 leading-relaxed text-dark-gray">
                   At {siteConfig.hospital.name} you can be assessed in the outpatient department and, when surgery
-                  is recommended, operated on at the same hospital. He also consults at his clinic at D-8,
-                  Sector 20, Noida, and operates in Noida as well, so patients can choose the location that
-                  suits them.
+                  is recommended, operated on at the hospital. He also consults and operates at his own clinic at
+                  D-8, Sector 20, Noida, which has its own operation theatre, so patients can choose the location
+                  that suits them.
                 </p>
               ) : (
                 <p className="mb-4 leading-relaxed text-dark-gray">
-                  This Sector 20 clinic is for consultations, diagnosis, non-surgical treatment such as GFC
-                  injections, and follow-up after surgery. When surgery is recommended, including
-                  robotic-assisted knee replacement, he operates both in Noida and at {siteConfig.hospital.name},
-                  New Delhi; the team will confirm the hospital that best suits your procedure and location.
+                  The Sector 20 clinic has its own operation theatre, so Dr. Manu Gautam both consults and
+                  operates here in Noida, alongside diagnosis, non-surgical treatment such as GFC injections, and
+                  follow-up. He also operates at {siteConfig.hospital.name}, New Delhi; the team will advise which
+                  setting suits your procedure.
                 </p>
               )}
               <Link href={DOCTOR_PROFILE_PATH} className="font-medium text-medical-blue hover:underline">

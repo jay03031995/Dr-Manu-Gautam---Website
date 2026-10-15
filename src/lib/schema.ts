@@ -382,6 +382,16 @@ export function buildSiteGraph({
     employee: ref(schemaIds.person),
     areaServed: areaServed(),
     sameAs: [siteConfig.googleBusinessProfileUrl],
+    // Stated by the practice: the Sector 20 clinic has its own operation theatre.
+    amenityFeature: {
+      "@type": "LocationFeatureSpecification",
+      name: "Operation theatre",
+      value: true,
+    },
+    availableService: [
+      { "@type": "MedicalProcedure", name: "Orthopaedic surgery" },
+      { "@type": "MedicalProcedure", name: "Orthopaedic consultation" },
+    ],
   });
 
   const hospitalNode: Node = {
