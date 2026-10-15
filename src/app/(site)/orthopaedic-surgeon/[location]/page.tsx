@@ -22,6 +22,7 @@ import {
   getLocationBySlug,
   getFeaturedServices,
   getFaqs,
+  getDoctorBySlug,
 } from "@/sanity/lib/fetch";
 import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
 import { buildPageMetadata } from "@/lib/seo";
@@ -33,7 +34,7 @@ import {
   locationEntityId,
 } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
-import { treatmentPath, locationPath } from "@/lib/utils";
+import { treatmentPath, locationPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -78,10 +79,11 @@ export async function generateMetadata({
 }
 
 export default async function LocationPage({ params }: PageProps) {
-  const [location, treatments, allFaqs] = await Promise.all([
+  const [location, treatments, allFaqs, doctor] = await Promise.all([
     getLocationBySlug(params.location),
     getFeaturedServices(),
     getFaqs(),
+    getDoctorBySlug("dr-manu-gautam"),
   ]);
   if (!location) notFound();
 
@@ -191,6 +193,57 @@ export default async function LocationPage({ params }: PageProps) {
           </Reveal>
         )}
       </Section>
+
+      {/* Who the patient will see, and where treatment happens. Facts come
+          from the CMS doctor record; the hospital role is as stated on the
+          Narayana Health profile. */}
+      {doctor && (
+        <Section background="white">
+          <div className="mx-auto max-w-3xl">
+            <Reveal className="mb-8 text-center">
+              <h2>Your Orthopaedic Surgeon in {location.city}</h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="mb-4 text-lg leading-relaxed text-dark-gray">
+                Consultations here are with <strong className="text-dark-navy">{doctor.name}</strong>
+                {doctor.credentials ? `, ${doctor.credentials}` : ""}, orthopaedic and joint replacement surgeon.
+                He is a Senior Consultant in Orthopaedic Surgery at {siteConfig.hospital.name}, New Delhi.
+              </p>
+              {doctor.education && doctor.education.length > 0 && (
+                <>
+                  <h3 className="mb-2 mt-6 text-lg">Qualifications</h3>
+                  <ul className="mb-4 list-disc space-y-1 pl-5 text-dark-gray">
+                    {doctor.education.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                    {doctor.memberships?.map((item) => (
+                      <li key={item}>Member, {item}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              <h3 className="mb-2 mt-6 text-lg">Consultation and surgery: where each happens</h3>
+              {params.location === "delhi" ? (
+                <p className="mb-4 leading-relaxed text-dark-gray">
+                  At {siteConfig.hospital.name} you can be assessed in the outpatient department, and this is also
+                  where surgery, including robotic-assisted knee replacement, is performed. Patients who prefer a
+                  clinic closer to Noida can see him at D-8, Sector 20, Noida for consultations and follow-up.
+                </p>
+              ) : (
+                <p className="mb-4 leading-relaxed text-dark-gray">
+                  This Sector 20 clinic is for consultations, diagnosis, non-surgical treatment such as GFC
+                  injections, and follow-up after surgery. When surgery is recommended, including robotic-assisted
+                  knee replacement, it is performed at {siteConfig.hospital.name}, Vasundhara Enclave, New Delhi,
+                  where he operates.
+                </p>
+              )}
+              <Link href={DOCTOR_PROFILE_PATH} className="font-medium text-medical-blue hover:underline">
+                Read Dr. Manu Gautam&apos;s full profile
+              </Link>
+            </Reveal>
+          </div>
+        </Section>
+      )}
 
       {/* Treatments available */}
       <Section background="white">
