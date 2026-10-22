@@ -605,7 +605,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               <LocationCard
                 key={loc._id}
                 location={loc}
-                description={`Patients looking for a ${service.title.toLowerCase()} surgeon in ${loc.city} can schedule a consultation with ${doctorName} at ${loc.name}.`}
+                description={`For ${service.title.toLowerCase()}, patients can schedule an orthopaedic assessment with ${doctorName} at ${loc.name} in ${loc.city}.`}
               />
             ))}
           </RevealGrid>
