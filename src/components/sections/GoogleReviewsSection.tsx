@@ -5,8 +5,6 @@ import { Carousel } from "@/components/ui/Carousel";
 import { GoogleReviewCard } from "@/components/sections/GoogleReviewCard";
 import { siteConfig } from "@/lib/constants";
 import { getGooglePlaceReviews } from "@/lib/googlePlaces";
-import { getFeaturedTestimonials } from "@/sanity/lib/fetch";
-import { urlForImage, hasImageAsset } from "@/sanity/lib/image";
 
 function GoogleWordmark() {
   return (
@@ -23,15 +21,10 @@ function GoogleWordmark() {
 
 export async function GoogleReviewsSection() {
   const live = await getGooglePlaceReviews();
+  // Only display a numerical rating and review total received from the
+  // Google Places API. Do not substitute an old snapshot or sample reviews.
   const isLive = !!live && live.reviews.length > 0;
-
-  // Live Google Places data is preferred. When it isn't configured, fall back
-  // to reviews the clinic has manually copied from Google into Sanity (source:
-  // "Google Review") rather than showing nothing or inventing content.
-  const curated = isLive ? [] : await getFeaturedTestimonials();
-  const hasCurated = curated.length > 0;
-  const hasReviews = isLive || hasCurated;
-
+  const hasReviews = isLive;
   const reviews = isLive
     ? live.reviews.map((r) => ({
         key: `${r.authorName}-${r.time}`,
@@ -41,22 +34,10 @@ export async function GoogleReviewsSection() {
         relativeTime: r.relativeTime,
         text: r.text,
       }))
-    : curated.map((t) => ({
-        key: t._id,
-        authorName: t.author,
-        authorPhotoUrl: hasImageAsset(t.photo) ? urlForImage(t.photo).width(80).height(80).fit("crop").url() : undefined,
-        rating: t.rating,
-        relativeTime: t.relativeTime ?? "",
-        text: t.quote,
-      }));
-
-  const avgRating = isLive
-    ? live.rating
-    : hasCurated
-      ? siteConfig.googleReviewsSnapshot.rating
-      : 0;
-  const reviewCount = isLive ? live.totalReviews : siteConfig.googleReviewsSnapshot.totalReviews;
-  const mapsUrl = (isLive && live.mapsUrl) || siteConfig.googleMapsUrl;
+    : [];
+  const avgRating = isLive ? live.rating : 0;
+  const reviewCount = isLive ? live.totalReviews : 0;
+  const mapsUrl = (isLive && live.mapsUrl) || siteConfig.googleBusinessProfileUrl;
 
   return (
     <Section background="light">
@@ -93,9 +74,6 @@ export async function GoogleReviewsSection() {
                 </span>
                 <span className="text-sm text-dark-gray">({reviewCount})</span>
               </div>
-              {!isLive && (
-                <p className="text-xs text-dark-gray">on Google &middot; showing a few featured reviews below</p>
-              )}
             </div>
             <a
               href={mapsUrl}
@@ -122,7 +100,7 @@ export async function GoogleReviewsSection() {
             We couldn&rsquo;t load live reviews right now. You can still read and write reviews directly on Google.
           </p>
           <a
-            href={siteConfig.googleMapsUrl}
+            href={siteConfig.googleBusinessProfileUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-base bg-medical-blue px-5 py-2.5 text-sm text-white shadow-elevation-1 hover:bg-medical-blue-700"
