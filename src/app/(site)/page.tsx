@@ -52,13 +52,6 @@ const FALLBACK_WHY_CHOOSE_FEATURES = [
   },
 ];
 
-const FALLBACK_PRACTICE_STATS = [
-  { number: "15+", label: "Years of Experience", icon: "Award" },
-  { number: "2,500+", label: "Successful Surgeries", icon: "ShieldCheck" },
-  { number: "12,000+", label: "Satisfied Patients", icon: "Users" },
-  { number: "100%", label: "Satisfaction", icon: "HeartPulse" },
-];
-
 const FALLBACK_WHY_CHOOSE_IMAGE =
   "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&q=75&auto=format&fit=crop";
 const FALLBACK_FINAL_CTA_IMAGE =
@@ -101,7 +94,9 @@ export default async function Home() {
   const whyChooseFeatures = homePage?.whyChooseFeatures?.length
     ? homePage.whyChooseFeatures
     : FALLBACK_WHY_CHOOSE_FEATURES;
-  const practiceStats = homePage?.practiceStats?.length ? homePage.practiceStats : FALLBACK_PRACTICE_STATS;
+  // Only show numbers explicitly supplied and verified by the practice in Sanity.
+  // Never invent a stats strip when the CMS intentionally has no statistics.
+  const practiceStats = homePage?.practiceStats ?? [];
 
   const finalCtaHeading = homePage?.finalCtaHeading || "Ready to Start Your Recovery Journey?";
   const finalCtaSubtext =
@@ -182,6 +177,7 @@ export default async function Home() {
           ))}
         </RevealGrid>
 
+        {practiceStats.length > 0 && (
         <Reveal delay={0.15} className="mt-8 rounded-hero bg-dark-navy px-6 py-8">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {practiceStats.map((stat) => (
@@ -197,6 +193,7 @@ export default async function Home() {
             ))}
           </div>
         </Reveal>
+        )}
       </Section>
 
       {/* Treatments */}
