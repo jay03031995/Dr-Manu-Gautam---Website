@@ -62,14 +62,6 @@ export const siteConfig = {
     query: "Dr Manu Gautam Noida",
     locationBias: "point:28.5812465,77.3327391",
   },
-  // Manually-checked snapshot of the Google Business Profile totals, used only
-  // as a fallback header when the live Places API isn't configured (the
-  // featured review cards below it are a curated sample, not all of them).
-  // Update this periodically to keep it roughly current.
-  googleReviewsSnapshot: {
-    rating: 4.9,
-    totalReviews: 191,
-  },
 } as const;
 
 export const clinicLocations = [

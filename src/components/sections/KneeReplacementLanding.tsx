@@ -10,7 +10,6 @@ import {
   MessageCircle,
   ShieldCheck,
   Sparkles,
-  Star,
   Stethoscope,
   Users,
   X,
@@ -145,51 +144,6 @@ const testimonialReels = [
   { id: "DBbl06IxIxT", title: "Patient testimonial" },
 ];
 
-const reviewSamples = [
-  {
-    name: "Ritu S.",
-    location: "Noida",
-    rating: 5,
-    quote:
-      "The care from consultation to rehabilitation was exceptional. I regained confidence walking again.",
-  },
-  {
-    name: "Amit K.",
-    location: "Delhi NCR",
-    rating: 5,
-    quote:
-      "Dr. Gautam explained every step clearly and made the entire joint replacement journey comfortable.",
-  },
-  {
-    name: "Neha M.",
-    location: "Greater Noida",
-    rating: 5,
-    quote:
-      "Professional, kind, and highly experienced. I would recommend him for knee care without hesitation.",
-  },
-  {
-    name: "Vikram P.",
-    location: "Noida",
-    rating: 5,
-    quote:
-      "The recovery roadmap was realistic and supportive. I was back to daily walking much sooner than expected.",
-  },
-  {
-    name: "Pooja D.",
-    location: "Delhi",
-    rating: 5,
-    quote:
-      "The surgical guidance and aftercare were outstanding. I felt informed and reassured throughout.",
-  },
-  {
-    name: "Sanjay G.",
-    location: "Noida",
-    rating: 5,
-    quote:
-      "From the first consultation to the final follow-up, the experience was smooth and reassuring.",
-  },
-];
-
 function isValidPhone(phone: string) {
   return /^[+\d][\d\s-]{6,}$/.test(phone.trim());
 }
@@ -219,41 +173,6 @@ function recordLandingPageCallLead(ctaLocation: string, phone: string) {
     body: payload,
     keepalive: true,
   });
-}
-
-function Counter({ value, label }: { value: number; label: string }) {
-  // Initialize to the real value, not 0: this is what search engines and any
-  // pre-hydration/no-JS view of the page see. The animation below only
-  // re-plays the count-up for browsers that actually mount and run it.
-  const [display, setDisplay] = useState(value);
-
-  useEffect(() => {
-    let frame: number;
-    const duration = 1200;
-    const start = performance.now();
-    setDisplay(0);
-
-    const step = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      setDisplay(Math.floor(progress * value));
-      if (progress < 1) {
-        frame = window.requestAnimationFrame(step);
-      }
-    };
-
-    frame = window.requestAnimationFrame(step);
-    return () => window.cancelAnimationFrame(frame);
-  }, [value]);
-
-  return (
-    <div className="rounded-2xl border border-white/20 bg-white/10 p-4 text-center backdrop-blur-sm">
-      <p className="font-heading text-2xl font-bold text-white">
-        {display}
-        {value >= 1000 ? "+" : ""}
-      </p>
-      <p className="mt-1 text-sm text-white/80">{label}</p>
-    </div>
-  );
 }
 
 function LeadForm({
@@ -658,10 +577,10 @@ export function KneeReplacementLanding({
           <Reveal mode="onMount" className="flex flex-col justify-center">
             <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-medical-blue/20 bg-medical-blue/10 px-3 py-1 text-sm font-medium text-medical-blue">
               <Sparkles className="h-4 w-4" />
-              Advanced Knee Care for Pain-Free Movement
+              Individualised Knee Replacement Assessment
             </div>
             <h1 className="max-w-3xl text-balance text-[30px] leading-[1.08] sm:text-[40px] lg:text-[48px]">
-              Knee Replacement Surgery in Noida: Walk Pain-Free Again
+              Knee Replacement Surgery in Noida
             </h1>
             <p className="mt-4 max-w-2xl text-base text-dark-gray sm:text-lg">
               Consult Dr. Manu Gautam for advanced robotic and minimally
@@ -685,26 +604,6 @@ export function KneeReplacementLanding({
               >
                 Request Callback
               </Button>
-            </div>
-            <div className="mt-4 grid grid-cols-3 gap-3 rounded-3xl border border-light-grey bg-white p-4 shadow-elevation-2">
-              <div className="min-w-0 text-center sm:text-left">
-                <p className="font-heading text-xl font-bold text-dark-navy">
-                  15+ yrs
-                </p>
-                <p className="text-sm text-dark-gray">Experience</p>
-              </div>
-              <div className="min-w-0 text-center sm:text-left">
-                <p className="font-heading text-xl font-bold text-dark-navy">
-                  2,500+
-                </p>
-                <p className="text-sm text-dark-gray">Procedures</p>
-              </div>
-              <div className="min-w-0 text-center sm:text-left">
-                <p className="font-heading text-xl font-bold text-dark-navy">
-                  370+
-                </p>
-                <p className="text-sm text-dark-gray">Google Reviews</p>
-              </div>
             </div>
           </Reveal>
 
@@ -750,8 +649,7 @@ export function KneeReplacementLanding({
           </p>
           <h2>Before & after recovery support</h2>
           <p className="mx-auto mt-3 max-w-2xl text-dark-gray">
-            Patients often report improved walking, reduced pain, and greater
-            independence after a structured joint replacement journey.
+            Recovery goals vary by patient and depend on their condition, treatment and rehabilitation.
           </p>
         </Reveal>
         <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
@@ -775,7 +673,7 @@ export function KneeReplacementLanding({
                 "Walking with support early after surgery",
                 "Gradual return to stairs and daily movement",
                 "Physical therapy and joint-strengthening guidance",
-                "Long-term care for pain-free routine mobility",
+                "Long-term care and mobility rehabilitation",
               ].map((item) => (
                 <div
                   key={item}
@@ -788,18 +686,16 @@ export function KneeReplacementLanding({
             </div>
           </div>
           <div className="rounded-3xl border border-light-grey bg-dark-navy p-8 text-white shadow-elevation-2">
-            <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-medical-blue">
-              Outcome Metrics
+            <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
+              Recovery Support
             </p>
             <h3 className="mt-3 text-2xl font-semibold">
-              Improved mobility and confidence after focused treatment
+              A rehabilitation plan tailored to your needs
             </h3>
-            <div className="mt-2 grid grid-cols-2 gap-3">
-              <Counter value={2500} label="Successful Procedures" />
-              <Counter value={98} label="Happy Patients" />
-              <Counter value={15} label="Years Experience" />
-              <Counter value={370} label="Positive Reviews" />
-            </div>
+            <p className="mt-3 text-sm leading-relaxed text-white/80">
+              Rehabilitation milestones depend on your condition and the procedure. 
+              Discuss individual goals and risks during your consultation.
+            </p>
           </div>
         </div>
       </Section>
@@ -1142,39 +1038,19 @@ export function KneeReplacementLanding({
       </Section>
 
       <Section background="white" id="results" className="scroll-mt-24">
-        <Reveal className="mb-8 text-center">
+        <Reveal className="mx-auto max-w-3xl text-center">
           <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider text-medical-blue">
-            Patient Reviews
+            Patient Feedback
           </p>
-          <h2>A premium Google review wall built for trust and conversion</h2>
+          <h2>Read patient reviews on Google</h2>
+          <p className="mx-auto mb-5 max-w-2xl text-dark-gray">
+            For current ratings and authentic patient feedback, visit
+            Dr. Manu Gautam&apos;s Google Business Profile.
+          </p>
+          <Button href={siteConfig.googleBusinessProfileUrl} target="_blank" rel="noopener noreferrer">
+            View Google Reviews
+          </Button>
         </Reveal>
-        <div className="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory md:grid md:grid-cols-2 xl:grid-cols-3 md:overflow-visible md:pb-0">
-          {reviewSamples.map((review, index) => (
-            <div
-              key={review.name}
-              className={cn(
-                "snap-center min-w-[85vw] rounded-3xl border border-light-grey bg-white p-5 shadow-elevation-1 md:min-w-0",
-                index % 2 === 1 ? "md:translate-y-4" : "",
-              )}
-            >
-              <div className="mb-3 flex items-center gap-1 text-cta-orange">
-                {Array.from({ length: review.rating }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" />
-                ))}
-              </div>
-              <p className="text-sm text-dark-gray">“{review.quote}”</p>
-              <div className="mt-4 flex items-center justify-between">
-                <div>
-                  <p className="font-semibold text-dark-navy">{review.name}</p>
-                  <p className="text-sm text-dark-gray">{review.location}</p>
-                </div>
-                <div className="rounded-full bg-light-blue px-3 py-1 text-xs font-semibold text-medical-blue">
-                  Verified
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </Section>
 
       <Section background="white" id="faq" className="scroll-mt-24">

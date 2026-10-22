@@ -61,19 +61,7 @@ export async function generateMetadata({
     title: location.seo?.metaTitle || `Orthopaedic Surgeon in ${searchCity} | Dr. Manu Gautam`,
     description: location.seo?.metaDescription || `Consult Dr. Manu Gautam in ${searchCity} for orthopaedic evaluation, knee and joint care, and sports injuries.`,
     path: locationPath(params.location),
-    keywords: [
-      "best orthopedic surgeon in Delhi",
-      "best orthopedic surgeon in Noida",
-      "top orthopedic doctor in Noida",
-      "best knee replacement surgeon in Delhi",
-      "orthopedic near me",
-      "orthopedist near me",
-      "orthopedic surgeon near me",
-      "orthopedic surgeon",
-      "orthopedist",
-      "bone doctors",
-      "best orthopedic near me",
-    ],
+    keywords: location.seo?.focusKeywords ?? [`orthopaedic surgeon in ${searchCity}`, `orthopedic clinic in ${searchCity}`],
   });
 }
 
@@ -145,7 +133,7 @@ export default async function LocationPage({ params }: PageProps) {
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
             {location.city}
           </span>
-          <h1 className="mb-4">Best Orthopedic Surgeon in {searchCity}</h1>
+          <h1 className="mb-4">Orthopaedic Surgeon in {searchCity}</h1>
           <p className="mb-6 text-lg text-dark-gray leading-relaxed">
             Consult {siteConfig.shortName} in {location.city}
             {location.city === "Noida" ? ", Sector 20," : ""} for personalised

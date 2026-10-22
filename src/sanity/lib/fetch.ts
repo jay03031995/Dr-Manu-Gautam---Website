@@ -57,8 +57,16 @@ function normalizeLocation(location: Location): Location {
 }
 
 function normalizeLocations(locations?: Location[]) {
-  const normalized = (locations ?? []).map(normalizeLocation);
-  const seen = new Set(normalized.map((location) => location.slug.current));
+  // The dataset contains legacy IDs that do not match location names.
+  // Deduplicate by the public location slug, never by those IDs, so the
+  // Sector 20 clinic cannot appear twice in directories or schema.
+  const bySlug = new Map<string, Location>();
+  for (const location of (locations ?? []).map(normalizeLocation)) {
+    const slug = location.slug?.current;
+    if (slug && !bySlug.has(slug)) bySlug.set(slug, location);
+  }
+  const normalized = [...bySlug.values()];
+  const seen = new Set(bySlug.keys());
 
   for (const canonical of canonicalLocations) {
     if (!seen.has(canonical.slug.current)) {
