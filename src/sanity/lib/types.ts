@@ -8,6 +8,11 @@ export interface Slug {
 export interface Seo {
   metaTitle?: string;
   metaDescription?: string;
+  focusKeyword?: string;
+  focusKeywords?: string[];
+  keywords?: string[];
+  canonicalUrl?: string;
+  robots?: { index?: boolean; follow?: boolean };
   ogImage?: Image;
   noIndex?: boolean;
 }
