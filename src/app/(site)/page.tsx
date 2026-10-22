@@ -38,17 +38,17 @@ const FALLBACK_WHY_CHOOSE_FEATURES = [
   {
     icon: "HandHeart",
     title: "Latest Technique for Regenerative Medicine",
-    description: "Advanced regenerative therapies for tissue repair and regeneration using the latest innovations.",
+    description: "Regenerative injections are evaluated case by case, with clear discussion of the available evidence and uncertainties.",
   },
   {
     icon: "Bone",
     title: "Special Interest in Robotic Knee Replacement",
-    description: "Precision-focused robotic solutions for better outcomes and faster, smoother recoveries.",
+    description: "Robotic-assisted tools may be considered for selected knee replacement procedures following clinical evaluation.",
   },
   {
     icon: "Wrench",
     title: "Fully Automated CUVIS Robot for Knee Replacement",
-    description: "State-of-the-art CUVIS robot delivers unmatched precision and personalized surgical excellence.",
+    description: "CUVIS robotic technology may assist surgical planning and implant placement when it is available and appropriate.",
   },
 ];
 
@@ -85,7 +85,7 @@ export default async function Home() {
   const whyChooseHeading = homePage?.whyChooseHeading || `Why Choose ${siteConfig.shortName}`;
   const whyChooseDescription =
     homePage?.whyChooseDescription ||
-    `Expertise. Innovation. Compassion. ${siteConfig.shortName} is committed to providing world-class orthopaedic care with advanced technology and a patient-first approach.`;
+    `Consultation-led orthopaedic assessment with an individualised approach to treatment options, recovery goals and follow-up care.`;
   const whyChooseImage = hasImageAsset(homePage?.whyChooseImage)
     ? { url: urlForImage(homePage.whyChooseImage).width(800).height(1000).fit("crop").url(), alt: whyChooseHeading }
     : hasImageAsset(doctor?.photo)
