@@ -140,7 +140,7 @@ export default async function GhaziabadServiceAreaPage() {
         </Reveal>
         <RevealGrid className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {locations.map((loc) => (
-            <div key={loc._id}>
+            <div key={loc.slug.current}>
               <LocationCard
                 location={loc}
                 description={`${siteConfig.shortName} consults at this clinic in ${loc.city}, a convenient option for patients travelling from Ghaziabad.`}
