@@ -69,3 +69,31 @@ date,tier,query,mode,cited,best_position,our_url,top_cited_domains,competitor_no
 2026-10-26,C,how long do GFC injection results last,standard,no,,,notion.site|typology.com|monitorbp.ne.gov,no
 2026-10-26,C,partial vs total knee replacement,standard,no,,,nortonhealthcare.com|topdoctors.co.uk|cortho.org,no
 2026-10-26,C,anatomic vs reverse shoulder replacement,standard,no,,,doaj.org|acibademinternational.com|mirasmart.com,no
+2026-11-02,A,Dr Manu Gautam orthopaedic surgeon Noida,standard,no,,,narayanahealth.org|synara.ar|hexahealth.com,no
+2026-11-02,A,Dr Manu Gautam orthopaedic surgeon Noida,extended,yes,6,https://drmanugautam.com/best-orthopedic-surgery-center-in-noida/,youtube.com|drmanugautam.blogspot.com|numedhospital.com,no
+2026-11-02,A,Dr Manu Gautam GFC injection knee,standard,no,,,jocr.co.in|pmc.ncbi.nlm.nih.gov|narayanahealth.org,no
+2026-11-02,A,Dr Manu Gautam GFC injection knee,extended,yes,3,https://drmanugautam.com/,github.com|narayanahealth.org|drmanugautam.com,no
+2026-11-02,A,Dr Manu Gautam clinic Sector 20 Noida timings,standard,no,,,bajajfinservhealth.in|apollo247.com|yatharthhospitals.com,no
+2026-11-02,A,Dr Manu Gautam clinic Sector 20 Noida timings,extended,yes,6,https://drmanugautam.com/orthopaedic-surgeon/noida/,secondmedic.com|precisioncareclinics.com|lybrate.com,no
+2026-11-02,A,Dr Manu Gautam Dharamshila Narayana hospital,standard,no,,,en.wikipedia.org|narayanahealth.org|medicaldialogues.in,no
+2026-11-02,A,Dr Manu Gautam Dharamshila Narayana hospital,extended,no,,,narayanahealth.org|en.wikipedia.org,no
+2026-11-02,A,Dr Manu Gautam knee replacement surgeon,standard,no,,,narayanahealth.org|doctify.com|hexahealth.com,no
+2026-11-02,A,Dr Manu Gautam knee replacement surgeon,extended,yes,7,https://drmanugautam.com/knee-replacement-surgery-in-ghaziabad/,drmanugautam.blogspot.com|precisioncareclinics.com|practo.com,no
+2026-11-02,A,Dr Manu Gautam reviews,standard,no,,,doctor.com|hexahealth.com|logintohealth.com,no
+2026-11-02,A,Dr Manu Gautam reviews,extended,yes,9,https://drmanugautam.com/,en.wikipedia.org|justdial.com|precisioncareclinics.com,no
+2026-11-02,B,orthopedic surgeon Sector 20 Noida,standard,no,,,lybrate.com|apollohospitals.com|hashnode.com,no
+2026-11-02,B,GFC injection knee Noida,standard,no,,,jocr.co.in|pmc.ncbi.nlm.nih.gov|nivaancare.com,no
+2026-11-02,B,GFC injection for knee cost Noida,standard,no,,,pmc.ncbi.nlm.nih.gov|jocr.co.in|ehu.eus,no
+2026-11-02,B,robotic knee replacement Noida,standard,no,,,yatharthhospitals.com|fortishealthcare.com|sarvodayahospital.com,no
+2026-11-02,B,hip replacement surgeon Noida,standard,no,,,apollohospitals.com|sarvodayahospital.com|myupchar.com,no
+2026-11-02,B,shoulder replacement surgery Noida,standard,no,,,bookimed.com|dcmpx.remotevs.com|metrohospitals.com,no
+2026-11-02,B,orthopaedic trauma surgeon Noida,standard,no,,,metrohospitals.com|hashnode.com|yatharthhospitals.com,no
+2026-11-02,B,sports injury specialist Noida,standard,no,,,apollohospitals.com|medicaldialogues.in|docindia.org,no
+2026-11-02,B,best orthopedic surgeon in Noida,standard,no,,,hashnode.com|apollo247.com|fortishealthcare.com,no
+2026-11-02,B,knee replacement surgeon Noida,standard,no,,,apollo247.com|apollohospitals.com|sarvodayahospital.com,no
+2026-11-02,B,knee replacement surgeon Ghaziabad,standard,no,,,enggpro.com|yashodahealthcare.com|myupchar.com,no
+2026-11-02,C,GFC vs PRP for knee pain,standard,no,,,clinicaltrials.gov|doaj.org|wjgnet.com,no
+2026-11-02,C,GFC injection side effects knee,standard,no,,,thieme-connect.com|pmc.ncbi.nlm.nih.gov|em-consulte.com,no
+2026-11-02,C,how long do GFC injection results last,standard,no,,,notion.site|write.as|typology.com,no
+2026-11-02,C,partial vs total knee replacement,standard,no,,,nortonhealthcare.com|topdoctors.co.uk|upstate.edu,no
+2026-11-02,C,anatomic vs reverse shoulder replacement,standard,no,,,doaj.org|acibademinternational.com|mirasmart.com,no
