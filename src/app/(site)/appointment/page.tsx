@@ -12,7 +12,7 @@ import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, schemaIds } from "@
 import { siteConfig } from "@/lib/constants";
 import { telHref } from "@/lib/utils";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Book an Appointment",
