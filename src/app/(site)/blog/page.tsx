@@ -11,7 +11,7 @@ import { buildPageMetadata } from "@/lib/seo";
 import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildItemListNode, schemaIds } from "@/lib/schema";
 import { siteConfig } from "@/lib/constants";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Orthopedic Health Journal",
