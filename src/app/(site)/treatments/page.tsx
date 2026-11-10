@@ -14,7 +14,7 @@ import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildItemListNode, 
 import { treatmentPath } from "@/lib/utils";
 import { siteConfig } from "@/lib/constants";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Treatments & Services",
