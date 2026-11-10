@@ -35,7 +35,7 @@ import {
 import { siteConfig } from "@/lib/constants";
 import { treatmentPath, locationPath } from "@/lib/utils";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 interface PageProps {
   params: { location: string };

@@ -23,7 +23,7 @@ import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, schemaIds } from "@
 import { treatmentPath, DOCTOR_PROFILE_PATH } from "@/lib/utils";
 import { siteConfig } from "@/lib/constants";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Orthopaedic Surgeon in Noida & Delhi NCR - Doctor Profile",

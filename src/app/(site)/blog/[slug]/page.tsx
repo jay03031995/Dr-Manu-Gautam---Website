@@ -22,7 +22,7 @@ import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildFaqNode, build
 import { siteConfig } from "@/lib/constants";
 import { telHref, treatmentPath } from "@/lib/utils";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 interface PageProps {
   params: { slug: string };

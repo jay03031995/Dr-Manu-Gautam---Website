@@ -29,8 +29,9 @@ import type {
 } from "@/sanity/lib/types";
 import type { BlogPost, BlogPostSummary } from "@/sanity/lib/types";
 
-// revalidate: content changes in Sanity show up within a minute without a full redeploy.
-const REVALIDATE_SECONDS = 60;
+// revalidate: content changes in Sanity show up within an hour without a full redeploy
+// (kept at 1h to stay within Vercel Hobby ISR write limits).
+const REVALIDATE_SECONDS = 3600;
 
 const canonicalLocations = clinicLocations.map((location) => ({
   ...location,
