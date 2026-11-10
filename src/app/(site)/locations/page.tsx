@@ -12,7 +12,7 @@ import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, buildItemListNode, 
 import { siteConfig } from "@/lib/constants";
 import { locationPath } from "@/lib/utils";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Consultation Locations",
