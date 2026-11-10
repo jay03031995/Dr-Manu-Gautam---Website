@@ -40,7 +40,7 @@ import { telHref, treatmentPath, locationPath, DOCTOR_PROFILE_PATH } from "@/lib
 import type { PortableTextBlock } from "@portabletext/react";
 import type { TreatmentType, ConditionEntry, RecoveryStage } from "@/sanity/lib/types";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 interface PageProps {
   params: { slug: string };
