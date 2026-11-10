@@ -19,7 +19,7 @@ import { schemaGraph, buildWebPageNode, buildBreadcrumbNode, schemaIds } from "@
 import { siteConfig } from "@/lib/constants";
 import { DOCTOR_PROFILE_PATH } from "@/lib/utils";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Our Approach to Orthopaedic Care",
